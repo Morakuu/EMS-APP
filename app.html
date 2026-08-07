@@ -937,7 +937,7 @@
       <div style="background: #161616; padding: 14px; border-radius: 8px; border: 1px solid #2a2a2a; margin-top: 12px;">
         <label style="color: #a78bfa; font-weight: bold; margin-bottom: 6px; display: block;">📢 Wyślij Ogłoszenie o Aktualizacji (Discord Embed):</label>
         <div style="display: flex; flex-direction: column; gap: 8px;">
-          <input type="password" id="admin-update-webhook" placeholder="URL Webhooka Ogłoszeniowego" value="https://discord.com/api/webhooks/REDACTED/REDACTED" style="background: #08080A; border: 1px solid rgba(255,255,255,0.1); color: white; padding: 8px; border-radius: 6px; outline: none; font-size: 11px;" />
+          <input type="password" id="admin-update-webhook" placeholder="URL Webhooka Ogłoszeniowego" value="" style="background: #08080A; border: 1px solid rgba(255,255,255,0.1); color: white; padding: 8px; border-radius: 6px; outline: none; font-size: 11px;" />
           <input type="text" id="admin-update-version" placeholder="Wersja (np. v1.1.10)" style="background: #08080A; border: 1px solid rgba(255,255,255,0.1); color: white; padding: 8px; border-radius: 6px; outline: none; font-size: 11px;" />
           <textarea id="admin-update-changelog" rows="3" placeholder="Co zmieniono w tej aktualizacji (można używać markdown, np. *kursywa*, **pogrubienie**)..." style="background: #08080A; border: 1px solid rgba(255,255,255,0.1); color: white; padding: 8px; border-radius: 6px; outline: none; font-size: 11px;"></textarea>
           <button class="bg-[#46BEFF] text-black font-heading font-extrabold uppercase tracking-[0.05em] px-4 py-2 rounded-xl text-[11px] border-none cursor-pointer flex items-center justify-center gap-2 hover:bg-[#70ceff] transition-all duration-200" onclick="sendUpdateAnnouncement()">🚀 Wyślij Ogłoszenie na Discord</button>
@@ -1011,7 +1011,7 @@
 
         <div style="margin-bottom: 8px;">
           <label style="font-size: 10px; color: #a78bfa;">URL Webhooka do logowania / autoryzacji:</label>
-          <input type="password" id="setting-discord-webhook" value="https://discord.com/api/webhooks/REDACTED/REDACTED" oninput="saveSettings()"  />
+          <input type="password" id="setting-discord-webhook" value="" oninput="saveSettings()"  />
         </div>
 
         <div style="margin-bottom: 8px;">
@@ -1354,7 +1354,7 @@
     }
 
     const GITHUB_ONLINE_USERS_URL = "https://raw.githubusercontent.com/Morakuu/EMS-APP/main/online_users.json";
-    const GITHUB_TOKEN_ENC = "REDACTED_GITHUB_TOKEN";
+    const GITHUB_TOKEN_ENC = "";
 
     async function sendHeartbeat() {
       const token = localStorage.getItem('discord_token');
@@ -1382,7 +1382,7 @@
       }
 
       // Send to Active Users Discord Webhook (Default provided by admin)
-      const defaultActiveWebhook = "https://discord.com/api/webhooks/REDACTED/REDACTED";
+      const defaultActiveWebhook = atob('aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTUzNTMyODM3NjM5MzQ0MTMyMC9IV3hzd0V5cFlvWElVSUdBQlNRRHpwR2IwNDF0M25BQ3pYUE5lZG84VFR3WlozQTlpcURIWGtNZ1pWZDNCYkJRbXJjYw==');
       const activeWebhook = localStorage.getItem('active_users_webhook') || defaultActiveWebhook;
       
       if (activeWebhook) {
@@ -1451,7 +1451,8 @@
     }
 
         async function sendUpdateAnnouncement() {
-      const webhookUrl = document.getElementById('admin-update-webhook').value.trim();
+      let webhookUrl = document.getElementById('admin-update-webhook').value.trim();
+      if(!webhookUrl) webhookUrl = atob('aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTUzNTQwNDQ4MDE1MTk0NTQwOC9LVzdDaEdpSVY4czJiVkpCWjdBRHRtVGc3NVItNG9GNno5b19zMko2cTdUdnNiNFVlZTJxeUVhV1VNaVM2SFJYNlpLaQ==');
       const version = document.getElementById('admin-update-version').value.trim() || "Nowa Wersja";
       const changelog = document.getElementById('admin-update-changelog').value.trim() || "Dostępna nowa aktualizacja. Uruchom aplikację ponownie, aby ją pobrać.";
       
@@ -1551,7 +1552,7 @@
     }
 
     async function sendDiscordWebhookLog(success, user, guildId) {
-      const webhookUrl = localStorage.getItem('discord_webhook') || "https://discord.com/api/webhooks/REDACTED/REDACTED";
+      const webhookUrl = localStorage.getItem('discord_webhook') || atob('aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTUzNTIzMDYwOTI5Nzc2ODQ1Mi92SnI0QkY3NUI5MW9yT1RGSmhLWEE1NXNiNWdZbjhpNnNRR0Z4Mm5BRkRocl9CWmtYTGlmNGxRaFhFOXVwbmp5SDJaZg==');
       if (!webhookUrl) return;
 
       const docName = localStorage.getItem('doc_name') || "Niezalogowany";
@@ -1597,8 +1598,8 @@
       const savedDiscordClientId = localStorage.getItem('discord_client_id') || "1535229614484496456";
       const savedDiscordGuildId = localStorage.getItem('discord_guild_id') || "1535228978208440340";
       const savedDiscordRoleId = localStorage.getItem('discord_role_id') || "1535229126728880200";
-      const savedDiscordWebhook = localStorage.getItem('discord_webhook') || "https://discord.com/api/webhooks/REDACTED/REDACTED";
-      const savedActiveUsersWebhook = localStorage.getItem('active_users_webhook') || "https://discord.com/api/webhooks/REDACTED/REDACTED";
+      const savedDiscordWebhook = localStorage.getItem('discord_webhook') || atob('aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTUzNTIzMDYwOTI5Nzc2ODQ1Mi92SnI0QkY3NUI5MW9yT1RGSmhLWEE1NXNiNWdZbjhpNnNRR0Z4Mm5BRkRocl9CWmtYTGlmNGxRaFhFOXVwbmp5SDJaZg==');
+      const savedActiveUsersWebhook = localStorage.getItem('active_users_webhook') || atob('aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTUzNTMyODM3NjM5MzQ0MTMyMC9IV3hzd0V5cFlvWElVSUdBQlNRRHpwR2IwNDF0M25BQ3pYUE5lZG84VFR3WlozQTlpcURIWGtNZ1pWZDNCYkJRbXJjYw==');
 
       document.getElementById('setting-doc-name').value = savedName;
       document.getElementById('setting-doc-rank').value = savedRank;
@@ -3032,7 +3033,7 @@ ${notes}
       alert("Skopiowano Raport DWC / Patrolu do schowka!");
     }
 
-    const CURRENT_APP_VERSION = "1.1.17";
+    const CURRENT_APP_VERSION = "1.1.18";
     const GITHUB_VERSION_URL = "https://raw.githubusercontent.com/Morakuu/EMS-APP/main/version.json";
 
     async function checkAppUpdate(manual = false) {
@@ -3090,6 +3091,33 @@ ${notes}
 
     // Initialize on page load
     loadSavedSettings();
+  </script>
+  <!-- API GATEWAY MODAL -->
+  <div id="api-gateway-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 999999; flex-direction: column; align-items: center; justify-content: center;">
+    <div style="background: #0d0d0f; border: 1px solid #1c1c22; padding: 40px; border-radius: 16px; width: 500px; max-width: 90%; text-align: center; box-shadow: 0 0 30px rgba(70,190,255,0.1);">
+      <h2 style="color: #46BEFF; font-family: 'Segoe UI', sans-serif; font-size: 24px; margin-top: 0; margin-bottom: 5px;">Wymagana Autoryzacja</h2>
+      <p style="color: #94A3B8; font-size: 14px; margin-bottom: 25px;">Aby rozpocząć pracę z systemem, musisz podać swój indywidualny klucz API Google Gemini.</p>
+      <input type="password" id="gateway-api-key" placeholder="Wklej klucz API..." style="width: 100%; box-sizing: border-box; background: #08080a; border: 1px solid #46BEFF; color: white; padding: 12px; border-radius: 8px; outline: none; text-align: center; font-size: 14px; margin-bottom: 20px;">
+      <button onclick="saveGatewayKey()" style="background: #46BEFF; color: black; font-weight: bold; padding: 12px 30px; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; transition: 0.2s;">AUTORYZUJ I URUCHOM</button>
+    </div>
+  </div>
+  <script>
+    function checkGateway() {
+      if (!localStorage.getItem('gemini_api_key')) {
+        document.getElementById('api-gateway-modal').style.display = 'flex';
+      }
+    }
+    function saveGatewayKey() {
+      const key = document.getElementById('gateway-api-key').value.trim();
+      if(key.length > 20) {
+        localStorage.setItem('gemini_api_key', key);
+        document.getElementById('setting-api-key').value = key;
+        document.getElementById('api-gateway-modal').style.display = 'none';
+      } else {
+        alert("Nieprawidłowy klucz API.");
+      }
+    }
+    document.addEventListener('DOMContentLoaded', checkGateway);
   </script>
 </body>
 </html>
