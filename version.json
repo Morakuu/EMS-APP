@@ -1,6 +1,6 @@
 {
-    "latestVersion":  "1.1.9",
-    "changelog":  "Wersja 1.1.9: Pole jednostki na patrolach i scrollowanie DWC.",
+    "latestVersion":  "1.1.10",
+    "changelog":  "Wersja 1.1.10: Nowy system ogloszen i poprawa zabezpieczen webhookow.",
     "hasUpdate":  true,
-    "downloadUrl":  "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.9/Asystent-EMS.zip"
+    "downloadUrl":  "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.10/Asystent-EMS.zip"
 }
