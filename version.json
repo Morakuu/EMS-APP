@@ -1,6 +1,6 @@
 {
-  "latestVersion": "1.0.7",
-  "hasUpdate": false,
-  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.0.7/Asystent-EMS.zip",
-  "changelog": "Wersja 1.0.7: DWC & Patrole, Auto-Patcher i monitoring aktywności."
+    "latestVersion":  "1.1.4",
+    "changelog":  "Wersja 1.1.4: Nowy Sky-Blue Tactical Redesign.",
+    "hasUpdate":  true,
+    "downloadUrl":  "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.4/Asystent-EMS.zip"
 }
