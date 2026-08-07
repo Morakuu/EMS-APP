@@ -1,6 +1,6 @@
 {
-    "latestVersion":  "1.1.4",
-    "changelog":  "Wersja 1.1.4: Nowy Sky-Blue Tactical Redesign.",
+    "latestVersion":  "1.1.5",
+    "changelog":  "Wersja 1.1.5: Nowy podział raportów DWC (PU1, PU2, PU3, SOR).",
     "hasUpdate":  true,
-    "downloadUrl":  "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.4/Asystent-EMS.zip"
+    "downloadUrl":  "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.5/Asystent-EMS.zip"
 }
