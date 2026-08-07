@@ -1,6 +1,6 @@
 {
-    "latestVersion":  "1.1.20",
-    "changelog":  "1. Naprawiono pomniejszy blad przy odczytywaniu bazy aktywnych medykow online.",
-    "hasUpdate":  true,
-    "downloadUrl":  "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.20/Asystent-EMS.zip"
+  "latestVersion": "1.1.20",
+  "hasUpdate": true,
+  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.20/Asystent-EMS.zip",
+  "changelog": "1. Naprawiono pomniejszy blad przy odczytywaniu bazy aktywnych medykow online."
 }
