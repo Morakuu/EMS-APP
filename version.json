@@ -1,6 +1,6 @@
 {
-    "latestVersion":  "1.1.10",
-    "changelog":  "Wersja 1.1.10: Nowy system ogloszen i poprawa zabezpieczen webhookow.",
+    "latestVersion":  "1.1.11",
+    "changelog":  "Wersja 1.1.11: Aktualizacja interfejsu ladowania (patchera).",
     "hasUpdate":  true,
-    "downloadUrl":  "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.10/Asystent-EMS.zip"
+    "downloadUrl":  "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.11/Asystent-EMS.zip"
 }
