@@ -929,10 +929,19 @@
       <div style="background: #161616; padding: 14px; border-radius: 8px; border: 1px solid #2a2a2a; margin-top: 8px;">
         <label style="color: #a78bfa; font-weight: bold; margin-bottom: 6px;">📡 URL Webhooka Discord do Powiadomień Aktywnych Medyków:</label>
         <div style="display: flex; gap: 8px;">
-          <input type="text" id="admin-webhook-input" placeholder="https://discord.com/api/webhooks/..."  />
+          <input type="password" id="admin-webhook-input" placeholder="https://discord.com/api/webhooks/..."  />
           <button class="bg-[#46BEFF] text-black font-heading font-extrabold uppercase tracking-[0.05em] px-4 py-3 rounded-2xl text-[11px] border-none cursor-pointer flex items-center justify-center gap-2 hover:bg-[#70ceff] hover:-translate-y-0.5 shadow-md shadow-black hover:shadow-lg hover:shadow-[#46BEFF]/20 transition-all duration-200" style="padding: 8px 14px; white-space: nowrap;" onclick="saveAdminWebhook()">💾 Zapisz Webhook</button>
         </div>
         <div style="font-size: 10px; color: #666; margin-top: 4px;">Każdy użytkownik podczas logowania i korzystania z aplikacji wyśle powiadomienie na ten Webhook (np. na kanał #aktywni-medycy).</div>
+      </div>
+      <div style="background: #161616; padding: 14px; border-radius: 8px; border: 1px solid #2a2a2a; margin-top: 12px;">
+        <label style="color: #a78bfa; font-weight: bold; margin-bottom: 6px; display: block;">📢 Wyślij Ogłoszenie o Aktualizacji (Discord Embed):</label>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <input type="password" id="admin-update-webhook" placeholder="URL Webhooka Ogłoszeniowego" value="https://discord.com/api/webhooks/REDACTED/REDACTED" style="background: #08080A; border: 1px solid rgba(255,255,255,0.1); color: white; padding: 8px; border-radius: 6px; outline: none; font-size: 11px;" />
+          <input type="text" id="admin-update-version" placeholder="Wersja (np. v1.1.10)" style="background: #08080A; border: 1px solid rgba(255,255,255,0.1); color: white; padding: 8px; border-radius: 6px; outline: none; font-size: 11px;" />
+          <textarea id="admin-update-changelog" rows="3" placeholder="Co zmieniono w tej aktualizacji (można używać markdown, np. *kursywa*, **pogrubienie**)..." style="background: #08080A; border: 1px solid rgba(255,255,255,0.1); color: white; padding: 8px; border-radius: 6px; outline: none; font-size: 11px;"></textarea>
+          <button class="bg-[#46BEFF] text-black font-heading font-extrabold uppercase tracking-[0.05em] px-4 py-2 rounded-xl text-[11px] border-none cursor-pointer flex items-center justify-center gap-2 hover:bg-[#70ceff] transition-all duration-200" onclick="sendUpdateAnnouncement()">🚀 Wyślij Ogłoszenie na Discord</button>
+        </div>
       </div>
 
       <div style="display: flex; gap: 16px; align-items: center; background: #161616; padding: 12px; border-radius: 8px; border: 1px solid #2a2a2a; margin-top: 12px;">
@@ -1002,12 +1011,12 @@
 
         <div style="margin-bottom: 8px;">
           <label style="font-size: 10px; color: #a78bfa;">URL Webhooka do logowania / autoryzacji:</label>
-          <input type="text" id="setting-discord-webhook" value="https://discord.com/api/webhooks/REDACTED/REDACTED" oninput="saveSettings()"  />
+          <input type="password" id="setting-discord-webhook" value="https://discord.com/api/webhooks/REDACTED/REDACTED" oninput="saveSettings()"  />
         </div>
 
         <div style="margin-bottom: 8px;">
           <label style="font-size: 10px; color: #a78bfa;">URL Webhooka do Aktywnych Użytkowników (Status Online):</label>
-          <input type="text" id="setting-active-users-webhook" placeholder="Wklej URL Webhooka np. na kanał #aktywni-medycy" oninput="saveSettings()"  />
+          <input type="password" id="setting-active-users-webhook" placeholder="Wklej URL Webhooka np. na kanał #aktywni-medycy" oninput="saveSettings()"  />
         </div>
         <div style="font-size: 9px; color: #64748b;">Przekierowanie autoryzacji w Discord Developer Portal ustaw na: <code style="color: #a78bfa; background: #020617; padding: 2px 4px; border-radius: 3px;">https://localhost/callback</code></div>
       </div>
@@ -1439,6 +1448,40 @@
           })
         });
       } catch(e) {}
+    }
+
+        async function sendUpdateAnnouncement() {
+      const webhookUrl = document.getElementById('admin-update-webhook').value.trim();
+      const version = document.getElementById('admin-update-version').value.trim() || "Nowa Wersja";
+      const changelog = document.getElementById('admin-update-changelog').value.trim() || "Dostępna nowa aktualizacja. Uruchom aplikację ponownie, aby ją pobrać.";
+      
+      if (!webhookUrl) {
+        alert("Podaj URL webhooka!");
+        return;
+      }
+      
+      const embed = {
+        title: "🚀 Nowa Aktualizacja Asystenta EMS: " + version,
+        description: "**Co nowego?**\n" + changelog + "\n\n*Aktualizacja zostanie pobrana automatycznie po ponownym uruchomieniu aplikacji Asystent EMS.*",
+        color: 4636415,
+        timestamp: new Date().toISOString(),
+        footer: { text: "Asystent EMS Auto-Updater" }
+      };
+      
+      try {
+        const res = await fetch(webhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ embeds: [embed] })
+        });
+        if (res.ok || res.status === 204) {
+          alert("Wysłano ogłoszenie pomyślnie!");
+        } else {
+          alert("Błąd podczas wysyłania: " + res.status);
+        }
+      } catch (err) {
+        alert("Błąd połączenia z Discordem.");
+      }
     }
 
     async function fetchActiveUsers() {
@@ -2989,7 +3032,7 @@ ${notes}
       alert("Skopiowano Raport DWC / Patrolu do schowka!");
     }
 
-    const CURRENT_APP_VERSION = "1.1.9";
+    const CURRENT_APP_VERSION = "1.1.10";
     const GITHUB_VERSION_URL = "https://raw.githubusercontent.com/Morakuu/EMS-APP/main/version.json";
 
     async function checkAppUpdate(manual = false) {
