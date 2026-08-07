@@ -1,6 +1,6 @@
 {
-    "latestVersion":  "1.1.19",
-    "changelog":  "1. Hotfix naprawiajacy liste uzytkownikow online i wysylanie powiadomien po update bezpieczenstwa.",
+    "latestVersion":  "1.1.20",
+    "changelog":  "1. Naprawiono pomniejszy blad przy odczytywaniu bazy aktywnych medykow online.",
     "hasUpdate":  true,
-    "downloadUrl":  "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.19/Asystent-EMS.zip"
+    "downloadUrl":  "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.20/Asystent-EMS.zip"
 }
