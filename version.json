@@ -1,6 +1,6 @@
 {
-    "latestVersion":  "1.1.8",
-    "changelog":  "Wersja 1.1.8: Dodano Panel Administratora - Aktywni Uzytkownicy Online.",
+    "latestVersion":  "1.1.9",
+    "changelog":  "Wersja 1.1.9: Pole jednostki na patrolach i scrollowanie DWC.",
     "hasUpdate":  true,
-    "downloadUrl":  "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.8/Asystent-EMS.zip"
+    "downloadUrl":  "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.9/Asystent-EMS.zip"
 }
