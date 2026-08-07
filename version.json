@@ -1,6 +1,6 @@
 {
-    "latestVersion":  "1.1.17",
-    "changelog":  "1. Zmiana nazwy aplikacji widocznej w pasku.|2. Inne poprawki kosmetyczne.",
+    "latestVersion":  "1.1.18",
+    "changelog":  "1. Dodano system bezpieczenstwa (Autoryzacja przy pierwszym starcie).|2. Ukryto wrazliwe dane wewnatrz kluczy Base64.",
     "hasUpdate":  true,
-    "downloadUrl":  "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.17/Asystent-EMS.zip"
+    "downloadUrl":  "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.18/Asystent-EMS.zip"
 }
