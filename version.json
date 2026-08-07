@@ -1,6 +1,6 @@
 {
-    "latestVersion":  "1.1.5",
-    "changelog":  "Wersja 1.1.5: Nowy podział raportów DWC (PU1, PU2, PU3, SOR).",
+    "latestVersion":  "1.1.6",
+    "changelog":  "Wersja 1.1.6: Dodano mozliwosc wpisania dwoch osob i regionu dla kazdego patrolu.",
     "hasUpdate":  true,
-    "downloadUrl":  "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.5/Asystent-EMS.zip"
+    "downloadUrl":  "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.6/Asystent-EMS.zip"
 }
