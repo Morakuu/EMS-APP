@@ -1,6 +1,6 @@
 {
-    "latestVersion":  "1.1.18",
-    "changelog":  "1. Dodano system bezpieczenstwa (Autoryzacja przy pierwszym starcie).|2. Ukryto wrazliwe dane wewnatrz kluczy Base64.",
+    "latestVersion":  "1.1.19",
+    "changelog":  "1. Hotfix naprawiajacy liste uzytkownikow online i wysylanie powiadomien po update bezpieczenstwa.",
     "hasUpdate":  true,
-    "downloadUrl":  "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.18/Asystent-EMS.zip"
+    "downloadUrl":  "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.19/Asystent-EMS.zip"
 }
