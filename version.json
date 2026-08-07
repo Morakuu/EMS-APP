@@ -1,6 +1,6 @@
 {
-    "latestVersion":  "1.1.11",
-    "changelog":  "Wersja 1.1.11: Aktualizacja interfejsu ladowania (patchera).",
+    "latestVersion":  "1.1.12",
+    "changelog":  "Wersja 1.1.12: Nowy w pelni customowy interfejs patchera (pasek postepu).",
     "hasUpdate":  true,
-    "downloadUrl":  "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.11/Asystent-EMS.zip"
+    "downloadUrl":  "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.12/Asystent-EMS.zip"
 }
