@@ -819,7 +819,7 @@
     <div id="tab-dwc" class="grid grid-cols-1 xl:grid-cols-[1fr_1.15fr] gap-7 hidden">
       
       <!-- Left Form for DWC & Patrole -->
-      <div class="tactical-card">
+      <div class="tactical-card overflow-y-auto" style="max-height: 680px;">
         <div class="flex justify-between items-center border-b border-white/10 pb-3 mb-4">
           <div class="font-heading text-[11px] font-bold text-[#46BEFF] uppercase tracking-[0.08em] flex items-center gap-2">🚑 RAPORT DWC & PATROLI MEDYCZNYCH</div>
           <button class="bg-transparent text-[#FF5252] border border-[#FF5252]/30 px-4 py-2 rounded-lg font-heading font-bold text-[11px] uppercase cursor-pointer flex items-center gap-1.5 hover:bg-[#FF5252]/15 hover:border-[#FF5252] transition-all duration-200" style="padding: 4px 8px; font-size: 10px;" onclick="resetDWCFields()">🧹 Wyczyść Pola</button>
@@ -846,27 +846,30 @@
           <!-- PU1 -->
           <div class="bg-[#08080A] border border-white/5 p-3 rounded-lg">
             <label class="font-heading font-bold text-[#46BEFF] text-[10px] uppercase mb-2 block tracking-wider">🚑 PU1 (Patrol 1)</label>
-            <div class="grid grid-cols-3 gap-2">
+            <div class="grid grid-cols-2 gap-2">
               <input type="text" id="dwc-pu1-1" placeholder="Osoba 1" class="w-full bg-[#0d0d0f] border border-white/10 text-white px-3 py-2 rounded-lg text-[12px] font-sans outline-none focus:border-[#46BEFF] focus:shadow-[0_0_12px_rgba(70,190,255,0.3)] transition-all duration-200" oninput="updateDWCPreview()" />
               <input type="text" id="dwc-pu1-2" placeholder="Osoba 2" class="w-full bg-[#0d0d0f] border border-white/10 text-white px-3 py-2 rounded-lg text-[12px] font-sans outline-none focus:border-[#46BEFF] focus:shadow-[0_0_12px_rgba(70,190,255,0.3)] transition-all duration-200" oninput="updateDWCPreview()" />
+              <input type="text" id="dwc-pu1-unit" placeholder="Jednostka (np. Medic-1)" class="w-full bg-[#0d0d0f] border border-white/10 text-white px-3 py-2 rounded-lg text-[12px] font-sans outline-none focus:border-[#46BEFF] focus:shadow-[0_0_12px_rgba(70,190,255,0.3)] transition-all duration-200" oninput="updateDWCPreview()" />
               <input type="text" id="dwc-pu1-reg" placeholder="Region (np. Davis)" class="w-full bg-[#0d0d0f] border border-white/10 text-white px-3 py-2 rounded-lg text-[12px] font-sans outline-none focus:border-[#46BEFF] focus:shadow-[0_0_12px_rgba(70,190,255,0.3)] transition-all duration-200" oninput="updateDWCPreview()" />
             </div>
           </div>
           <!-- PU2 -->
           <div class="bg-[#08080A] border border-white/5 p-3 rounded-lg">
             <label class="font-heading font-bold text-[#46BEFF] text-[10px] uppercase mb-2 block tracking-wider">🚑 PU2 (Patrol 2)</label>
-            <div class="grid grid-cols-3 gap-2">
+            <div class="grid grid-cols-2 gap-2">
               <input type="text" id="dwc-pu2-1" placeholder="Osoba 1" class="w-full bg-[#0d0d0f] border border-white/10 text-white px-3 py-2 rounded-lg text-[12px] font-sans outline-none focus:border-[#46BEFF] focus:shadow-[0_0_12px_rgba(70,190,255,0.3)] transition-all duration-200" oninput="updateDWCPreview()" />
               <input type="text" id="dwc-pu2-2" placeholder="Osoba 2" class="w-full bg-[#0d0d0f] border border-white/10 text-white px-3 py-2 rounded-lg text-[12px] font-sans outline-none focus:border-[#46BEFF] focus:shadow-[0_0_12px_rgba(70,190,255,0.3)] transition-all duration-200" oninput="updateDWCPreview()" />
+              <input type="text" id="dwc-pu2-unit" placeholder="Jednostka (np. Medic-1)" class="w-full bg-[#0d0d0f] border border-white/10 text-white px-3 py-2 rounded-lg text-[12px] font-sans outline-none focus:border-[#46BEFF] focus:shadow-[0_0_12px_rgba(70,190,255,0.3)] transition-all duration-200" oninput="updateDWCPreview()" />
               <input type="text" id="dwc-pu2-reg" placeholder="Region" class="w-full bg-[#0d0d0f] border border-white/10 text-white px-3 py-2 rounded-lg text-[12px] font-sans outline-none focus:border-[#46BEFF] focus:shadow-[0_0_12px_rgba(70,190,255,0.3)] transition-all duration-200" oninput="updateDWCPreview()" />
             </div>
           </div>
           <!-- PU3 -->
           <div class="bg-[#08080A] border border-white/5 p-3 rounded-lg">
             <label class="font-heading font-bold text-[#46BEFF] text-[10px] uppercase mb-2 block tracking-wider">🚑 PU3 (Patrol 3)</label>
-            <div class="grid grid-cols-3 gap-2">
+            <div class="grid grid-cols-2 gap-2">
               <input type="text" id="dwc-pu3-1" placeholder="Osoba 1" class="w-full bg-[#0d0d0f] border border-white/10 text-white px-3 py-2 rounded-lg text-[12px] font-sans outline-none focus:border-[#46BEFF] focus:shadow-[0_0_12px_rgba(70,190,255,0.3)] transition-all duration-200" oninput="updateDWCPreview()" />
               <input type="text" id="dwc-pu3-2" placeholder="Osoba 2" class="w-full bg-[#0d0d0f] border border-white/10 text-white px-3 py-2 rounded-lg text-[12px] font-sans outline-none focus:border-[#46BEFF] focus:shadow-[0_0_12px_rgba(70,190,255,0.3)] transition-all duration-200" oninput="updateDWCPreview()" />
+              <input type="text" id="dwc-pu3-unit" placeholder="Jednostka (np. Medic-1)" class="w-full bg-[#0d0d0f] border border-white/10 text-white px-3 py-2 rounded-lg text-[12px] font-sans outline-none focus:border-[#46BEFF] focus:shadow-[0_0_12px_rgba(70,190,255,0.3)] transition-all duration-200" oninput="updateDWCPreview()" />
               <input type="text" id="dwc-pu3-reg" placeholder="Region" class="w-full bg-[#0d0d0f] border border-white/10 text-white px-3 py-2 rounded-lg text-[12px] font-sans outline-none focus:border-[#46BEFF] focus:shadow-[0_0_12px_rgba(70,190,255,0.3)] transition-all duration-200" oninput="updateDWCPreview()" />
             </div>
           </div>
@@ -2897,12 +2900,15 @@ ${status}
       document.getElementById('dwc-unit').value = 'Medic-1';
                   document.getElementById('dwc-pu1-1').value = '';
       document.getElementById('dwc-pu1-2').value = '';
+      document.getElementById('dwc-pu1-unit').value = '';
       document.getElementById('dwc-pu1-reg').value = '';
       document.getElementById('dwc-pu2-1').value = '';
       document.getElementById('dwc-pu2-2').value = '';
+      document.getElementById('dwc-pu2-unit').value = '';
       document.getElementById('dwc-pu2-reg').value = '';
       document.getElementById('dwc-pu3-1').value = '';
       document.getElementById('dwc-pu3-2').value = '';
+      document.getElementById('dwc-pu3-unit').value = '';
       document.getElementById('dwc-pu3-reg').value = '';
       document.getElementById('dwc-sor-members').value = '';
       document.getElementById('dwc-location').value = 'Pillbox Hill Medical Center';
@@ -2915,31 +2921,35 @@ ${status}
       const unit = document.getElementById('dwc-unit').value.trim() || "Medic-1";
                   const p1_1 = document.getElementById('dwc-pu1-1').value.trim();
       const p1_2 = document.getElementById('dwc-pu1-2').value.trim();
+      const p1_u = document.getElementById('dwc-pu1-unit').value.trim();
       const p1_r = document.getElementById('dwc-pu1-reg').value.trim();
       
       const p2_1 = document.getElementById('dwc-pu2-1').value.trim();
       const p2_2 = document.getElementById('dwc-pu2-2').value.trim();
+      const p2_u = document.getElementById('dwc-pu2-unit').value.trim();
       const p2_r = document.getElementById('dwc-pu2-reg').value.trim();
       
       const p3_1 = document.getElementById('dwc-pu3-1').value.trim();
       const p3_2 = document.getElementById('dwc-pu3-2').value.trim();
+      const p3_u = document.getElementById('dwc-pu3-unit').value.trim();
       const p3_r = document.getElementById('dwc-pu3-reg').value.trim();
       
       const sor = document.getElementById('dwc-sor-members').value.trim();
 
-      const formatPU = (o1, o2, reg) => {
+            const formatPU = (o1, o2, unit, reg) => {
         let p = [];
         if (o1) p.push(o1);
         if (o2) p.push(o2);
         if (p.length === 0) return "Brak";
         let str = p.join(", ");
+        if (unit) str += " | Jedn: " + unit;
         if (reg) str += " | Region: " + reg;
         return str;
       };
 
-      const members = `[PU1] ${formatPU(p1_1, p1_2, p1_r)}
-[PU2] ${formatPU(p2_1, p2_2, p2_r)}
-[PU3] ${formatPU(p3_1, p3_2, p3_r)}
+      const members = `[PU1] ${formatPU(p1_1, p1_2, p1_u, p1_r)}
+[PU2] ${formatPU(p2_1, p2_2, p2_u, p2_r)}
+[PU3] ${formatPU(p3_1, p3_2, p3_u, p3_r)}
 [SOR]
 ${sor || "Brak"}`;
       const location = document.getElementById('dwc-location').value.trim() || "Pillbox Hill Medical Center";
@@ -2979,7 +2989,7 @@ ${notes}
       alert("Skopiowano Raport DWC / Patrolu do schowka!");
     }
 
-    const CURRENT_APP_VERSION = "1.1.8";
+    const CURRENT_APP_VERSION = "1.1.9";
     const GITHUB_VERSION_URL = "https://raw.githubusercontent.com/Morakuu/EMS-APP/main/version.json";
 
     async function checkAppUpdate(manual = false) {
