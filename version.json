@@ -1,6 +1,6 @@
 {
-    "latestVersion":  "1.1.6",
-    "changelog":  "Wersja 1.1.6: Dodano mozliwosc wpisania dwoch osob i regionu dla kazdego patrolu.",
+    "latestVersion":  "1.1.7",
+    "changelog":  "Wersja 1.1.7: Poprawka techniczna wyswietlania DWC.",
     "hasUpdate":  true,
-    "downloadUrl":  "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.6/Asystent-EMS.zip"
+    "downloadUrl":  "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.7/Asystent-EMS.zip"
 }
