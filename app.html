@@ -2937,11 +2937,11 @@ ${status}
         return str;
       };
 
-      const members = [PU1] 
-[PU2] 
-[PU3] 
+      const members = `[PU1] ${formatPU(p1_1, p1_2, p1_r)}
+[PU2] ${formatPU(p2_1, p2_2, p2_r)}
+[PU3] ${formatPU(p3_1, p3_2, p3_r)}
 [SOR]
-;
+${sor || "Brak"}`;
       const location = document.getElementById('dwc-location').value.trim() || "Pillbox Hill Medical Center";
       const status = document.getElementById('dwc-status').value;
       const notes = document.getElementById('dwc-notes').value.trim() || "Brak uwag";
@@ -2979,7 +2979,7 @@ ${notes}
       alert("Skopiowano Raport DWC / Patrolu do schowka!");
     }
 
-    const CURRENT_APP_VERSION = "1.1.6";
+    const CURRENT_APP_VERSION = "1.1.7";
     const GITHUB_VERSION_URL = "https://raw.githubusercontent.com/Morakuu/EMS-APP/main/version.json";
 
     async function checkAppUpdate(manual = false) {
