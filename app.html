@@ -305,7 +305,7 @@
       <div class="font-heading text-[9px] text-gray-500 tracking-[0.1em] px-3 mt-6 mb-2">Dyżury & Służba</div>
       <div class="flex flex-col gap-1">
         <button class="nav-btn group flex items-center gap-3 px-3.5 py-2.5 rounded-2xl font-heading text-[11px] tracking-wide text-gray-400 hover:text-white hover:bg-white/5 border border-transparent transition-all duration-200" id="tab-dwc-btn" onclick="switchTab('dwc')"><span class="icon icon-md text-gray-500 group-hover:text-[#46BEFF] transition-colors">medical_services</span> DWC & Patrole</button>
-        <button class="nav-btn group flex items-center gap-3 px-3.5 py-2.5 rounded-2xl font-heading text-[11px] tracking-wide text-gray-400 hover:text-white hover:bg-white/5 border border-transparent transition-all duration-200" id="tab-admin-btn" onclick="switchTab('admin')" style="display: none; color: #c084fc;"><span class="icon icon-md text-[#c084fc] group-hover:text-[#46BEFF] transition-colors">admin_panel_settings</span> Panel Admina</button>
+        <button class="nav-btn group flex items-center gap-3 px-3.5 py-2.5 rounded-2xl font-heading text-[11px] tracking-wide text-gray-400 hover:text-white hover:bg-white/5 border border-transparent transition-all duration-200" id="tab-admin-btn" onclick="switchTab('admin')" style="color: #c084fc;"><span class="icon icon-md text-[#c084fc] group-hover:text-[#46BEFF] transition-colors">admin_panel_settings</span> Panel Admina</button>
       </div>
 
       <div class="mt-auto pt-5 border-t border-white/5 flex flex-col gap-2">
@@ -2979,7 +2979,7 @@ ${notes}
       alert("Skopiowano Raport DWC / Patrolu do schowka!");
     }
 
-    const CURRENT_APP_VERSION = "1.1.7";
+    const CURRENT_APP_VERSION = "1.1.8";
     const GITHUB_VERSION_URL = "https://raw.githubusercontent.com/Morakuu/EMS-APP/main/version.json";
 
     async function checkAppUpdate(manual = false) {
