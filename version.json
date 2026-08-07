@@ -1,6 +1,6 @@
 {
-    "latestVersion":  "1.1.14",
-    "changelog":  "1. Dodano oficjalne logo frakcyjne w miejsce standardowej ikony pobierania.\\n2. Wprowadzono najnowszy instalator.",
+    "latestVersion":  "1.1.15",
+    "changelog":  "1. Zoptymalizowano kolorystykę Patchera, aby w 100% używał oryginalnych HEXów z aplikacji (#0d0d0f i #08080a).",
     "hasUpdate":  true,
-    "downloadUrl":  "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.14/Asystent-EMS.zip"
+    "downloadUrl":  "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.15/Asystent-EMS.zip"
 }
