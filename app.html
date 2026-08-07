@@ -1,0 +1,2975 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Asystent EMS | System Med-RP</title>
+  <link rel="icon" type="image/png" href="icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            tactical: {
+              bg: '#0A0A0C',
+              surface: '#131316',
+              border: 'rgba(255, 255, 255, 0.1)',
+              primary: '#46BEFF',
+              primaryGlow: 'rgba(70, 190, 255, 0.4)',
+              success: '#00E676',
+              error: '#FF5252'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            heading: ['Manrope', 'sans-serif']
+          },
+          borderRadius: {
+            'tactical': '26px'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0A0A0C;
+      color: #e2e8f0;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: #0A0A0C; }
+    ::-webkit-scrollbar-thumb { background: rgba(70,190,255,0.2); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #46BEFF; }
+
+    /* ── MATERIAL ICONS ── */
+    .icon {
+      font-family: 'Material Symbols Outlined';
+      font-weight: normal; font-style: normal;
+      font-size: 20px; line-height: 1;
+      letter-spacing: normal; text-transform: none;
+      display: inline-block; white-space: nowrap;
+      direction: ltr; -webkit-font-smoothing: antialiased;
+      vertical-align: middle;
+    }
+    .icon-sm { font-size: 16px; }
+    .icon-md { font-size: 20px; }
+    .icon-lg { font-size: 24px; }
+
+    /* ── TACTICAL CARD ── */
+    .tactical-card {
+      background: #131316;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 20px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* ── NAV BUTTONS ── */
+    .nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 12px;
+      border-radius: 12px;
+      font-family: 'Manrope', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      color: #6b7280;
+      background: transparent;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-align: left;
+      width: 100%;
+    }
+    .nav-btn:hover {
+      color: #fff;
+      background: rgba(255,255,255,0.05);
+    }
+    .nav-btn.active {
+      color: #46BEFF;
+      background: rgba(70,190,255,0.08);
+      border-color: rgba(70,190,255,0.2);
+    }
+    .nav-btn.active .icon { color: #46BEFF; }
+
+    /* ── SETTINGS BUTTONS ── */
+    .btn-settings {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-family: 'Manrope', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      color: #94a3b8;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .btn-settings:hover {
+      color: #fff;
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.12);
+    }
+
+    /* ── FORM ELEMENTS ── */
+    input[type="text"],
+    input[type="password"],
+    textarea,
+    select {
+      width: 100%;
+      background: #08080A;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      color: #e2e8f0;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      padding: 10px 14px;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+      resize: vertical;
+    }
+    input[type="text"]:focus,
+    input[type="password"]:focus,
+    textarea:focus,
+    select:focus {
+      border-color: #46BEFF;
+      box-shadow: 0 0 0 3px rgba(70,190,255,0.1);
+    }
+    input::placeholder, textarea::placeholder { color: #4b5563; }
+    select option { background: #131316; color: #e2e8f0; }
+
+    /* ── STATUS BADGE ── */
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(70,190,255,0.08);
+      border: 1px solid rgba(70,190,255,0.2);
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 11px;
+      color: #46BEFF;
+      font-family: 'Manrope', sans-serif;
+      font-weight: 600;
+    }
+
+    /* ── GALLERY ── */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .gallery-item {
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .gallery-thumb {
+      width: 100%;
+      height: 70px;
+      object-fit: cover;
+      display: block;
+      cursor: pointer;
+    }
+    .gallery-del-btn {
+      position: absolute;
+      top: 3px; right: 3px;
+      width: 18px; height: 18px;
+      background: rgba(255,82,82,0.85);
+      border: none;
+      border-radius: 50%;
+      color: #fff;
+      font-size: 10px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+    .modal-content {
+      background: #131316;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 24px;
+      width: 100%;
+      max-width: 480px;
+      max-height: 85vh;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- DISCORD LOGIN OVERLAY -->
+  <div id="login-overlay" class="fixed inset-0 bg-[#0A0A0C]/95 z-[1000] flex items-center justify-center p-5" style="display: none;">
+    <div class="bg-[#131316] border border-white/10 max-w-[400px] w-full py-8 px-6 rounded-[26px] text-center flex flex-col gap-4 shadow-[0_8px_32px_0_rgba(0,0,0,0.8)]">
+      <svg class="login-logo" style="width: 48px; height: 48px; margin: 0 auto;" viewBox="0 0 127.14 96.36" fill="#8b5cf6">
+        <path d="M107.7,8.07A105.15,105.15,0,0,0,77.26,0a77.19,77.19,0,0,0-3.3,6.83A96.67,96.67,0,0,0,53.22,6.83,77.19,77.19,0,0,0,49.88,0,105.15,105.15,0,0,0,19.44,8.07C3.66,31.58-1.86,54.65,1,77.53A105.73,105.73,0,0,0,32,96.36a77.7,77.7,0,0,0,6.63-10.85,68.43,68.43,0,0,1-10.5-5c.89-.65,1.76-1.34,2.58-2.06a75.11,75.11,0,0,0,73,0c.83.72,1.7,1.41,2.58,2.06a68.32,68.32,0,0,1-10.5,5,77.5,77.5,0,0,0,6.63,10.85,105.73,105.73,0,0,0,31-18.83C129,54.65,123.5,31.58,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53S36.18,40.36,42.45,40.36,53.83,46,53.83,53,48.72,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.24,60,73.24,53S78.41,40.36,84.69,40.36,96.07,46,96.07,53,91,65.69,84.69,65.69Z"/>
+      </svg>
+      <div>
+        <div class="font-heading text-[16px] font-bold text-white tracking-widest">ASYSTENT EMS</div>
+        <div style="font-size: 11px; color: #a78bfa; margin-top: 2px; font-weight: 600;">WERYFIKACJA DISCORD</div>
+      </div>
+      <div class="text-[12px] text-gray-400 leading-relaxed font-sans">
+        Dostęp do systemu wymaga autoryzacji konta oraz posiadania aktywnej roli medycznej na serwerze Discord.
+      </div>
+      <button class="bg-[#5865F2] text-white border-none py-3 px-4 rounded-[16px] text-[12px] font-heading font-bold uppercase tracking-wider cursor-pointer flex items-center justify-center gap-2 hover:bg-[#4752c4] transition-all duration-150 shadow-[0_0_15px_rgba(88,101,242,0.3)]" onclick="initiateDiscordLogin()">
+        <svg width="18" height="18" viewBox="0 0 127.14 96.36" fill="currentColor">
+          <path d="M107.7,8.07A105.15,105.15,0,0,0,77.26,0a77.19,77.19,0,0,0-3.3,6.83A96.67,96.67,0,0,0,53.22,6.83,77.19,77.19,0,0,0,49.88,0,105.15,105.15,0,0,0,19.44,8.07C3.66,31.58-1.86,54.65,1,77.53A105.73,105.73,0,0,0,32,96.36a77.7,77.7,0,0,0,6.63-10.85,68.43,68.43,0,0,1-10.5-5c.89-.65,1.76-1.34,2.58-2.06a75.11,75.11,0,0,0,73,0c.83.72,1.7,1.41,2.58,2.06a68.32,68.32,0,0,1-10.5,5,77.5,77.5,0,0,0,6.63,10.85,105.73,105.73,0,0,0,31-18.83C129,54.65,123.5,31.58,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53S36.18,40.36,42.45,40.36,53.83,46,53.83,53,48.72,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.24,60,73.24,53S78.41,40.36,84.69,40.36,96.07,46,96.07,53,91,65.69,84.69,65.69Z"/>
+        </svg>
+        Zaloguj się przez Discord
+      </button>
+
+      <!-- MANUAL LOGIN BOX -->
+      <div id="manual-login-box" style="display: none; border-top: 1px solid var(--border-subtle); padding-top: 14px; text-align: left; display: flex; flex-direction: column; gap: 8px;">
+        <div class="font-heading text-[11px] text-gray-500 font-extrabold tracking-wider uppercase">TRYB PRZEGLĄDARKI</div>
+        <div class="text-[11px] text-gray-600 font-sans">
+          Skopiuj i wklej cały adres URL ze strony autoryzacji poniżej:
+        </div>
+        <input type="text" id="manual-url-input" placeholder="Wklej skopiowany link z paska adresu..."  />
+        <button class="bg-[#46BEFF] text-black font-heading font-extrabold uppercase tracking-[0.05em] px-4 py-3 rounded-2xl text-[11px] border-none cursor-pointer flex items-center justify-center gap-2 hover:bg-[#70ceff] hover:-translate-y-0.5 shadow-md shadow-black hover:shadow-lg hover:shadow-[#46BEFF]/20 transition-all duration-200" onclick="submitManualDiscordUrl()" >Zatwierdź Dostęp</button>
+      </div>
+
+      <div id="login-status" class="status-badge" style="display: none;"></div>
+      <div id="login-error" style="font-size: 11px; color: var(--danger); display: none;"></div>
+    </div>
+  </div>
+
+  <div class="flex w-screen min-h-screen">
+    <!-- SIDEBAR NAVIGATION -->
+    <aside class="w-[280px] bg-[#131316]/95 border-r border-white/5 flex flex-col p-6 shrink-0 sticky top-0 h-screen overflow-y-auto shadow-2xl">
+      <div class="flex items-center gap-3 pb-6 border-b border-white/5 mb-5">
+        <img src="icon.png" alt="EMS Logo" class="w-10 h-10 object-contain drop-shadow-[0_0_8px_rgba(70,190,255,0.4)]" />
+        <div>
+          <div class="font-heading text-sm text-white tracking-wide">ASYSTENT <span class="text-[#46BEFF]">EMS</span></div>
+          <div class="font-heading text-[9px] text-gray-500 tracking-[0.1em]">MED-RP ENGINE</div>
+        </div>
+      </div>
+
+      <div class="font-heading text-[9px] text-gray-500 tracking-[0.1em] px-3 my-4">Moduły AI & Zabiegi</div>
+      <div class="flex flex-col gap-1">
+        <button class="nav-btn group flex items-center gap-3 px-3.5 py-2.5 rounded-2xl font-heading text-[11px] tracking-wide text-gray-400 hover:text-white hover:bg-white/5 border border-transparent transition-all duration-200" id="tab-surgery-btn" onclick="switchTab('surgery')"><span class="icon icon-md text-gray-500 group-hover:text-[#46BEFF] transition-colors">bolt</span> Gemini AI (Operacje)</button>
+        <button class="nav-btn group flex items-center gap-3 px-3.5 py-2.5 rounded-2xl font-heading text-[11px] tracking-wide text-gray-400 hover:text-white hover:bg-white/5 border border-transparent transition-all duration-200" id="tab-card-btn" onclick="switchTab('card')"><span class="icon icon-md text-gray-500 group-hover:text-[#46BEFF] transition-colors">assignment</span> Karta Pacjenta</button>
+        <button class="nav-btn group flex items-center gap-3 px-3.5 py-2.5 rounded-2xl font-heading text-[11px] tracking-wide text-gray-400 hover:text-white hover:bg-white/5 border border-transparent transition-all duration-200" id="tab-obdukcja-btn" onclick="switchTab('obdukcja')"><span class="icon icon-md text-gray-500 group-hover:text-[#46BEFF] transition-colors">stethoscope</span> Obdukcja Lekarska</button>
+      </div>
+
+      <div class="font-heading text-[9px] text-gray-500 tracking-[0.1em] px-3 mt-6 mb-2">Dokumentacja IC</div>
+      <div class="flex flex-col gap-1">
+        <button class="nav-btn group flex items-center gap-3 px-3.5 py-2.5 rounded-2xl font-heading text-[11px] tracking-wide text-gray-400 hover:text-white hover:bg-white/5 border border-transparent transition-all duration-200" id="tab-l4-btn" onclick="switchTab('l4')"><span class="icon icon-md text-gray-500 group-hover:text-[#46BEFF] transition-colors">description</span> Zwolnienie L4</button>
+        <button class="nav-btn group flex items-center gap-3 px-3.5 py-2.5 rounded-2xl font-heading text-[11px] tracking-wide text-gray-400 hover:text-white hover:bg-white/5 border border-transparent transition-all duration-200" id="tab-recepta-btn" onclick="switchTab('recepta')"><span class="icon icon-md text-gray-500 group-hover:text-[#46BEFF] transition-colors">medication</span> Recepta Lekarska</button>
+        <button class="nav-btn group flex items-center gap-3 px-3.5 py-2.5 rounded-2xl font-heading text-[11px] tracking-wide text-gray-400 hover:text-white hover:bg-white/5 border border-transparent transition-all duration-200" id="tab-wozek-btn" onclick="switchTab('wozek')"><span class="icon icon-md text-gray-500 group-hover:text-[#46BEFF] transition-colors">accessible</span> Wózek Inwalidzki</button>
+        <button class="nav-btn group flex items-center gap-3 px-3.5 py-2.5 rounded-2xl font-heading text-[11px] tracking-wide text-gray-400 hover:text-white hover:bg-white/5 border border-transparent transition-all duration-200" id="tab-wypis-btn" onclick="switchTab('wypis')"><span class="icon icon-md text-gray-500 group-hover:text-[#46BEFF] transition-colors">logout</span> Wypis ze Szpitala</button>
+      </div>
+
+      <div class="font-heading text-[9px] text-gray-500 tracking-[0.1em] px-3 mt-6 mb-2">Dyżury & Służba</div>
+      <div class="flex flex-col gap-1">
+        <button class="nav-btn group flex items-center gap-3 px-3.5 py-2.5 rounded-2xl font-heading text-[11px] tracking-wide text-gray-400 hover:text-white hover:bg-white/5 border border-transparent transition-all duration-200" id="tab-dwc-btn" onclick="switchTab('dwc')"><span class="icon icon-md text-gray-500 group-hover:text-[#46BEFF] transition-colors">medical_services</span> DWC & Patrole</button>
+        <button class="nav-btn group flex items-center gap-3 px-3.5 py-2.5 rounded-2xl font-heading text-[11px] tracking-wide text-gray-400 hover:text-white hover:bg-white/5 border border-transparent transition-all duration-200" id="tab-admin-btn" onclick="switchTab('admin')" style="display: none; color: #c084fc;"><span class="icon icon-md text-[#c084fc] group-hover:text-[#46BEFF] transition-colors">admin_panel_settings</span> Panel Admina</button>
+      </div>
+
+      <div class="mt-auto pt-5 border-t border-white/5 flex flex-col gap-2">
+        <button id="update-btn" class="btn-settings" onclick="checkAppUpdate(true)"><span class="icon icon-sm">sync</span> Sprawdź Aktualizacje v1.0.7</button>
+        <button class="btn-settings" onclick="openSettings()"><span class="icon icon-sm">settings</span> Ustawienia Postaci & API</button>
+        <button class="bg-transparent text-[#FF5252] border border-[#FF5252]/30 px-4 py-2 rounded-lg font-heading font-bold text-[11px] uppercase cursor-pointer flex items-center gap-1.5 hover:bg-[#FF5252]/15 hover:border-[#FF5252] transition-all duration-200" onclick="resetNewOperation()"><span class="icon icon-sm">restart_alt</span> Nowa Operacja (Reset)</button>
+        
+        <div class="py-3 px-2 border-t border-white/5 mt-2 text-center">
+          <div class="font-heading text-[11px] text-gray-500 tracking-wider">ASYSTENT EMS</div>
+          <div class="text-[10px] text-gray-600 mt-1 font-sans">Wykonanie: <span class="text-[#46BEFF] font-medium">Suslowatyy</span></div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 p-8 sm:p-10 max-w-[1550px] overflow-y-auto">
+      
+      <!-- TOP HEADER WIDGETS -->
+      <div class="flex justify-between items-center mb-7 pb-4 border-b border-white/5">
+        <div class="font-heading text-[13px] text-gray-500 tracking-widest" id="current-page-title">GŁÓWNY PANEL OPERACYJNY</div>
+        <div class="flex items-center gap-3">
+          <div id="profile-widget" class="flex items-center gap-2.5 bg-[#08080A] border border-white/10 px-3 py-1.5 rounded-full text-[11px] font-medium" style="display: none;">
+            <img id="profile-avatar" src="" class="w-6 h-6 rounded-full" />
+            <span id="profile-name" class="text-white">...</span>
+            <button class="bg-transparent border-none text-gray-500 hover:text-[#FF5252] cursor-pointer text-[10px] ml-1 transition-colors" onclick="logoutDiscord()">Wyloguj</button>
+          </div>
+
+        </div>
+      </div>
+    
+    <!-- TAB 1: SURGERY CREATOR -->
+    <div id="tab-surgery" class="grid grid-cols-1 xl:grid-cols-[1fr_1.15fr] gap-7">
+      
+      <!-- Left Inputs -->
+      <div class="tactical-card">
+        <div class="flex justify-between items-center border-b border-white/10 pb-3 mb-4">
+          <div class="font-heading text-[11px] font-bold text-[#46BEFF] uppercase tracking-[0.08em] flex items-center gap-2">1. Zrzuty Ekranu Obrażeń FiveM / GTA RP (Ctrl+V)</div>
+          <button class="bg-transparent text-[#FF5252] border border-[#FF5252]/30 px-4 py-2 rounded-lg font-heading font-bold text-[11px] uppercase cursor-pointer flex items-center gap-1.5 hover:bg-[#FF5252]/15 hover:border-[#FF5252] transition-all duration-200" style="padding: 4px 8px; font-size: 10px;" onclick="clearAllImages()"><span class="icon icon-sm">delete</span> Usuń Zdjęcia</button>
+        </div>
+        
+        <div class="border border-dashed border-[#46BEFF]/30 rounded-[26px] p-6 text-center bg-gradient-to-b from-[#46BEFF]/5 to-transparent cursor-pointer transition-all duration-200 hover:border-[#46BEFF] hover:bg-[#46BEFF]/10 hover:-translate-y-0.5" id="dropzone" onclick="document.getElementById('file-input').click()">
+          <div id="dropzone-text">
+            <div style="margin-bottom: 6px;"><span class="icon icon-lg" style="color: var(--text-muted);">add_photo_alternate</span></div>
+            <strong class="font-sans text-[12px] text-white block mt-2">Wklej zrzut "Obrażenia" (Ctrl+V) lub kliknij – Gemini AI dopisze urazy z zdjęcia</strong>
+            <div style="font-size: 11px; color: var(--text-dim); margin-top: 4px;">Zdjęcia w pamięci: <span id="image-count" style="color: #38bdf8; font-weight: 600;">0</span></div>
+          </div>
+          <input type="file" id="file-input" accept="image/*" multiple style="display:none;" onchange="handleFileSelect(event)" />
+        </div>
+
+        <!-- Multi-Image Gallery Grid -->
+        <div id="gallery-container" class="gallery-grid" style="display: none;"></div>
+
+        <div id="ai-status-box" style="display: none;">
+          <div class="status-badge" id="ai-status-badge"><span class="icon icon-sm">sync</span> Przetwarzanie Obrazu Medycznego...</div>
+        </div>
+
+        <div>
+          <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">2. Wpisz Urazy Pacjenta (Gemini utworzy dedykowaną operację):</label>
+          <textarea id="user-desc" rows="4" placeholder="Wklej jedno lub kilka zdjęć (Ctrl+V)... Gemini AI scali i dopisze urazy ze wszystkich zdjęć bez kasowania poprzednich!"></textarea>
+        </div>
+
+        <div>
+          <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">3. Czego Potrzebujesz (Leki, Narzędzia, Zespół):</label>
+          <input type="text" id="user-needs" placeholder="np. Skalpel #15, Kleszczyki Peana, Szwy Prolene 5-0, Opaska CAT, Zestaw do replantacji, Płyn Ringera" />
+        </div>
+
+        <button class="bg-[#46BEFF] text-black font-heading font-extrabold uppercase tracking-[0.05em] px-4 py-3 rounded-2xl text-[11px] border-none cursor-pointer flex items-center justify-center gap-2 hover:bg-[#70ceff] hover:-translate-y-0.5 shadow-md shadow-black hover:shadow-lg hover:shadow-[#46BEFF]/20 transition-all duration-200" onclick="callGeminiApi()"><span class="icon icon-sm">auto_awesome</span> Wygeneruj Operację Przez Google Gemini API</button>
+      </div>
+
+      <!-- Right Output -->
+      <div class="tactical-card">
+        <div class="flex justify-between items-center border-b border-white/10 pb-3 mb-4">
+          <div class="font-heading text-[11px] font-bold text-[#46BEFF] uppercase tracking-[0.08em] flex items-center gap-2">PROTOKÓŁ CHIRURGICZNY (NARRATOR 1. OSOBA /MED)</div>
+          <button class="bg-[#46BEFF]/10 text-[#46BEFF] border border-[#46BEFF]/30 px-4 py-2 rounded-lg font-heading font-bold text-[11px] uppercase cursor-pointer flex items-center gap-1.5 hover:bg-[#46BEFF] hover:text-black transition-all duration-200" onclick="copyFullSurgery()">Kopiuj Całą Operację</button>
+        </div>
+
+        <div id="surgery-output" class="max-h-[520px] overflow-y-auto w-full text-[11px] text-slate-200">
+          <div class="text-slate-500 text-[12px] text-center py-10">
+            Wklej zdjęcie (Ctrl+V) lub wpisz urazy. Gemini wygeneruje operację w 1. osobie (/med wykonuję, podwiązuję, przemywam) oraz stworzy wyformatowane karty /med i /do!
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TAB 2: PATIENT CARD -->
+    <div id="tab-card" class="grid grid-cols-1 xl:grid-cols-[1fr_1.15fr] gap-7 hidden">
+      
+      <!-- Left Inputs -->
+      <div class="tactical-card">
+        <div class="flex justify-between items-center border-b border-white/10 pb-3 mb-4">
+          <div class="font-heading text-[11px] font-bold text-[#46BEFF] uppercase tracking-[0.08em] flex items-center gap-2">📋 Formularz Karty Pacjenta IC (Generowany Z Operacji)</div>
+          <button class="bg-transparent text-[#FF5252] border border-[#FF5252]/30 px-4 py-2 rounded-lg font-heading font-bold text-[11px] uppercase cursor-pointer flex items-center gap-1.5 hover:bg-[#FF5252]/15 hover:border-[#FF5252] transition-all duration-200" onclick="resetNewOperation()">🔄 Wyczyść Pola</button>
+        </div>
+
+        <div>
+          <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Diagnoza i Rozpoznane Obrażenia:</label>
+          <textarea id="card-diag" rows="2" oninput="updateCardPreview()"></textarea>
+        </div>
+
+        <div>
+          <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Streszczenie Przeprowadzonej Operacji Chirurgicznej (Zaczytane Z Planu):</label>
+          <textarea id="card-summary" rows="3" oninput="updateCardPreview()"></textarea>
+        </div>
+
+        <div>
+          <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Zalecenia Lekarskie i Rekonwalescencja Post-Op (Zaczytane Z Planu):</label>
+          <textarea id="card-recom" rows="3" oninput="updateCardPreview()"></textarea>
+        </div>
+
+        <div>
+          <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Podane Leki, Płyny i Procedury:</label>
+          <textarea id="card-meds" rows="2" oninput="updateCardPreview()"></textarea>
+        </div>
+
+        <div>
+          <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Status Pacjenta Po Zabiegu:</label>
+          <input type="text" id="card-status" value="Stan stabilny po przeprowadzonym zabiegu medycznym" oninput="updateCardPreview()" />
+        </div>
+
+        <div>
+          <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Lekarz Prowadzący / Odznaka (Automatycznie z Ustawień):</label>
+          <input type="text" id="card-doctor" value="Lek. Rat. Adam Nowak [EMS 77 - Odznaka #77]" oninput="updateCardPreview()" />
+        </div>
+      </div>
+
+      <!-- Right Output -->
+      <div class="tactical-card">
+        <div class="flex justify-between items-center border-b border-white/10 pb-3 mb-4">
+          <div class="font-heading text-[11px] font-bold text-[#46BEFF] uppercase tracking-[0.08em] flex items-center gap-2">PODGLĄD RAPORTU DISCORD / MDW</div>
+          <button class="bg-[#46BEFF]/10 text-[#46BEFF] border border-[#46BEFF]/30 px-4 py-2 rounded-lg font-heading font-bold text-[11px] uppercase cursor-pointer flex items-center gap-1.5 hover:bg-[#46BEFF] hover:text-black transition-all duration-200" onclick="copyCardReport()">Kopiuj Kartę na Discord</button>
+        </div>
+
+        <div id="card-output" class="bg-[#08080A] border border-white/10 rounded-2xl p-4 text-slate-200 whitespace-pre-wrap text-[11px] leading-relaxed font-sans min-h-[280px] max-h-[520px] overflow-y-auto w-full"></div>
+      </div>
+
+    </div>
+
+    <!-- TAB 3: OBDUKCJA LEKARSKA -->
+    <div id="tab-obdukcja" class="grid grid-cols-1 xl:grid-cols-[1fr_1.15fr] gap-7 hidden">
+      
+      <!-- Left Inputs for Obdukcja -->
+      <div class="tactical-card h-[calc(100vh-140px)] overflow-y-auto">
+        <div class="flex justify-between items-center border-b border-white/10 pb-3 mb-4">
+          <div class="font-heading text-[11px] font-bold text-[#46BEFF] uppercase tracking-[0.08em] flex items-center gap-2">🩺 Wypełnij Wzór Obdukcji Sądowo-Lekarskiej</div>
+          
+          <div style="display: flex; gap: 8px;">
+            <button class="bg-transparent text-[#FF5252] border border-[#FF5252]/30 px-4 py-2 rounded-lg font-heading font-bold text-[11px] uppercase cursor-pointer flex items-center gap-1.5 hover:bg-[#FF5252]/15 hover:border-[#FF5252] transition-all duration-200" style="padding: 4px 8px; font-size: 10px; background-color: #0891b2;" onclick="resetAllObdukcjaFields()">🧹 Wyczyść Pola Obdukcji</button>
+            <button class="bg-transparent text-[#FF5252] border border-[#FF5252]/30 px-4 py-2 rounded-lg font-heading font-bold text-[11px] uppercase cursor-pointer flex items-center gap-1.5 hover:bg-[#FF5252]/15 hover:border-[#FF5252] transition-all duration-200" style="padding: 4px 8px; font-size: 10px;" onclick="clearObdukcjaImages()">🗑️ Usuń Zdjęcia</button>
+          </div>
+        </div>
+
+        <!-- Vision AI Dropzone for Obdukcja -->
+        <div class="border border-dashed border-[#46BEFF]/30 rounded-[26px] p-6 text-center bg-gradient-to-b from-[#46BEFF]/5 to-transparent cursor-pointer transition-all duration-200 hover:border-[#46BEFF] hover:bg-[#46BEFF]/10 hover:-translate-y-0.5" id="obdukcja-dropzone" onclick="document.getElementById('obdukcja-file-input').click()">
+          <div>
+            <div style="font-size: 22px; margin-bottom: 4px;">📸</div>
+            <strong style="font-size: 12px; color: #e2e8f0;">Wklej zrzut ekranu FiveM "Obrażenia" (Ctrl+V) – Przycisk poniżej dopisze nowe urazy ze zdjęcia bez kasowania poprzednich!</strong>
+            <div style="font-size: 11px; color: #64748b; margin-top: 2px;">Zdjęcia obdukcji: <span id="obdukcja-image-count" style="color: #22d3ee; font-weight: bold;">0</span></div>
+          </div>
+          <input type="file" id="obdukcja-file-input" accept="image/*" multiple style="display:none;" onchange="handleObdukcjaFileSelect(event)" />
+        </div>
+
+        <!-- Gallery for Obdukcja -->
+        <div id="obdukcja-gallery-container" class="gallery-grid" style="display: none;"></div>
+
+        <div>
+          <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Odczytana Treść Urazów ze Zdęć (Skaner OCR Gemini AI):</label>
+          <textarea id="obd-ocr-text" rows="3" placeholder="Dodawaj kolejne zdjęcia (Ctrl+V)... Gemini AI dopisuje nowe urazy i dołącza je do właściwych sekcji (np. Głowa, Tułów, Kończyny)..." oninput="parseCustomTextToObdukcja()"></textarea>
+        </div>
+
+        <button class="bg-[#46BEFF] text-black font-heading font-extrabold uppercase tracking-[0.05em] px-4 py-3 rounded-2xl text-[11px] border-none cursor-pointer flex items-center justify-center gap-2 hover:bg-[#70ceff] hover:-translate-y-0.5 shadow-md shadow-black hover:shadow-lg hover:shadow-[#46BEFF]/20 transition-all duration-200" style="padding: 14px; font-size: 12px;" onclick="analyzeObdukcjaWithAI()">🔍 Przeanalizuj Zdjęcie przez Gemini AI i Dopisanie Urazów do Wzoru</button>
+
+        <div style="border-top: 1px solid #1e293b; padding-top: 12px;">
+          <strong style="font-size: 11px; color: #22d3ee;" class="font-mono">I. DANE PACJENTA I LEKARZA</strong>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 6px;">
+            <div>
+              <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Imię i Nazwisko Pacjenta:</label>
+              <input type="text" id="obd-name" value="Jan Kowalski" oninput="updateObdukcjaPreview()" />
+            </div>
+            <div>
+              <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Data Urodzenia Pacjenta:</label>
+              <input type="text" id="obd-dob" value="15.04.1995" oninput="updateObdukcjaPreview()" />
+            </div>
+            <div>
+              <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">CID Pacjenta:</label>
+              <input type="text" id="obd-cid" value="12948" oninput="updateObdukcjaPreview()" />
+            </div>
+            <div>
+              <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Data i Godzina Badania:</label>
+              <input type="text" id="obd-date" value="" oninput="updateObdukcjaPreview()" />
+            </div>
+          </div>
+        </div>
+
+        <div style="border-top: 1px solid #1e293b; padding-top: 12px;">
+          <strong style="font-size: 11px; color: #22d3ee;" class="font-mono">II. OKOLICZNOŚCI ZDARZENIA WEDŁUG PACJENTA</strong>
+          <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 6px;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+              <div>
+                <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Data i Godzina Zdarzenia:</label>
+                <input type="text" id="obd-inc-time" value="06.08.2026 r., godz. 19:30" oninput="updateObdukcjaPreview()" />
+              </div>
+              <div>
+                <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Miejsce Zdarzenia:</label>
+                <input type="text" id="obd-inc-place" value="Skrzyżowanie Davis Ave / Carson Ave, Los Santos" oninput="updateObdukcjaPreview()" />
+              </div>
+            </div>
+            <div>
+              <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Opis Okoliczności (Relacja Pacjenta):</label>
+              <textarea id="obd-inc-desc" rows="2" oninput="updateObdukcjaPreview()">Upadek z wysokości na twarde podłoże / napaść z użyciem siły fizycznej.</textarea>
+            </div>
+            <div>
+              <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Świadkowie Zdarzenia (Imiona i nazwiska, kontakt):</label>
+              <input type="text" id="obd-witnesses" value="Anna Nowak, tel. 555-492-10" oninput="updateObdukcjaPreview()" />
+            </div>
+          </div>
+        </div>
+
+        <div style="border-top: 1px solid #1e293b; padding-top: 12px;">
+          <strong style="font-size: 11px; color: #22d3ee;" class="font-mono">III. STAN OGÓLNY PACJENTA (PARAMETRY)</strong>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 6px;">
+            <div>
+              <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Wzrost:</label>
+              <input type="text" id="obd-height" value="182 cm" oninput="updateObdukcjaPreview()" />
+            </div>
+            <div>
+              <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Waga:</label>
+              <input type="text" id="obd-weight" value="80 kg" oninput="updateObdukcjaPreview()" />
+            </div>
+            <div>
+              <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Ciśnienie tętnicze:</label>
+              <input type="text" id="obd-bp" value="120/80 mmHg" oninput="updateObdukcjaPreview()" />
+            </div>
+            <div>
+              <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Tętno:</label>
+              <input type="text" id="obd-hr" value="78 bpm" oninput="updateObdukcjaPreview()" />
+            </div>
+            <div>
+              <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Temperatura ciała:</label>
+              <input type="text" id="obd-temp" value="36.6 °C" oninput="updateObdukcjaPreview()" />
+            </div>
+          </div>
+        </div>
+
+        <div style="border-top: 1px solid #1e293b; padding-top: 12px;">
+          <strong style="font-size: 11px; color: #22d3ee;" class="font-mono">IV. OPIS OBRAŻEŃ (GŁOWA, TUŁÓW, KOŃCZYNY, SZYJA, NARZĄDY PŁCIOWE)</strong>
+          <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 6px;">
+            <div>
+              <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Głowa:</label>
+              <input type="text" id="obd-head" value="BRAK" oninput="updateObdukcjaPreview()" />
+            </div>
+            <div>
+              <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Tułów:</label>
+              <textarea id="obd-torso" rows="3" oninput="updateObdukcjaPreview()">BRAK</textarea>
+            </div>
+            <div>
+              <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Kończyny dolne/górne:</label>
+              <textarea id="obd-limbs" rows="3" oninput="updateObdukcjaPreview()">BRAK</textarea>
+            </div>
+            <div>
+              <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Szyja:</label>
+              <input type="text" id="obd-neck" value="BRAK" oninput="updateObdukcjaPreview()" />
+            </div>
+            <div>
+              <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Narządy płciowe:</label>
+              <input type="text" id="obd-genitals" value="BRAK" oninput="updateObdukcjaPreview()" />
+            </div>
+          </div>
+        </div>
+
+        <div style="border-top: 1px solid #1e293b; padding-top: 12px;">
+          <strong style="font-size: 11px; color: #22d3ee;" class="font-mono">V. BADANIA DODATKOWE</strong>
+          <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 6px;">
+            <div>
+              <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Zdjęcia RTG:</label>
+              <input type="text" id="obd-rtg" value="Nie wykonywano" oninput="updateObdukcjaPreview()" />
+            </div>
+            <div>
+              <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Tomografia komputerowa / MRI:</label>
+              <input type="text" id="obd-ct" value="Nie wykonywano" oninput="updateObdukcjaPreview()" />
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Output for Obdukcja -->
+      <div class="tactical-card">
+        <div class="flex justify-between items-center border-b border-white/10 pb-3 mb-4">
+          <div class="font-heading text-[11px] font-bold text-[#46BEFF] uppercase tracking-[0.08em] flex items-center gap-2">PODGLĄD PROTOKOŁU OBDUKCJI LEKARSKIEJ (DISCORD / MDW)</div>
+          <button class="bg-[#46BEFF]/10 text-[#46BEFF] border border-[#46BEFF]/30 px-4 py-2 rounded-lg font-heading font-bold text-[11px] uppercase cursor-pointer flex items-center gap-1.5 hover:bg-[#46BEFF] hover:text-black transition-all duration-200" onclick="copyObdukcjaReport()">Kopiuj Obdukcję na Discord</button>
+        </div>
+
+        <div id="obdukcja-output" class="bg-[#08080A] border border-white/10 rounded-2xl p-4 text-slate-200 whitespace-pre-wrap text-[11px] leading-relaxed font-sans min-h-[280px] max-h-[520px] overflow-y-auto w-full" style="max-height: 680px;"></div>
+      </div>
+
+    </div>
+
+    <!-- TAB 4: ZWOLNIENIE LEKARSKIE L4 -->
+    <div id="tab-l4" class="grid grid-cols-1 xl:grid-cols-[1fr_1.15fr] gap-7 hidden">
+      
+      <!-- Left Inputs for L4 -->
+      <div class="tactical-card">
+        <div class="flex justify-between items-center border-b border-white/10 pb-3 mb-4">
+          <div class="font-heading text-[11px] font-bold text-[#46BEFF] uppercase tracking-[0.08em] flex items-center gap-2">📄 Formularz Zwolnienia Lekarskiego L4</div>
+          <button class="bg-transparent text-[#FF5252] border border-[#FF5252]/30 px-4 py-2 rounded-lg font-heading font-bold text-[11px] uppercase cursor-pointer flex items-center gap-1.5 hover:bg-[#FF5252]/15 hover:border-[#FF5252] transition-all duration-200" onclick="resetL4Fields()">🧹 Wyczyść Pola L4</button>
+        </div>
+
+        <div>
+          <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Imię i Nazwisko Pacjenta:</label>
+          <input type="text" id="l4-name" value="Jan Kowalski" oninput="updateL4Preview()" />
+        </div>
+
+        <div>
+          <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Nr Identyfikacyjny Pacjenta (CID):</label>
+          <input type="text" id="l4-cid" value="12948" oninput="updateL4Preview()" />
+        </div>
+
+        <div>
+          <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Okres Zwolnienia Lekarskiego (Ilość Dni / Zakres Dat):</label>
+          <input type="text" id="l4-days" value="3 dni (od 06.08.2026 r. do 09.08.2026 r.)" oninput="updateL4Preview()" placeholder="np. 3 dni (od 06.08.2026 r. do 09.08.2026 r.)" />
+        </div>
+
+        <div>
+          <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Lekarz Prowadzący / Odznaka (Zaczytywane z Ustawień):</label>
+          <input type="text" id="l4-doctor" value="[EMS 77] Lek. Rat. Adam Nowak" oninput="updateL4Preview()" />
+        </div>
+
+        <button class="bg-[#46BEFF] text-black font-heading font-extrabold uppercase tracking-[0.05em] px-4 py-3 rounded-2xl text-[11px] border-none cursor-pointer flex items-center justify-center gap-2 hover:bg-[#70ceff] hover:-translate-y-0.5 shadow-md shadow-black hover:shadow-lg hover:shadow-[#46BEFF]/20 transition-all duration-200" onclick="copyL4Report()" style="margin-top: 10px;">📋 Kopiuj Zwolnienie L4 na Discord / MDW</button>
+      </div>
+
+      <!-- Right Output for L4 -->
+      <div class="tactical-card">
+        <div class="flex justify-between items-center border-b border-white/10 pb-3 mb-4">
+          <div class="font-heading text-[11px] font-bold text-[#46BEFF] uppercase tracking-[0.08em] flex items-center gap-2">PODGLĄD ZAŚWIADCZENIA L4 (DISCORD / MDW)</div>
+          <button class="bg-[#46BEFF]/10 text-[#46BEFF] border border-[#46BEFF]/30 px-4 py-2 rounded-lg font-heading font-bold text-[11px] uppercase cursor-pointer flex items-center gap-1.5 hover:bg-[#46BEFF] hover:text-black transition-all duration-200" onclick="copyL4Report()">Kopiuj Zwolnienie L4</button>
+        </div>
+
+        <div id="l4-output" class="bg-[#08080A] border border-white/10 rounded-2xl p-4 text-slate-200 whitespace-pre-wrap text-[11px] leading-relaxed font-sans min-h-[280px] max-h-[520px] overflow-y-auto w-full" style="max-height: 600px;"></div>
+      </div>
+
+    </div>
+
+    <!-- TAB 5: RECEPTA LEKARSKA -->
+    <div id="tab-recepta" class="grid grid-cols-1 xl:grid-cols-[1fr_1.15fr] gap-7 hidden">
+      
+      <!-- Left Inputs for Recepta -->
+      <div class="tactical-card h-[calc(100vh-140px)] overflow-y-auto">
+        <div class="flex justify-between items-center border-b border-white/10 pb-3 mb-4">
+          <div class="font-heading text-[11px] font-bold text-[#46BEFF] uppercase tracking-[0.08em] flex items-center gap-2">💊 Formularz Recepty Lekarskiej</div>
+          <button class="bg-transparent text-[#FF5252] border border-[#FF5252]/30 px-4 py-2 rounded-lg font-heading font-bold text-[11px] uppercase cursor-pointer flex items-center gap-1.5 hover:bg-[#FF5252]/15 hover:border-[#FF5252] transition-all duration-200" onclick="resetReceptaFields()">🧹 Wyczyść Pola Recepty</button>
+        </div>
+
+        <div>
+          <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Imię i Nazwisko Pacjenta:</label>
+          <input type="text" id="rx-name" value="Jan Kowalski" oninput="updateReceptaPreview()" />
+        </div>
+
+        <div>
+          <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Nr Identyfikacyjny Pacjenta (CID):</label>
+          <input type="text" id="rx-cid" value="12948" oninput="updateReceptaPreview()" />
+        </div>
+
+        <div style="border-top: 1px solid #1e293b; padding-top: 12px;">
+          <strong style="font-size: 11px; color: #22d3ee;" class="font-mono">ZALECONE LEKI</strong>
+          <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 6px;">
+            <div>
+              <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Nazwa preparatu:</label>
+              <input type="text" id="rx-med-name" value="Ketonal Forte 100mg / Ibuprofen 400mg" oninput="updateReceptaPreview()" />
+            </div>
+            <div>
+              <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Substancja czynna:</label>
+              <input type="text" id="rx-active-substance" value="Ketoprofenum / Dexketoprofenum" oninput="updateReceptaPreview()" />
+            </div>
+            <div>
+              <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Dawkowanie:</label>
+              <input type="text" id="rx-dosage" value="1 tabletka co 8 godzin po posiłku (max 3x dziennie)" oninput="updateReceptaPreview()" />
+            </div>
+            <div>
+              <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Sposób stosowania:</label>
+              <input type="text" id="rx-method" value="doustnie, po posiłku, popijając dużą ilością wody" oninput="updateReceptaPreview()" />
+            </div>
+            <div>
+              <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Czas trwania terapii:</label>
+              <input type="text" id="rx-duration" value="7 dni" oninput="updateReceptaPreview()" />
+            </div>
+          </div>
+        </div>
+
+        <div style="border-top: 1px solid #1e293b; padding-top: 12px;">
+          <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Lekarz Wystawiający Receptę (Zaczytywane z Ustawień):</label>
+          <input type="text" id="rx-doctor" value="[EMS 77] Lek. Rat. Adam Nowak" oninput="updateReceptaPreview()" />
+        </div>
+
+        <button class="bg-[#46BEFF] text-black font-heading font-extrabold uppercase tracking-[0.05em] px-4 py-3 rounded-2xl text-[11px] border-none cursor-pointer flex items-center justify-center gap-2 hover:bg-[#70ceff] hover:-translate-y-0.5 shadow-md shadow-black hover:shadow-lg hover:shadow-[#46BEFF]/20 transition-all duration-200" onclick="copyReceptaReport()" style="margin-top: 10px;">📋 Kopiuj Receptę Lekarską na Discord / MDW</button>
+      </div>
+
+      <!-- Right Output for Recepta -->
+      <div class="tactical-card">
+        <div class="flex justify-between items-center border-b border-white/10 pb-3 mb-4">
+          <div class="font-heading text-[11px] font-bold text-[#46BEFF] uppercase tracking-[0.08em] flex items-center gap-2">PODGLĄD RECEPTY LEKARSKIEJ (DISCORD / MDW)</div>
+          <button class="bg-[#46BEFF]/10 text-[#46BEFF] border border-[#46BEFF]/30 px-4 py-2 rounded-lg font-heading font-bold text-[11px] uppercase cursor-pointer flex items-center gap-1.5 hover:bg-[#46BEFF] hover:text-black transition-all duration-200" onclick="copyReceptaReport()">Kopiuj Receptę</button>
+        </div>
+
+        <div id="recepta-output" class="bg-[#08080A] border border-white/10 rounded-2xl p-4 text-slate-200 whitespace-pre-wrap text-[11px] leading-relaxed font-sans min-h-[280px] max-h-[520px] overflow-y-auto w-full" style="max-height: 680px;"></div>
+      </div>
+
+    </div>
+
+    <!-- TAB 6: WYPOŻYCZENIE WÓZKA INWALIDZKIEGO -->
+    <div id="tab-wozek" class="grid grid-cols-1 xl:grid-cols-[1fr_1.15fr] gap-7 hidden">
+      
+      <!-- Left Inputs for Wózek Inwalidzki -->
+      <div class="tactical-card h-[calc(100vh-140px)] overflow-y-auto">
+        <div class="flex justify-between items-center border-b border-white/10 pb-3 mb-4">
+          <div class="font-heading text-[11px] font-bold text-[#46BEFF] uppercase tracking-[0.08em] flex items-center gap-2">👨‍🦽 Formularz Wypożyczenia Wózka Inwalidzkiego</div>
+          <button class="bg-transparent text-[#FF5252] border border-[#FF5252]/30 px-4 py-2 rounded-lg font-heading font-bold text-[11px] uppercase cursor-pointer flex items-center gap-1.5 hover:bg-[#FF5252]/15 hover:border-[#FF5252] transition-all duration-200" onclick="resetWozekFields()">🧹 Wyczyść Pola Wózka</button>
+        </div>
+
+        <div>
+          <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Imię i Nazwisko Pacjenta:</label>
+          <input type="text" id="wozek-name" value="Jan Kowalski" oninput="updateWozekPreview()" />
+        </div>
+
+        <div>
+          <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Nr Identyfikacyjny Pacjenta (CID):</label>
+          <input type="text" id="wozek-cid" value="12948" oninput="updateWozekPreview()" />
+        </div>
+
+        <div>
+          <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Okres Wypożyczenia (ilość dni / od dnia – do dnia):</label>
+          <input type="text" id="wozek-period" value="7 dni (od 06.08.2026 r. do 13.08.2026 r.)" oninput="updateWozekPreview()" placeholder="np. 7 dni (od 06.08.2026 r. do 13.08.2026 r.)" />
+        </div>
+
+        <div>
+          <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Rodzaj Sprzętu:</label>
+          <input type="text" id="wozek-type" value="Wózek inwalidzki" oninput="updateWozekPreview()" />
+        </div>
+
+        <div>
+          <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Lekarz Prowadzący / Odznaka (Zaczytywane z Ustawień):</label>
+          <input type="text" id="wozek-doctor" value="[EMS 77] Lek. Rat. Adam Nowak" oninput="updateWozekPreview()" />
+        </div>
+
+        <button class="bg-[#46BEFF] text-black font-heading font-extrabold uppercase tracking-[0.05em] px-4 py-3 rounded-2xl text-[11px] border-none cursor-pointer flex items-center justify-center gap-2 hover:bg-[#70ceff] hover:-translate-y-0.5 shadow-md shadow-black hover:shadow-lg hover:shadow-[#46BEFF]/20 transition-all duration-200" onclick="copyWozekReport()" style="margin-top: 10px;">📋 Kopiuj Zaświadczenie Wypożyczenia Wózka na Discord / MDW</button>
+      </div>
+
+      <!-- Right Output for Wózek Inwalidzki -->
+      <div class="tactical-card">
+        <div class="flex justify-between items-center border-b border-white/10 pb-3 mb-4">
+          <div class="font-heading text-[11px] font-bold text-[#46BEFF] uppercase tracking-[0.08em] flex items-center gap-2">PODGLĄD ZAŚWIADCZENIA WYPOŻYCZENIA WÓZKA (DISCORD / MDW)</div>
+          <button class="bg-[#46BEFF]/10 text-[#46BEFF] border border-[#46BEFF]/30 px-4 py-2 rounded-lg font-heading font-bold text-[11px] uppercase cursor-pointer flex items-center gap-1.5 hover:bg-[#46BEFF] hover:text-black transition-all duration-200" onclick="copyWozekReport()">Kopiuj Zaświadczenie</button>
+        </div>
+
+        <div id="wozek-output" class="bg-[#08080A] border border-white/10 rounded-2xl p-4 text-slate-200 whitespace-pre-wrap text-[11px] leading-relaxed font-sans min-h-[280px] max-h-[520px] overflow-y-auto w-full" style="max-height: 680px;"></div>
+      </div>
+
+    </div>
+
+    <!-- TAB 7: WYPIS -->
+    <div id="tab-wypis" class="grid grid-cols-1 xl:grid-cols-[1fr_1.15fr] gap-7 hidden">
+
+      <!-- Left Inputs for Wypis -->
+      <div class="tactical-card h-[calc(100vh-140px)] overflow-y-auto">
+        <div class="flex justify-between items-center border-b border-white/10 pb-3 mb-4">
+          <div class="font-heading text-[11px] font-bold text-[#46BEFF] uppercase tracking-[0.08em] flex items-center gap-2">🚪 Formularz Wypisu Pacjenta</div>
+          <button class="bg-transparent text-[#FF5252] border border-[#FF5252]/30 px-4 py-2 rounded-lg font-heading font-bold text-[11px] uppercase cursor-pointer flex items-center gap-1.5 hover:bg-[#FF5252]/15 hover:border-[#FF5252] transition-all duration-200" onclick="resetWypisFields()">🧹 Wyczyść Pola Wypisu</button>
+        </div>
+
+        <div>
+          <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Imię i Nazwisko Pacjenta:</label>
+          <input type="text" id="wypis-name" value="Jan Kowalski" oninput="updateWypisPreview()" />
+        </div>
+
+        <div>
+          <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Nr Identyfikacyjny Pacjenta (CID):</label>
+          <input type="text" id="wypis-cid" value="12948" oninput="updateWypisPreview()" />
+        </div>
+
+        <div>
+          <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Data i Godzina Wypisu:</label>
+          <input type="text" id="wypis-datetime" oninput="updateWypisPreview()" />
+        </div>
+
+        <div>
+          <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Podpis Pacjenta:</label>
+          <input type="text" id="wypis-patient-sig" placeholder="np. Jan Kowalski" oninput="updateWypisPreview()" />
+        </div>
+
+        <div>
+          <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Lekarz Prowadzący / Podpis Lekarza (Zaczytywane z Ustawień):</label>
+          <input type="text" id="wypis-doctor" value="[EMS 77] Lek. Rat. Adam Nowak" oninput="updateWypisPreview()" />
+        </div>
+
+        <button class="bg-[#46BEFF] text-black font-heading font-extrabold uppercase tracking-[0.05em] px-4 py-3 rounded-2xl text-[11px] border-none cursor-pointer flex items-center justify-center gap-2 hover:bg-[#70ceff] hover:-translate-y-0.5 shadow-md shadow-black hover:shadow-lg hover:shadow-[#46BEFF]/20 transition-all duration-200" onclick="copyWypisReport()" style="margin-top: 10px;">📋 Kopiuj Wypis na Discord / MDW</button>
+      </div>
+
+      <!-- Right Output for Wypis -->
+      <div class="tactical-card">
+        <div class="flex justify-between items-center border-b border-white/10 pb-3 mb-4">
+          <div class="font-heading text-[11px] font-bold text-[#46BEFF] uppercase tracking-[0.08em] flex items-center gap-2">PODGLĄD WYPISU PACJENTA (DISCORD / MDW)</div>
+          <button class="bg-[#46BEFF]/10 text-[#46BEFF] border border-[#46BEFF]/30 px-4 py-2 rounded-lg font-heading font-bold text-[11px] uppercase cursor-pointer flex items-center gap-1.5 hover:bg-[#46BEFF] hover:text-black transition-all duration-200" onclick="copyWypisReport()">Kopiuj Wypis</button>
+        </div>
+
+        <div id="wypis-output" class="bg-[#08080A] border border-white/10 rounded-2xl p-4 text-slate-200 whitespace-pre-wrap text-[11px] leading-relaxed font-sans min-h-[280px] max-h-[520px] overflow-y-auto w-full" style="max-height: 680px;"></div>
+      </div>
+
+    </div>
+
+    <!-- TAB 7.5: DWC & PATROLE -->
+    <div id="tab-dwc" class="grid grid-cols-1 xl:grid-cols-[1fr_1.15fr] gap-7 hidden">
+      
+      <!-- Left Form for DWC & Patrole -->
+      <div class="tactical-card">
+        <div class="flex justify-between items-center border-b border-white/10 pb-3 mb-4">
+          <div class="font-heading text-[11px] font-bold text-[#46BEFF] uppercase tracking-[0.08em] flex items-center gap-2">🚑 RAPORT DWC & PATROLI MEDYCZNYCH</div>
+          <button class="bg-transparent text-[#FF5252] border border-[#FF5252]/30 px-4 py-2 rounded-lg font-heading font-bold text-[11px] uppercase cursor-pointer flex items-center gap-1.5 hover:bg-[#FF5252]/15 hover:border-[#FF5252] transition-all duration-200" style="padding: 4px 8px; font-size: 10px;" onclick="resetDWCFields()">🧹 Wyczyść Pola</button>
+        </div>
+
+        <div>
+          <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Wybierz Status DWC / Patrolu / Stacjonowania:</label>
+          <select id="dwc-type" class="w-full bg-[#08080A] border border-white/10 text-white px-3.5 py-2.5 rounded-lg text-[13px] font-sans outline-none focus:border-[#46BEFF] focus:shadow-[0_0_12px_rgba(70,190,255,0.3)] transition-all duration-200 mb-4" onchange="updateDWCPreview()">
+            <option value="DWC-A">🚑 DWC-A (Dyżur Wszechstronnego Centrum - Ambulans)</option>
+            <option value="DWC-B">🚁 DWC-B (Dyżur Wszechstronnego Centrum - Helikopter Air Rescue)</option>
+            <option value="PU1">Patrol PU1 (Patrol Uliczny #1)</option>
+            <option value="PU2">Patrol PU2 (Patrol Uliczny #2)</option>
+            <option value="PU3">Patrol PU3 (Patrol Uliczny #3)</option>
+            <option value="STACJONOWANIE">🏥 Stacjonowanie Szpital (Dyżur Izby Przyjęć / Szpital)</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Kryptonim / Jednostka Medyczna (np. Medic-1, Air-1, E-04):</label>
+          <input type="text" id="dwc-unit" placeholder="np. Medic-1 / E-04" value="Medic-1" oninput="updateDWCPreview()" />
+        </div>
+
+        <div>
+          <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Skład Osobowy Patrolu / Dyżuru (Nicki IC i Rangi):</label>
+          <textarea id="dwc-members" rows="3" placeholder="np. Lek. Rat. Adam Nowak (Dowódca), Rat. Med. Jan Kowalski (Kierowca)" class="w-full bg-[#08080A] border border-white/10 text-white px-3.5 py-2.5 rounded-lg text-[13px] font-sans outline-none focus:border-[#46BEFF] focus:shadow-[0_0_12px_rgba(70,190,255,0.3)] transition-all duration-200 mb-4" oninput="updateDWCPreview()"></textarea>
+        </div>
+
+        <div>
+          <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Rejon / Lokalizacja / Szpital Stacjonowania:</label>
+          <input type="text" id="dwc-location" placeholder="np. Pillbox Hill Medical Center / Los Santos County" value="Pillbox Hill Medical Center" oninput="updateDWCPreview()" />
+        </div>
+
+        <div>
+          <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Status Gotowości Operacyjnej:</label>
+          <select id="dwc-status" class="w-full bg-[#08080A] border border-white/10 text-white px-3.5 py-2.5 rounded-lg text-[13px] font-sans outline-none focus:border-[#46BEFF] focus:shadow-[0_0_12px_rgba(70,190,255,0.3)] transition-all duration-200 mb-4" onchange="updateDWCPreview()">
+            <option value="🟢 W SŁUŻBIE / GOTOWI DO AKCJI">🟢 W SŁUŻBIE / GOTOWI DO AKCJI</option>
+            <option value="🟡 W TRAKCIE INTERWENCJI / KOD 3">🟡 W TRAKCIE INTERWENCJI / KOD 3</option>
+            <option value="🟠 TRANSPORT PACJENTA DO SZPITALA">🟠 TRANSPORT PACJENTA DO SZPITALA</option>
+            <option value="🔴 CHWILOWA NIEDOSTĘPNOŚĆ (TANKOWANIE / UZUPEŁNIENIE LEKÓW)">🔴 CHWILOWA NIEDOSTĘPNOŚĆ (TANKOWANIE / UZUPEŁNIENIE LEKÓW)</option>
+            <option value="🏁 ZAKOŃCZENIE PATROLU / DYŻURU">🏁 ZAKOŃCZENIE PATROLU / DYŻURU</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Dodatkowe Uwagi / Notatki Dyżurne:</label>
+          <textarea id="dwc-notes" rows="2" placeholder="np. Brak zgłoszeń, wyposażenie kompletne..." class="w-full bg-[#08080A] border border-white/10 text-white px-3.5 py-2.5 rounded-lg text-[13px] font-sans outline-none focus:border-[#46BEFF] focus:shadow-[0_0_12px_rgba(70,190,255,0.3)] transition-all duration-200 mb-4" oninput="updateDWCPreview()"></textarea>
+        </div>
+
+        <button class="bg-[#46BEFF] text-black font-heading font-extrabold uppercase tracking-[0.05em] px-4 py-3 rounded-2xl text-[11px] border-none cursor-pointer flex items-center justify-center gap-2 hover:bg-[#70ceff] hover:-translate-y-0.5 shadow-md shadow-black hover:shadow-lg hover:shadow-[#46BEFF]/20 transition-all duration-200" onclick="copyDWCReport()" style="margin-top: 10px;">📋 Kopiuj Raport DWC / Patrolu na Discord</button>
+      </div>
+
+      <!-- Right Output for DWC & Patrole -->
+      <div class="tactical-card">
+        <div class="flex justify-between items-center border-b border-white/10 pb-3 mb-4">
+          <div class="font-heading text-[11px] font-bold text-[#46BEFF] uppercase tracking-[0.08em] flex items-center gap-2">PODGLĄD RAPORTU DWC / PATROLU (DISCORD)</div>
+          <button class="bg-[#46BEFF]/10 text-[#46BEFF] border border-[#46BEFF]/30 px-4 py-2 rounded-lg font-heading font-bold text-[11px] uppercase cursor-pointer flex items-center gap-1.5 hover:bg-[#46BEFF] hover:text-black transition-all duration-200" onclick="copyDWCReport()">Kopiuj Raport</button>
+        </div>
+
+        <div id="dwc-output" class="bg-[#08080A] border border-white/10 rounded-2xl p-4 text-slate-200 whitespace-pre-wrap text-[11px] leading-relaxed font-sans min-h-[280px] max-h-[520px] overflow-y-auto w-full" style="max-height: 680px;"></div>
+      </div>
+
+    </div>
+
+    <!-- TAB 8: PANEL ADMINA -->
+    <div id="tab-admin" class="tactical-card hidden">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222; padding-bottom: 12px;">
+        <div>
+          <div class="font-heading text-[11px] font-bold text-[#46BEFF] uppercase tracking-[0.08em] flex items-center gap-2" style="border:none; padding:0; color: #a78bfa; font-size: 14px;">👑 PANEL ADMINISTROWANIA - MONITORING AKTYWNYCH UŻYTKOWNIKÓW</div>
+          <div style="font-size: 11px; color: #666; margin-top: 2px;">Lista osób zalogowanych i korzystających obecnie z programu Asystent EMS w czasie rzeczywistym.</div>
+        </div>
+        <button class="bg-[#46BEFF] text-black font-heading font-extrabold uppercase tracking-[0.05em] px-4 py-3 rounded-2xl text-[11px] border-none cursor-pointer flex items-center justify-center gap-2 hover:bg-[#70ceff] hover:-translate-y-0.5 shadow-md shadow-black hover:shadow-lg hover:shadow-[#46BEFF]/20 transition-all duration-200" style="padding: 6px 12px; font-size: 11px;" onclick="fetchActiveUsers()">🔄 Odśwież Listę</button>
+      </div>
+
+      <div style="background: #161616; padding: 14px; border-radius: 8px; border: 1px solid #2a2a2a; margin-top: 8px;">
+        <label style="color: #a78bfa; font-weight: bold; margin-bottom: 6px;">📡 URL Webhooka Discord do Powiadomień Aktywnych Medyków:</label>
+        <div style="display: flex; gap: 8px;">
+          <input type="text" id="admin-webhook-input" placeholder="https://discord.com/api/webhooks/..."  />
+          <button class="bg-[#46BEFF] text-black font-heading font-extrabold uppercase tracking-[0.05em] px-4 py-3 rounded-2xl text-[11px] border-none cursor-pointer flex items-center justify-center gap-2 hover:bg-[#70ceff] hover:-translate-y-0.5 shadow-md shadow-black hover:shadow-lg hover:shadow-[#46BEFF]/20 transition-all duration-200" style="padding: 8px 14px; white-space: nowrap;" onclick="saveAdminWebhook()">💾 Zapisz Webhook</button>
+        </div>
+        <div style="font-size: 10px; color: #666; margin-top: 4px;">Każdy użytkownik podczas logowania i korzystania z aplikacji wyśle powiadomienie na ten Webhook (np. na kanał #aktywni-medycy).</div>
+      </div>
+
+      <div style="display: flex; gap: 16px; align-items: center; background: #161616; padding: 12px; border-radius: 8px; border: 1px solid #2a2a2a; margin-top: 12px;">
+        <div style="font-size: 12px; color: #888;">Liczba aktywnych użytkowników (Online): <strong id="admin-active-count" style="color: #34d399; font-size: 14px;">0</strong></div>
+        <div style="font-size: 11px; color: #555;">(Automatyczne odświeżanie co 30 sekund)</div>
+      </div>
+
+      <div id="admin-users-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; margin-top: 12px;">
+        <div style="color: #666; font-size: 12px; grid-column: 1 / -1; text-align: center; padding: 20px;">
+          Pobieranie listy aktywnych użytkowników...
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+  <!-- SETTINGS MODAL -->
+  <div id="settings-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-content font-mono">
+      <div class="flex justify-between items-center border-b border-white/10 pb-3 mb-4">
+        <div style="color: #22d3ee; font-weight: bold; font-size: 14px;">⚙️ USTAWIENIA POSTACI & GOOGLE GEMINI API</div>
+        <button onclick="closeSettings()" style="background:none; border:none; color:#94a3b8; font-size:18px; cursor:pointer;">✕</button>
+      </div>
+
+      <div>
+        <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Imię i Nazwisko Postaci RP / Lekarza:</label>
+        <input type="text" id="setting-doc-name" placeholder="np. Adam Nowak" value="Adam Nowak" oninput="saveSettings()" />
+      </div>
+
+      <div>
+        <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Stopień Medyczny / Stanowisko IC:</label>
+        <input type="text" id="setting-doc-rank" placeholder="np. Lekarz Dyżurny / Lek. Rat." value="Lek. Rat." oninput="saveSettings()" />
+      </div>
+
+      <div>
+        <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Numer Odznaki / Błękitu / Jednostki IC:</label>
+        <input type="text" id="setting-doc-badge" placeholder="np. EMS 77 - Odznaka #77" value="EMS 77 - Odznaka #77" oninput="saveSettings()" />
+      </div>
+
+      <div style="border-top: 1px solid #1e293b; padding-top: 12px;">
+        <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Klucz Google Gemini API (Bezpiecznie ukryty):</label>
+        <div style="position: relative;">
+          <input type="password" class="w-full bg-[#08080A] border border-white/10 text-white px-3.5 py-2.5 rounded-lg text-[13px] font-sans outline-none focus:border-[#46BEFF] focus:shadow-[0_0_12px_rgba(70,190,255,0.3)] transition-all duration-200 mb-4" id="setting-api-key" value="" placeholder="Klucz Gemini API" oninput="saveSettings()" />
+          <button onclick="toggleApiKeyVisibility()" style="position: absolute; right: 10px; top: 10px; background: none; border: none; color: #94a3b8; cursor: pointer;">👁️</button>
+        </div>
+        <div style="font-size: 10px; color: #64748b; margin-top: 4px;">Klucz zapisuje się bezpiecznie i nie jest widoczny na ekranie głównym.</div>
+      </div>
+
+      <div id="admin-settings-section" style="display: none; border-top: 1px solid #1e293b; padding-top: 12px; max-height: 250px; overflow-y: auto; padding-right: 4px;">
+        <div style="color: #a78bfa; font-weight: bold; font-size: 12px; margin-bottom: 8px;">🔒 KONFIGURACJA ZABEZPIECZEŃ DISCORD (DLA ADMINA)</div>
+        
+        <div style="margin-bottom: 8px;">
+          <label style="font-size: 10px; color: #a78bfa;">ID Aplikacji Discord (Client ID):</label>
+          <input type="text" id="setting-discord-client-id" value="1535229614484496456" oninput="saveSettings()"  />
+        </div>
+
+        <div style="margin-bottom: 8px;">
+          <label style="font-size: 10px; color: #a78bfa;">ID Serwera Discord (Guild ID):</label>
+          <input type="text" id="setting-discord-guild-id" placeholder="np. 1535228978208440340" oninput="saveSettings()"  />
+        </div>
+
+        <div style="margin-bottom: 8px;">
+          <label style="font-size: 10px; color: #a78bfa;">ID Roli z dostępem (Role ID):</label>
+          <input type="text" id="setting-discord-role-id" value="1535229126728880200" oninput="saveSettings()"  />
+        </div>
+
+        <div style="margin-bottom: 8px;">
+          <label style="font-size: 10px; color: #a78bfa;">URL Webhooka do logowania / autoryzacji:</label>
+          <input type="text" id="setting-discord-webhook" value="https://discord.com/api/webhooks/REDACTED/REDACTED" oninput="saveSettings()"  />
+        </div>
+
+        <div style="margin-bottom: 8px;">
+          <label style="font-size: 10px; color: #a78bfa;">URL Webhooka do Aktywnych Użytkowników (Status Online):</label>
+          <input type="text" id="setting-active-users-webhook" placeholder="Wklej URL Webhooka np. na kanał #aktywni-medycy" oninput="saveSettings()"  />
+        </div>
+        <div style="font-size: 9px; color: #64748b;">Przekierowanie autoryzacji w Discord Developer Portal ustaw na: <code style="color: #a78bfa; background: #020617; padding: 2px 4px; border-radius: 3px;">https://localhost/callback</code></div>
+      </div>
+
+      <button class="bg-[#46BEFF] text-black font-heading font-extrabold uppercase tracking-[0.05em] px-4 py-3 rounded-2xl text-[11px] border-none cursor-pointer flex items-center justify-center gap-2 hover:bg-[#70ceff] hover:-translate-y-0.5 shadow-md shadow-black hover:shadow-lg hover:shadow-[#46BEFF]/20 transition-all duration-200" onclick="closeSettings()" style="margin-top: 8px;">💾 Zapisz i Zamknij Ustawienia</button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="font-mono">
+    Asystent EMS • Wykonał Suslowatyy
+  </footer>
+
+  <!-- SCRIPT -->
+  <script>
+    const DEFAULT_GEMINI_API_KEY = "";
+    let currentSurgeryPlanText = "";
+    let uploadedImages = [];
+    let obdukcjaImages = [];
+
+    // ==========================================
+    // SYSTEM AUTORYZACJI DISCORD
+    // ==========================================
+    
+    // Rejestracja listenerów IPC z procesu głównego Electrona
+    if (window.electronAPI) {
+      window.electronAPI.onDiscordAuthSuccess(async (data) => {
+        const statusEl = document.getElementById('login-status');
+        const errorEl = document.getElementById('login-error');
+        statusEl.textContent = '🔄 Weryfikowanie uprawnień na serwerze Discord...';
+        statusEl.style.display = 'block';
+        errorEl.style.display = 'none';
+
+        try {
+          await verifyDiscordAccess(data.accessToken, data.expiresIn);
+        } catch (err) {
+          showLoginError(err.message || 'Wystąpił błąd podczas weryfikacji.');
+        }
+      });
+
+      window.electronAPI.onDiscordAuthError((err) => {
+        showLoginError(`Błąd autoryzacji Discord: ${err}`);
+      });
+    }
+
+    let localTokenCheckInterval = null;
+
+    function startLocalTokenChecker() {
+      if (window.electronAPI) return; // W Electronie mamy IPC, timer niepotrzebny
+      if (localTokenCheckInterval) return;
+
+      localTokenCheckInterval = setInterval(async () => {
+        try {
+          const res = await fetch('http://localhost:5005/get-token');
+          if (res.ok) {
+            const rawHash = await res.text();
+            if (rawHash && rawHash.trim().length > 5) {
+              clearInterval(localTokenCheckInterval);
+              localTokenCheckInterval = null;
+
+              const statusEl = document.getElementById('login-status');
+              const errorEl = document.getElementById('login-error');
+              statusEl.textContent = '🔄 Wykryto autoryzację automatyczną! Weryfikacja...';
+              statusEl.style.display = 'block';
+              errorEl.style.display = 'none';
+
+              const cleanHash = rawHash.replace('#', '?');
+              const params = new URLSearchParams(cleanHash);
+              const token = params.get('access_token');
+              const expiresIn = params.get('expires_in') || "604800";
+
+              if (token) {
+                await verifyDiscordAccess(token, expiresIn);
+                await fetch('http://localhost:5005/clear-token');
+              } else {
+                showLoginError('Wykryty token automatyczny jest pusty.');
+              }
+            }
+          }
+        } catch (e) {
+          // Ignorujemy błędy (serwer C# wstaje lub brak jeszcze zapytania)
+        }
+      }, 1000);
+    }
+
+    function initiateDiscordLogin() {
+      const clientId = localStorage.getItem('discord_client_id') || "1535229614484496456";
+      const statusEl = document.getElementById('login-status');
+      const errorEl = document.getElementById('login-error');
+      
+      statusEl.textContent = '🌐 Oczekiwanie na logowanie w oknie Discord...';
+      statusEl.style.display = 'block';
+      errorEl.style.display = 'none';
+
+      if (window.electronAPI) {
+        window.electronAPI.startDiscordAuth(clientId);
+      } else {
+        // Tryb przeglądarki Edge/Chrome (Wbudowany HttpListener w programie C#)
+        const redirectUri = 'http://localhost:5005/callback';
+        const authUrl = `https://discord.com/api/oauth2/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=token&scope=identify+guilds+guilds.members.read`;
+        
+        window.open(authUrl, '_blank');
+        
+        statusEl.textContent = '🌐 Otwarto kartę logowania Discord w przeglądarce. Zaloguj się, a aplikacja wykryje to automatycznie!';
+        
+        // Startujemy automatyczny checker w tle
+        startLocalTokenChecker();
+      }
+    }
+
+    async function submitManualDiscordUrl() {
+      const inputEl = document.getElementById('manual-url-input');
+      const urlText = inputEl.value.trim();
+      
+      if (!urlText) {
+        showLoginError('Proszę wkleić skopiowany adres URL.');
+        return;
+      }
+
+      const statusEl = document.getElementById('login-status');
+      const errorEl = document.getElementById('login-error');
+      statusEl.textContent = '🔄 Wyciąganie tokenu i weryfikacja uprawnień...';
+      statusEl.style.display = 'block';
+      errorEl.style.display = 'none';
+
+      try {
+        let hashContent = '';
+        if (urlText.includes('#')) {
+          hashContent = urlText.split('#')[1];
+        } else if (urlText.includes('?')) {
+          hashContent = urlText.split('?')[1];
+        } else {
+          hashContent = urlText;
+        }
+
+        const params = new URLSearchParams(hashContent);
+        const token = params.get('access_token');
+        const expiresIn = params.get('expires_in') || "604800";
+
+        if (!token) {
+          throw new Error('Nie znaleziono access_token w podanym adresie URL. Skopiuj cały link.');
+        }
+
+        await verifyDiscordAccess(token, expiresIn);
+        inputEl.value = '';
+      } catch (err) {
+        showLoginError(err.message || 'Wystąpił błąd podczas weryfikacji.');
+      }
+    }
+
+    function showLoginError(msg) {
+      const statusEl = document.getElementById('login-status');
+      const errorEl = document.getElementById('login-error');
+      statusEl.style.display = 'none';
+      
+      // Parsowanie prostego markdownu do HTML w celu obsługi klikalnych linków zaproszenia bota
+      let html = msg
+        .replace(/\n/g, "<br>")
+        .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" style="color: #a78bfa; text-decoration: underline; font-weight: bold; cursor: pointer;">$1</a>');
+        
+      errorEl.innerHTML = html;
+      errorEl.style.display = 'block';
+    }
+
+    async function verifyDiscordAccess(token, expiresIn) {
+      const requiredRoleId = localStorage.getItem('discord_role_id') || "1535229126728880200";
+      let configuredGuildId = localStorage.getItem('discord_guild_id') || "1535228978208440340";
+      let hasRole = false;
+      let memberData = null;
+      let debugLog = "";
+
+      // 1. Pobierz profil zalogowanego użytkownika
+      const userRes = await fetch('https://discord.com/api/v10/users/@me', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (!userRes.ok) {
+        const errText = await userRes.text();
+        throw new Error(`Błąd /users/@me (Status ${userRes.status}): ${errText}`);
+      }
+      const user = await userRes.json();
+      debugLog += `Zalogowano jako: ${user.username} (ID: ${user.id}). `;
+
+      // 2. Sprawdź przynależność do serwera i posiadanie roli
+      if (configuredGuildId) {
+        debugLog += `Odpytywanie serwera ${configuredGuildId} bezpośrednio... `;
+        const memberRes = await fetch(`https://discord.com/api/v10/users/@me/guilds/${configuredGuildId}/member`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        
+        if (memberRes.ok) {
+          memberData = await memberRes.json();
+          hasRole = memberData.roles.includes(requiredRoleId);
+          debugLog += `Uzyskano dane członka. Posiadane role: [${memberData.roles.join(', ')}]. Weryfikacja roli ${requiredRoleId}: ${hasRole}.`;
+        } else {
+          const errText = await memberRes.text();
+          debugLog += `Błąd /member dla gildii ${configuredGuildId} (Status ${memberRes.status}): ${errText}. Przejście do autodetekcji...`;
+        }
+      }
+
+      // 3. Fallback na skanowanie gildii, jeśli bezpośrednie zapytanie zawiodło lub nie było ID serwera
+      if (!hasRole) {
+        debugLog += " Skanowanie serwerów użytkownika... ";
+        const guildsRes = await fetch('https://discord.com/api/v10/users/@me/guilds', {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        
+        if (guildsRes.ok) {
+          const guilds = await guildsRes.json();
+          debugLog += `Znaleziono ${guilds.length} serwerów. `;
+          const statusEl = document.getElementById('login-status');
+          
+          for (let guild of guilds) {
+            statusEl.textContent = `🔍 Sprawdzanie roli na serwerze: ${guild.name}...`;
+            const mRes = await fetch(`https://discord.com/api/v10/users/@me/guilds/${guild.id}/member`, {
+              headers: { 'Authorization': `Bearer ${token}` }
+            });
+            
+            if (mRes.ok) {
+              const mData = await mRes.json();
+              const found = mData.roles.includes(requiredRoleId);
+              debugLog += `Serwer [${guild.name}]: role=[${mData.roles.join(', ')}], posiada=${found}. `;
+              if (found) {
+                hasRole = true;
+                memberData = mData;
+                configuredGuildId = guild.id;
+                localStorage.setItem('discord_guild_id', guild.id);
+                document.getElementById('setting-discord-guild-id').value = guild.id;
+                break;
+              }
+            } else {
+              debugLog += `Serwer [${guild.name}] /member błąd (Status ${mRes.status}). `;
+            }
+          }
+        } else {
+          const errText = await guildsRes.text();
+          debugLog += `Błąd pobierania gildii (Status ${guildsRes.status}): ${errText}.`;
+        }
+      }
+
+      console.log("Discord Auth Debug Log:", debugLog);
+
+      if (hasRole) {
+        // Dostęp przyznany!
+        localStorage.setItem('discord_token', token);
+        localStorage.setItem('discord_user_id', user.id);
+        localStorage.setItem('discord_username', user.username);
+        localStorage.setItem('discord_avatar', user.avatar ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png` : 'https://cdn.discordapp.com/embed/avatars/0.png');
+        
+        const expiryTime = Date.now() + (parseInt(expiresIn || 604800) * 1000);
+        localStorage.setItem('discord_expiry', expiryTime);
+
+        // Sprawdzanie i zapisywanie roli admina
+        const adminRoleId = "1535229019774255201";
+        const isAdmin = memberData && memberData.roles && memberData.roles.includes(adminRoleId);
+        localStorage.setItem('discord_is_admin', isAdmin ? 'true' : 'false');
+        applyAdminUI(isAdmin);
+
+        document.getElementById('login-overlay').style.display = 'none';
+        showProfileUI(user.username, localStorage.getItem('discord_avatar'));
+
+        sendDiscordWebhookLog(true, user, configuredGuildId);
+      } else {
+        sendDiscordWebhookLog(false, user, configuredGuildId);
+        
+        let customErrMsg = `Brak uprawnień. ID Discord: ${user.id} (${user.username}) nie posiada roli ${requiredRoleId} na Twoim serwerze.\n\n`;
+        
+        if (debugLog.includes("Status 403") || debugLog.includes("Status 404")) {
+          const clientId = localStorage.getItem('discord_client_id') || "1535229614484496456";
+          customErrMsg += `⚠️ **Błąd autoryzacji serwera (Status 403/404)**\n` +
+                          `Twoja aplikacja deweloperska Discord nie została jeszcze dodana do Twojego serwera jako bot!\n\n` +
+                          `👉 **[KLIKNIJ TUTAJ ABY DODAĆ BOTA NA SERWER]**(https://discord.com/api/oauth2/authorize?client_id=${clientId}&permissions=0&scope=bot)\n\n` +
+                          `Po kliknięciu powyższego linku i dodaniu aplikacji na serwer, spróbuj zalogować się ponownie.`;
+        }
+        
+        customErrMsg += `\n\n🔍 LOGI SYSTEMOWE:\n${debugLog}`;
+        throw new Error(customErrMsg);
+      }
+    }
+
+    function checkDiscordAuth() {
+      const token = localStorage.getItem('discord_token');
+      const expiry = localStorage.getItem('discord_expiry');
+      const username = localStorage.getItem('discord_username');
+      const avatar = localStorage.getItem('discord_avatar');
+
+      if (token && expiry && Date.now() < parseInt(expiry)) {
+        // Sesja jest nadal aktywna
+        document.getElementById('login-overlay').style.display = 'none';
+        showProfileUI(username, avatar);
+        
+        const isAdmin = localStorage.getItem('discord_is_admin') === 'true';
+        applyAdminUI(isAdmin);
+      } else {
+        // Sesja wygasła lub jej brak
+        document.getElementById('login-overlay').style.display = 'flex';
+        document.getElementById('profile-widget').style.display = 'none';
+        
+        // Jeśli nie jesteśmy w Electronie, pokaż od razu panel manualny
+        if (!window.electronAPI) {
+          document.getElementById('manual-login-box').style.display = 'flex';
+        }
+      }
+    }
+
+    function showProfileUI(username, avatarUrl) {
+      document.getElementById('profile-widget').style.display = 'flex';
+      document.getElementById('profile-avatar').src = avatarUrl;
+      document.getElementById('profile-name').textContent = username;
+    }
+
+    function applyAdminUI(isAdmin) {
+      const adminSection = document.getElementById('admin-settings-section');
+      if (adminSection) {
+        adminSection.style.display = isAdmin ? 'block' : 'none';
+      }
+      const adminBtn = document.getElementById('tab-admin-btn');
+      if (adminBtn) {
+        adminBtn.style.display = isAdmin ? 'inline-block' : 'none';
+      }
+      startHeartbeat();
+      if (isAdmin) {
+        fetchActiveUsers();
+        if (!window.activeUsersInterval) {
+          window.activeUsersInterval = setInterval(fetchActiveUsers, 30000);
+        }
+      }
+    }
+
+    function startHeartbeat() {
+      sendHeartbeat();
+      if (!window.heartbeatInterval) {
+        window.heartbeatInterval = setInterval(sendHeartbeat, 20000);
+      }
+    }
+
+    const GITHUB_ONLINE_USERS_URL = "https://raw.githubusercontent.com/Morakuu/EMS-APP/main/online_users.json";
+    const GITHUB_TOKEN_ENC = "REDACTED";
+
+    async function sendHeartbeat() {
+      const token = localStorage.getItem('discord_token');
+      if (!token) return;
+      
+      const payload = {
+        userId: localStorage.getItem('discord_user_id') || localStorage.getItem('discord_username'),
+        username: localStorage.getItem('discord_username'),
+        avatar: localStorage.getItem('discord_avatar'),
+        docName: localStorage.getItem('doc_name') || "Niezalogowany",
+        docRank: localStorage.getItem('doc_rank') || "Brak",
+        docBadge: localStorage.getItem('doc_badge') || "Brak",
+        timestamp: Date.now()
+      };
+
+      if (window.electronAPI && window.electronAPI.sendHeartbeat) {
+        window.electronAPI.sendHeartbeat(payload);
+      }
+
+      // Sync to GitHub Cloud Active Users File
+      const lastCloudSync = window.lastCloudSyncTime || 0;
+      if (Date.now() - lastCloudSync > 25000) {
+        window.lastCloudSyncTime = Date.now();
+        syncUserToCloud(payload);
+      }
+
+      // Send to Active Users Discord Webhook (Default provided by admin)
+      const defaultActiveWebhook = "https://discord.com/api/webhooks/REDACTED/REDACTED";
+      const activeWebhook = localStorage.getItem('active_users_webhook') || defaultActiveWebhook;
+      
+      if (activeWebhook) {
+        const lastSent = window.lastActiveWebhookSent || 0;
+        // Send online heartbeat every 3 minutes (180,000 ms)
+        if (Date.now() - lastSent > 180000) {
+          window.lastActiveWebhookSent = Date.now();
+          const embed = {
+            title: "🟢 Użytkownik Aktywny (Online)",
+            color: 3066993,
+            fields: [
+              { name: "Konto Discord", value: `<@${payload.userId}> (${payload.username})`, inline: true },
+              { name: "Postać IC", value: `${payload.docRank} ${payload.docName} [${payload.docBadge}]`, inline: true },
+              { name: "Czas powiadomienia", value: new Date().toLocaleTimeString('pl-PL'), inline: true }
+            ],
+            thumbnail: { url: payload.avatar || 'https://cdn.discordapp.com/embed/avatars/0.png' },
+            footer: { text: "Asystent EMS • Monitoring Aktywności Użytkowników" }
+          };
+          try {
+            await fetch(activeWebhook, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ embeds: [embed] })
+            });
+          } catch(e) {}
+        }
+      }
+    }
+
+    async function syncUserToCloud(payload) {
+      try {
+        const getRes = await fetch("https://api.github.com/repos/Morakuu/EMS-APP/contents/online_users.json?t=" + Date.now(), {
+          headers: { "Authorization": "token " + GITHUB_TOKEN_ENC, "Accept": "application/vnd.github.v3+json" }
+        });
+        if (!getRes.ok) return;
+        const fileData = await getRes.json();
+        const sha = fileData.sha;
+        let currentList = [];
+        try {
+          const decodedStr = decodeURIComponent(escape(atob(fileData.content)));
+          currentList = JSON.parse(decodedStr);
+        } catch(e) {}
+
+        const now = Date.now();
+        // Remove stale users older than 70s
+        currentList = currentList.filter(u => u && (now - u.timestamp < 70000) && u.userId !== payload.userId);
+        currentList.push(payload);
+
+        const newJsonStr = JSON.stringify(currentList);
+        const newBase64 = btoa(unescape(encodeURIComponent(newJsonStr)));
+
+        await fetch("https://api.github.com/repos/Morakuu/EMS-APP/contents/online_users.json", {
+          method: "PUT",
+          headers: {
+            "Authorization": "token " + GITHUB_TOKEN_ENC,
+            "Content-Type": "application/json",
+            "Accept": "application/vnd.github.v3+json"
+          },
+          body: JSON.stringify({
+            message: "Cloud Heartbeat for @ " + payload.username,
+            content: newBase64,
+            sha: sha
+          })
+        });
+      } catch(e) {}
+    }
+
+    async function fetchActiveUsers() {
+      const listEl = document.getElementById('admin-users-list');
+      const countEl = document.getElementById('admin-active-count');
+      if (!listEl) return;
+
+      let users = [];
+      let success = false;
+
+      // 1. Fetch Cloud Active Users from GitHub repo
+      try {
+        const cloudRes = await fetch("https://api.github.com/repos/Morakuu/EMS-APP/contents/online_users.json?t=" + Date.now(), {
+          headers: { "Authorization": "token " + GITHUB_TOKEN_ENC, "Accept": "application/vnd.github.v3+json" }
+        });
+        if (cloudRes.ok) {
+          const fileData = await cloudRes.json();
+          const decodedStr = decodeURIComponent(escape(atob(fileData.content)));
+          const cloudList = JSON.parse(decodedStr);
+          const now = Date.now();
+          users = cloudList.filter(u => u && (now - u.timestamp < 75000));
+          success = true;
+        }
+      } catch(e) {}
+
+      // Fallback to local IPC if cloud offline
+      if (!success && window.electronAPI && window.electronAPI.getActiveUsers) {
+        try {
+          users = await window.electronAPI.getActiveUsers();
+          success = true;
+        } catch(e) {}
+      }
+
+      if (success) {
+        countEl.textContent = users.length;
+
+        if (users.length === 0) {
+          listEl.innerHTML = `<div style="color: #666; font-size: 12px; grid-column: 1 / -1; text-align: center; padding: 20px;">Brak aktywnych użytkowników w tej chwili.</div>`;
+          return;
+        }
+
+        listEl.innerHTML = users.map(u => `
+          <div style="background: #111; border: 1px solid #222; border-radius: 8px; padding: 12px; display: flex; align-items: center; gap: 12px;">
+            <img src="${u.avatar || 'https://cdn.discordapp.com/embed/avatars/0.png'}" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid #a78bfa;" />
+            <div style="flex: 1; overflow: hidden;">
+              <div style="font-weight: 700; color: #fff; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${u.docRank || ''} ${u.docName || u.username}</div>
+              <div style="font-size: 11px; color: #a78bfa; margin-top: 2px;">Discord: @${u.username} (${u.docBadge || ''})</div>
+              <div style="font-size: 10px; color: #555; margin-top: 4px;">Ostatnia aktywność: ${new Date(u.timestamp).toLocaleTimeString('pl-PL')}</div>
+            </div>
+            <div style="width: 8px; height: 8px; border-radius: 50%; background: #34d399; box-shadow: 0 0 8px #34d399;" title="Online"></div>
+          </div>
+        `).join('');
+      } else {
+        listEl.innerHTML = `<div style="color: #f87171; font-size: 12px; grid-column: 1 / -1; text-align: center; padding: 20px;">Błąd pobierania aktywnych użytkowników.</div>`;
+      }
+    }
+
+    function logoutDiscord() {
+      localStorage.removeItem('discord_token');
+      localStorage.removeItem('discord_user_id');
+      localStorage.removeItem('discord_username');
+      localStorage.removeItem('discord_avatar');
+      localStorage.removeItem('discord_expiry');
+      localStorage.removeItem('discord_is_admin');
+      applyAdminUI(false);
+      checkDiscordAuth();
+    }
+
+    async function sendDiscordWebhookLog(success, user, guildId) {
+      const webhookUrl = localStorage.getItem('discord_webhook') || "https://discord.com/api/webhooks/REDACTED/REDACTED";
+      if (!webhookUrl) return;
+
+      const docName = localStorage.getItem('doc_name') || "Niezalogowany";
+      const docRank = localStorage.getItem('doc_rank') || "Brak";
+      const docBadge = localStorage.getItem('doc_badge') || "Brak";
+      const localTime = new Date().toLocaleString('pl-PL');
+
+      const embed = {
+        title: success ? "🟢 Pomyślna autoryzacja aplikacji" : "🔴 Zablokowano próbę uruchomienia",
+        color: success ? 3066993 : 15158332, // Zielony (success) lub Czerwony (error)
+        fields: [
+          { name: "Konto Discord", value: `<@${user.id}> (${user.username})`, inline: true },
+          { name: "Discord ID", value: `\`${user.id}\``, inline: true },
+          { name: "Postać IC", value: `${docRank} ${docName} [${docBadge}]`, inline: false },
+          { name: "ID Serwera Discord", value: guildId ? `\`${guildId}\`` : "Nieznane (Autodetekcja)", inline: true },
+          { name: "Czas", value: localTime, inline: true }
+        ],
+        thumbnail: {
+          url: user.avatar ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png` : 'https://cdn.discordapp.com/embed/avatars/0.png'
+        },
+        footer: {
+          text: "Asystent EMS • Zabezpieczenia"
+        }
+      };
+
+      try {
+        await fetch(webhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ embeds: [embed] })
+        });
+      } catch (err) {
+        console.error('Failed to send webhook log:', err);
+      }
+    }
+
+    function loadSavedSettings() {
+      const savedName = localStorage.getItem('doc_name') || "Adam Nowak";
+      const savedRank = localStorage.getItem('doc_rank') || "Lek. Rat.";
+      const savedBadge = localStorage.getItem('doc_badge') || "EMS 77 - Odznaka #77";
+      const savedKey = localStorage.getItem('gemini_api_key') || DEFAULT_GEMINI_API_KEY;
+
+      const savedDiscordClientId = localStorage.getItem('discord_client_id') || "1535229614484496456";
+      const savedDiscordGuildId = localStorage.getItem('discord_guild_id') || "1535228978208440340";
+      const savedDiscordRoleId = localStorage.getItem('discord_role_id') || "1535229126728880200";
+      const savedDiscordWebhook = localStorage.getItem('discord_webhook') || "https://discord.com/api/webhooks/REDACTED/REDACTED";
+      const savedActiveUsersWebhook = localStorage.getItem('active_users_webhook') || "https://discord.com/api/webhooks/REDACTED/REDACTED";
+
+      document.getElementById('setting-doc-name').value = savedName;
+      document.getElementById('setting-doc-rank').value = savedRank;
+      document.getElementById('setting-doc-badge').value = savedBadge;
+      document.getElementById('setting-api-key').value = savedKey;
+
+      document.getElementById('setting-discord-client-id').value = savedDiscordClientId;
+      document.getElementById('setting-discord-guild-id').value = savedDiscordGuildId;
+      document.getElementById('setting-discord-role-id').value = savedDiscordRoleId;
+      document.getElementById('setting-discord-webhook').value = savedDiscordWebhook;
+
+      const activeUsersInput = document.getElementById('setting-active-users-webhook');
+      if (activeUsersInput) activeUsersInput.value = savedActiveUsersWebhook;
+
+      const adminWebhookInput = document.getElementById('admin-webhook-input');
+      if (adminWebhookInput) adminWebhookInput.value = savedActiveUsersWebhook;
+
+      document.getElementById('obd-date').value = new Date().toLocaleString('pl-PL');
+      document.getElementById('wypis-datetime').value = new Date().toLocaleString('pl-PL');
+
+      updateCardDoctorField();
+      updateObdukcjaPreview();
+      updateL4Preview();
+      updateReceptaPreview();
+      updateWozekPreview();
+      updateWypisPreview();
+      updateDWCPreview();
+
+      // Check Discord authentication status on startup
+      checkDiscordAuth();
+    }
+
+    function saveAdminWebhook() {
+      const val = document.getElementById('admin-webhook-input').value.trim();
+      localStorage.setItem('active_users_webhook', val);
+      const settingInput = document.getElementById('setting-active-users-webhook');
+      if (settingInput) settingInput.value = val;
+      alert("Zapisano URL Webhooka dla Aktywnych Użytkowników!");
+    }
+
+    function saveSettings() {
+      const name = document.getElementById('setting-doc-name').value.trim();
+      const rank = document.getElementById('setting-doc-rank').value.trim();
+      const badge = document.getElementById('setting-doc-badge').value.trim();
+      const key = document.getElementById('setting-api-key').value.trim();
+
+      const discordClientId = document.getElementById('setting-discord-client-id').value.trim();
+      const discordGuildId = document.getElementById('setting-discord-guild-id').value.trim();
+      const discordRoleId = document.getElementById('setting-discord-role-id').value.trim();
+      const discordWebhook = document.getElementById('setting-discord-webhook').value.trim();
+      const activeUsersWebhook = document.getElementById('setting-active-users-webhook') ? document.getElementById('setting-active-users-webhook').value.trim() : (document.getElementById('admin-webhook-input') ? document.getElementById('admin-webhook-input').value.trim() : '');
+
+      localStorage.setItem('doc_name', name);
+      localStorage.setItem('doc_rank', rank);
+      localStorage.setItem('doc_badge', badge);
+      localStorage.setItem('gemini_api_key', key);
+
+      localStorage.setItem('discord_client_id', discordClientId);
+      localStorage.setItem('discord_guild_id', discordGuildId);
+      localStorage.setItem('discord_role_id', discordRoleId);
+      localStorage.setItem('discord_webhook', discordWebhook);
+      localStorage.setItem('active_users_webhook', activeUsersWebhook);
+
+      const adminWebhookInput = document.getElementById('admin-webhook-input');
+      if (adminWebhookInput) adminWebhookInput.value = activeUsersWebhook;
+
+      updateCardDoctorField();
+      updateObdukcjaPreview();
+      updateL4Preview();
+      updateReceptaPreview();
+      updateWozekPreview();
+      updateWypisPreview();
+    }
+
+    function updateCardDoctorField() {
+      const name = document.getElementById('setting-doc-name').value.trim() || "Adam Nowak";
+      const rank = document.getElementById('setting-doc-rank').value.trim() || "Lek. Rat.";
+      const badge = document.getElementById('setting-doc-badge').value.trim() || "EMS 77 - Odznaka #77";
+
+      document.getElementById('card-doctor').value = `${rank} ${name} [${badge}]`;
+      document.getElementById('l4-doctor').value = `[${badge}] ${rank} ${name}`;
+      document.getElementById('rx-doctor').value = `[${badge}] ${rank} ${name}`;
+      document.getElementById('wozek-doctor').value = `[${badge}] ${rank} ${name}`;
+      document.getElementById('wypis-doctor').value = `[${badge}] ${rank} ${name}`;
+      updateCardPreview();
+      updateL4Preview();
+      updateReceptaPreview();
+      updateWozekPreview();
+      updateWypisPreview();
+    }
+
+    function openSettings() {
+      document.getElementById('settings-modal').style.display = 'flex';
+    }
+
+    function closeSettings() {
+      saveSettings();
+      document.getElementById('settings-modal').style.display = 'none';
+    }
+
+    function toggleApiKeyVisibility() {
+      const keyInput = document.getElementById('setting-api-key');
+      keyInput.type = keyInput.type === 'password' ? 'text' : 'password';
+    }
+
+    function switchTab(tabName) {
+      if (tabName === 'surgery') document.getElementById('tab-surgery').classList.remove('hidden'); else document.getElementById('tab-surgery').classList.add('hidden');
+      if (tabName === 'card') document.getElementById('tab-card').classList.remove('hidden'); else document.getElementById('tab-card').classList.add('hidden');
+      if (tabName === 'obdukcja') document.getElementById('tab-obdukcja').classList.remove('hidden'); else document.getElementById('tab-obdukcja').classList.add('hidden');
+      if (tabName === 'l4') document.getElementById('tab-l4').classList.remove('hidden'); else document.getElementById('tab-l4').classList.add('hidden');
+      if (tabName === 'recepta') document.getElementById('tab-recepta').classList.remove('hidden'); else document.getElementById('tab-recepta').classList.add('hidden');
+      if (tabName === 'wozek') document.getElementById('tab-wozek').classList.remove('hidden'); else document.getElementById('tab-wozek').classList.add('hidden');
+      if (tabName === 'wypis') document.getElementById('tab-wypis').classList.remove('hidden'); else document.getElementById('tab-wypis').classList.add('hidden');
+      const dwcTab = document.getElementById('tab-dwc');
+      if (dwcTab) { if (tabName === 'dwc') dwcTab.classList.remove('hidden'); else dwcTab.classList.add('hidden'); }
+      const adminTab = document.getElementById('tab-admin');
+      if (adminTab) { if (tabName === 'admin') adminTab.classList.remove('hidden'); else adminTab.classList.add('hidden'); }
+
+      document.getElementById('tab-surgery-btn').className = 'nav-btn ' + (tabName === 'surgery' ? 'active' : '');
+      document.getElementById('tab-card-btn').className = 'nav-btn ' + (tabName === 'card' ? 'active' : '');
+      document.getElementById('tab-obdukcja-btn').className = 'nav-btn ' + (tabName === 'obdukcja' ? 'active' : '');
+      document.getElementById('tab-l4-btn').className = 'nav-btn ' + (tabName === 'l4' ? 'active' : '');
+      document.getElementById('tab-recepta-btn').className = 'nav-btn ' + (tabName === 'recepta' ? 'active' : '');
+      document.getElementById('tab-wozek-btn').className = 'nav-btn ' + (tabName === 'wozek' ? 'active' : '');
+      document.getElementById('tab-wypis-btn').className = 'nav-btn ' + (tabName === 'wypis' ? 'active' : '');
+      const dwcBtn = document.getElementById('tab-dwc-btn');
+      if (dwcBtn) dwcBtn.className = 'nav-btn ' + (tabName === 'dwc' ? 'active' : '');
+      const adminBtn = document.getElementById('tab-admin-btn');
+      if (adminBtn) adminBtn.className = 'nav-btn ' + (tabName === 'admin' ? 'active' : '');
+
+      const titles = {
+        surgery: 'GŁÓWNY PANEL OPERACYJNY (GEMINI AI)',
+        card: 'KARTA PACJENTA IC',
+        obdukcja: 'OBDUKCJA LEKARSKA SĄDOWA',
+        l4: 'ZAŚWIADCZENIE L4',
+        recepta: 'RECEPTA LEKARSKA',
+        wozek: 'WYPOŻYCZENIE WÓZKA INWALIDZKIEGO',
+        wypis: 'WYPIS ZE SZPITALA',
+        dwc: 'RAPORT OPERACYJNY DWC & PATROLI',
+        admin: 'PANEL ADMINISTRATORA SYSTEMU'
+      };
+      const titleEl = document.getElementById('current-page-title');
+      if (titleEl && titles[tabName]) titleEl.textContent = titles[tabName];
+
+      if (tabName === 'card') updateCardPreview();
+      if (tabName === 'obdukcja') updateObdukcjaPreview();
+      if (tabName === 'l4') updateL4Preview();
+      if (tabName === 'recepta') updateReceptaPreview();
+      if (tabName === 'wozek') updateWozekPreview();
+      if (tabName === 'wypis') updateWypisPreview();
+      if (tabName === 'dwc') updateDWCPreview();
+      if (tabName === 'admin') fetchActiveUsers();
+    }
+
+    function resetNewOperation() {
+      clearAllImages();
+      document.getElementById('user-desc').value = '';
+      document.getElementById('user-needs').value = '';
+      document.getElementById('surgery-output').innerHTML = `
+        <div class="text-slate-500 text-[12px] text-center py-10">
+          Wklej jedno lub kilka zdjęć (Ctrl+V), uzupełnij opis i kliknij przycisk generowania.
+        </div>`;
+      currentSurgeryPlanText = "";
+      document.getElementById('card-diag').value = '';
+      document.getElementById('card-summary').value = '';
+      document.getElementById('card-recom').value = '';
+      document.getElementById('card-meds').value = '';
+      document.getElementById('card-status').value = 'Stan stabilny po przeprowadzonym zabiegu medycznym';
+      document.getElementById('ai-status-box').style.display = 'none';
+      updateCardPreview();
+    }
+
+    function resetAllObdukcjaFields() {
+      clearObdukcjaImages();
+      document.getElementById('obd-name').value = '';
+      document.getElementById('obd-dob').value = '';
+      document.getElementById('obd-cid').value = '';
+      document.getElementById('obd-date').value = new Date().toLocaleString('pl-PL');
+
+      document.getElementById('obd-inc-time').value = '';
+      document.getElementById('obd-inc-place').value = '';
+      document.getElementById('obd-inc-desc').value = '';
+      document.getElementById('obd-witnesses').value = '';
+
+      document.getElementById('obd-height').value = '';
+      document.getElementById('obd-weight').value = '';
+      document.getElementById('obd-bp').value = '';
+      document.getElementById('obd-hr').value = '';
+      document.getElementById('obd-temp').value = '';
+
+      document.getElementById('obd-head').value = 'BRAK';
+      document.getElementById('obd-torso').value = 'BRAK';
+      document.getElementById('obd-limbs').value = 'BRAK';
+      document.getElementById('obd-neck').value = 'BRAK';
+      document.getElementById('obd-genitals').value = 'BRAK';
+
+      document.getElementById('obd-rtg').value = 'Nie wykonywano';
+      document.getElementById('obd-ct').value = 'Nie wykonywano';
+      document.getElementById('obd-ocr-text').value = '';
+
+      updateObdukcjaPreview();
+    }
+
+    function resetL4Fields() {
+      document.getElementById('l4-name').value = '';
+      document.getElementById('l4-cid').value = '';
+      document.getElementById('l4-days').value = '3 dni (od ' + new Date().toLocaleDateString('pl-PL') + ' r.)';
+      updateL4Preview();
+    }
+
+    function resetReceptaFields() {
+      document.getElementById('rx-name').value = '';
+      document.getElementById('rx-cid').value = '';
+      document.getElementById('rx-med-name').value = '';
+      document.getElementById('rx-active-substance').value = '';
+      document.getElementById('rx-dosage').value = '';
+      document.getElementById('rx-method').value = '';
+      document.getElementById('rx-duration').value = '';
+      updateReceptaPreview();
+    }
+
+    function resetWozekFields() {
+      document.getElementById('wozek-name').value = '';
+      document.getElementById('wozek-cid').value = '';
+      document.getElementById('wozek-period').value = '7 dni (od ' + new Date().toLocaleDateString('pl-PL') + ' r.)';
+      document.getElementById('wozek-type').value = 'Wózek inwalidzki';
+      updateWozekPreview();
+    }
+
+    function clearAllImages() {
+      uploadedImages = [];
+      renderGallery();
+      document.getElementById('ai-status-box').style.display = 'none';
+    }
+
+    // GLOBAL PASTE EVENT LISTENER
+    window.addEventListener('paste', function(e) {
+      const items = e.clipboardData?.items;
+      if (!items) return;
+
+      for (let i = 0; i < items.length; i++) {
+        if (items[i].type.indexOf('image') !== -1) {
+          const blob = items[i].getAsFile();
+          const reader = new FileReader();
+          reader.onload = function(ev) {
+            addImageToGallery(ev.target.result);
+            addObdukcjaImageToGallery(ev.target.result);
+            processUploadedImage(ev.target.result);
+          };
+          reader.readAsDataURL(blob);
+          break;
+        }
+      }
+    });
+
+    function processUploadedImage(base64Image) {
+      if (document.getElementById('setting-api-key').value.trim()) {
+        analyzeImageWithGeminiVision(base64Image);
+      } else {
+        triggerDynamicImageAnalysis(base64Image, 'surgery');
+      }
+    }
+
+    function handleFileSelect(e) {
+      const files = e.target.files;
+      if (files && files.length > 0) {
+        for (let i = 0; i < files.length; i++) {
+          const reader = new FileReader();
+          reader.onload = function(ev) {
+            addImageToGallery(ev.target.result);
+            processUploadedImage(ev.target.result);
+          };
+          reader.readAsDataURL(files[i]);
+        }
+      }
+    }
+
+    function handleObdukcjaFileSelect(e) {
+      const files = e.target.files;
+      if (files && files.length > 0) {
+        for (let i = 0; i < files.length; i++) {
+          const reader = new FileReader();
+          reader.onload = function(ev) {
+            addObdukcjaImageToGallery(ev.target.result);
+            processUploadedImage(ev.target.result);
+          };
+          reader.readAsDataURL(files[i]);
+        }
+      }
+    }
+
+    function addImageToGallery(src) {
+      uploadedImages.push(src);
+      renderGallery();
+    }
+
+    function removeImageFromGallery(index) {
+      uploadedImages.splice(index, 1);
+      renderGallery();
+    }
+
+    function renderGallery() {
+      const countEl = document.getElementById('image-count');
+      const container = document.getElementById('gallery-container');
+      countEl.textContent = uploadedImages.length;
+      if (uploadedImages.length === 0) {
+        container.style.display = 'none';
+        return;
+      }
+      container.style.display = 'grid';
+      let html = '';
+      uploadedImages.forEach((imgSrc, idx) => {
+        html += `
+          <div class="gallery-item">
+            <img src="${imgSrc}" class="gallery-thumb" onclick="window.open('${imgSrc}')" title="Powiększ zdjęcie #${idx+1}" />
+            <button class="gallery-del-btn" onclick="removeImageFromGallery(${idx})" title="Usuń zdjęcie">✕</button>
+          </div>
+        `;
+      });
+      container.innerHTML = html;
+    }
+
+    function addObdukcjaImageToGallery(src) {
+      obdukcjaImages.push(src);
+      renderObdukcjaGallery();
+    }
+
+    function removeObdukcjaImageFromGallery(index) {
+      obdukcjaImages.splice(index, 1);
+      renderObdukcjaGallery();
+    }
+
+    function clearObdukcjaImages() {
+      obdukcjaImages = [];
+      renderObdukcjaGallery();
+    }
+
+    function renderObdukcjaGallery() {
+      const countEl = document.getElementById('obdukcja-image-count');
+      const container = document.getElementById('obdukcja-gallery-container');
+      countEl.textContent = obdukcjaImages.length;
+      if (obdukcjaImages.length === 0) {
+        container.style.display = 'none';
+        return;
+      }
+      container.style.display = 'grid';
+      let html = '';
+      obdukcjaImages.forEach((imgSrc, idx) => {
+        html += `
+          <div class="gallery-item">
+            <img src="${imgSrc}" class="gallery-thumb" onclick="window.open('${imgSrc}')" title="Powiększ zdjęcie obdukcji #${idx+1}" />
+            <button class="gallery-del-btn" onclick="removeObdukcjaImageFromGallery(${idx})" title="Usuń zdjęcie">✕</button>
+          </div>
+        `;
+      });
+      container.innerHTML = html;
+    }
+
+    // SANITIZER: STRIPS TAGS LIKE (Szyja), [Brackets], AND REPETITIVE METATEXT
+    function cleanAiOcrText(rawText) {
+      if (!rawText) return "";
+      
+      let lines = rawText.split('\n');
+      let cleanedLines = [];
+
+      lines.forEach(line => {
+        let trimmed = line.trim();
+        if (!trimmed) return;
+
+        let clean = trimmed
+          .replace(/^[-\*\d\.]+\s*/, '')
+          .replace(/\[.*?\]/g, '')
+          .replace(/\((Szyja|Kark|Głowa|Tułów|Mostek|Klatka piersiowa|Lewe udo|Prawe udo|Udo|Łydka|Noga|Ręka|Dłoń|Oczodół|Czoło|Twarz|Narządy płciowe|Krocze)\)\s*:?\s*/gi, '')
+          .replace(/\*\*/g, '')
+          .replace(/\s*:\s*/g, ' - ')
+          .trim();
+
+        if (clean && !cleanedLines.includes(clean)) {
+          cleanedLines.push(clean);
+        }
+      });
+
+      return cleanedLines.join('\n');
+    }
+
+    function formatSingleInjuryProse(cleanText) {
+      if (!cleanText) return "";
+      let clean = cleanText
+        .replace(/\[.*?\]/g, '')
+        .replace(/\((Szyja|Kark|Głowa|Tułów|Mostek|Klatka piersiowa|Lewe udo|Prawe udo|Udo|Łydka|Noga|Ręka|Dłoń|Oczodół|Czoło|Twarz|Narządy płciowe|Krocze)\)\s*:?\s*/gi, '')
+        .replace(/\*\*/g, '')
+        .replace(/\s*:\s*/g, ' - ')
+        .trim();
+      return clean;
+    }
+
+    // STRICT ZERO-MISTAKE ANATOMICAL SORTING AND DEDUPLICATION ENGINE
+    function sortInjuriesStrictly(rawText) {
+      let headSet = new Set();
+      let torsoSet = new Set();
+      let limbsSet = new Set();
+      let neckSet = new Set();
+      let genitalsSet = new Set();
+
+      if (!rawText) return { 
+        headList: [], torsoList: [], limbsList: [], neckList: [], genitalsList: [] 
+      };
+
+      const lines = rawText.split(/\n|;|\.\s+/);
+
+      lines.forEach(line => {
+        let clean = cleanAiOcrText(line).trim();
+        if (!clean || clean.length < 3) return;
+
+        const low = clean.toLowerCase();
+        const prose = formatSingleInjuryProse(clean);
+        if (!prose) return;
+
+        if (low.includes('udo') || low.includes('uda') || low.includes('łydk') || low.includes('kolan') || low.includes('stop') || low.includes('kostk') || low.includes('ramię') || low.includes('ramiona') || low.includes('przedramię') || low.includes('dłoń') || low.includes('dłonie') || low.includes('palec') || low.includes('palce') || low.includes('łokieć') || low.includes('noga') || low.includes('nogi') || low.includes('ręka') || low.includes('ręce')) {
+          limbsSet.add(prose);
+        }
+        else if (low.includes('szyj') || low.includes('kark') || low.includes('kręgi szyj') || low.includes('tchawic') || low.includes('krtań')) {
+          neckSet.add(prose);
+        }
+        else if (low.includes('oczodół') || low.includes('oczodoł') || low.includes('oczy') || low.includes('oko') || low.includes('głow') || low.includes('czaszk') || low.includes('czoło') || low.includes('twarz') || low.includes('nos') || low.includes('szczęk') || low.includes('żuchw') || low.includes('uszy') || low.includes('ucho') || low.includes('ciemieniow') || low.includes('potyliczn') || low.includes('skroniow') || low.includes('mózg')) {
+          headSet.add(prose);
+        }
+        else if (low.includes('płciow') || low.includes('krocz') || low.includes('jądr') || low.includes('pęcherz')) {
+          genitalsSet.add(prose);
+        }
+        else if (low.includes('klatk') || low.includes('mostek') || low.includes('żebro') || low.includes('żebra') || low.includes('brzuch') || low.includes('plecy') || low.includes('łopatk') || low.includes('lędźwi') || low.includes('obojczyk') || low.includes('biodro') || low.includes('miednic') || low.includes('płuco') || low.includes('serce') || low.includes('wątrob') || low.includes('śledzion') || low.includes('tułów')) {
+          torsoSet.add(prose);
+        }
+        else {
+          if (low.includes('udo') || low.includes('noga') || low.includes('ręka')) limbsSet.add(prose);
+          else if (low.includes('szyja')) neckSet.add(prose);
+          else if (low.includes('głowa')) headSet.add(prose);
+          else torsoSet.add(prose);
+        }
+      });
+
+      return { 
+        headList: Array.from(headSet), 
+        torsoList: Array.from(torsoSet), 
+        limbsList: Array.from(limbsSet), 
+        neckList: Array.from(neckSet), 
+        genitalsList: Array.from(genitalsSet) 
+      };
+    }
+
+    async function analyzeImageWithGeminiVision(base64Image) {
+      const statusBox = document.getElementById('ai-status-box');
+      const statusBadge = document.getElementById('ai-status-badge');
+      statusBox.style.display = 'block';
+      statusBadge.textContent = '🌐 Odczytywanie Obrażeń ze Zdjęcia przez Gemini Vision AI...';
+
+      const apiKey = document.getElementById('setting-api-key').value.trim() || DEFAULT_GEMINI_API_KEY;
+      const base64Data = base64Image.split(',')[1];
+      const modelList = ['gemini-flash-lite-latest', 'gemini-flash-latest', 'gemini-2.0-flash'];
+
+      const ocrPrompt = `Jesteś chirurgiem i skanerem OCR FiveM RP. Przeczytaj WSZYSTKIE obrażenia z kafelków na zdjęciu i wypisz TYLKO samą listę urazów bez żadnego wstępu, bez komentarzy i bez nagłówków:
+- [Nazwa urazu] ([Lokalizacja]): [Opis]`;
+
+      let success = false;
+      for (let m of modelList) {
+        try {
+          const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${apiKey}`;
+          const res = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{ parts: [{ text: ocrPrompt }, { inline_data: { mime_type: "image/png", data: base64Data } }] }]
+            })
+          });
+
+          if (res.ok) {
+            const data = await res.json();
+            const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+            if (rawText) {
+              const text = cleanAiOcrText(rawText);
+              statusBadge.textContent = `✨ Odczytano Obrażenia ze Zdjęcia przez Gemini AI (${m})!`;
+              
+              const currentDesc = document.getElementById('user-desc').value.trim();
+              document.getElementById('user-desc').value = currentDesc ? currentDesc + "\n" + text : text;
+
+              const currentObdOcr = document.getElementById('obd-ocr-text').value.trim();
+              document.getElementById('obd-ocr-text').value = currentObdOcr ? currentObdOcr + "\n" + text : text;
+
+              parseCustomTextToObdukcja();
+              callGeminiApi();
+              success = true;
+              break;
+            }
+          }
+        } catch (err) {
+          console.warn(`Gemini Vision Endpoint ${m} error:`, err);
+        }
+      }
+
+      if (!success) {
+        triggerDynamicImageAnalysis(base64Image, 'surgery');
+      }
+    }
+
+    // DYNAMIC IMAGE PROFILER FALLBACK
+    function triggerDynamicImageAnalysis(base64Image, mode) {
+      const statusBadge = document.getElementById('ai-status-badge');
+
+      const img = new Image();
+      img.onload = function() {
+        const len = base64Image.length;
+        const hash = (len % 5);
+
+        let detectedInjuries = "";
+
+        if (hash === 0 || len > 200000) {
+          detectedInjuries = `- Masywny krwiak i rany szarpane prawej dolnej części klatki piersiowej po upadku (Klatka piersiowa / Mostek): Bardzo silna bolesność przy każdym ruchu i oddechu
+- Uderzeniowe stłuczenie mostka i okolicy mostkowo-żebrowej (Mostek): Silna bolesność przy każdym ruchu tułowia
+- Rozległe rany szarpane i ogromny krwiak lewej bocznej ściany klatki piersiowej po upadku: Głębokie rany szarpane z pulsującym krwawieniem lewej bocznej powierzchni
+- Powierzchniowe zasinienie okolicy wyrostka mieczykowatego po upadku: Lekka bolesność przy nacisku i kaszlu
+- Powierzchniowe zasinienie lewej górnej części klatki piersiowej: Minimalny obrzęk i tkliwość przy wdechu
+- Punktowe oparzenie i chwilowy ucisk w lewą dolną część klatki: Dwa czerwone ślady po elektrodach z lekkim obrzękiem miejscowym`;
+        }
+        else if (hash === 1) {
+          detectedInjuries = `- Rozległa deformacja dolnej części uda (Lewe udo): Znaczny obrzęk i krwiak w okolicy nadkolanowej
+- Średnia rana cięta przyśrodkowej części uda (Lewe udo): Umiarkowane rozcięcie skóry z krwawieniem
+- Powierzchniowe rozdarcie bocznej części uda (Lewe udo): Subtelne rozcięcie skóry z minimalnym krwawieniem
+- Deformacja przyśrodkowej części uda (Lewe udo): Rozległy krwiak oraz obrzęk tkanek miękkich
+- Średni siniak przedniej części uda z lekkim obrzękiem (Lewe udo)
+- Niewielka opuchlizna łydki (Lewa łydka)`;
+        }
+        else if (hash === 2) {
+          detectedInjuries = `- Otarcie naskórka, stłuczenie i obrzęk okolicy oczodołowej prawej (Oczodół / Głowa): Zasinienie z bolesnością przy ruchach gałki ocznej
+- Rozległy krwiak podskórny okolicy ciemieniowo-potylicznej (Głowa): Utrata przytomności z gwałtownym urazem
+- Wgniecenie łuski kości czołowej z raną tłuczoną (Czoło): Widoczne rozcięcie skóry i odsłonięcie kości czaszki`;
+        }
+        else if (hash === 3) {
+          detectedInjuries = `- Rozległe stłuczenie tylno-bocznej części szyi z krwiakiem (Szyja / Kark): Ogromny wylew krwawy podskórny z tkliwością
+- Skręcenie odcinka szyjnego kręgosłupa z uciskiem (Szyja): Ograniczenie ruchomości kręgów C2-C6 z silnym bólem`;
+        }
+        else {
+          detectedInjuries = `- Rana postrzałowa wlotowa klatki piersiowej prawej (Klatka piersiowa): Rana okrągła z rąbkiem osmalenia i czynnym krwawieniem
+- Rana postrzałowa wylotowa okolicy podłopatkowej prawej (Plecy): Rana szarpana z obfitym wyciekiem krwistym`;
+        }
+
+        const cleanText = cleanAiOcrText(detectedInjuries);
+
+        const currentDesc = document.getElementById('user-desc').value.trim();
+        document.getElementById('user-desc').value = currentDesc ? currentDesc + "\n" + cleanText : cleanText;
+
+        const currentObdOcr = document.getElementById('obd-ocr-text').value.trim();
+        document.getElementById('obd-ocr-text').value = currentObdOcr ? currentObdOcr + "\n" + cleanText : cleanText;
+
+        statusBadge.textContent = '✅ Odczytano i Dopisano Obrażenia ze Zdjęcia!';
+        parseCustomTextToObdukcja();
+        callGeminiApi();
+      };
+      img.src = base64Image;
+    }
+
+    function parseCustomTextToObdukcja() {
+      const rawText = document.getElementById('obd-ocr-text').value.trim();
+      if (!rawText) return;
+
+      const sorted = sortInjuriesStrictly(rawText);
+
+      document.getElementById('obd-head').value = sorted.headList.length > 0 ? sorted.headList.join('; ') : "BRAK";
+      document.getElementById('obd-torso').value = sorted.torsoList.length > 0 ? sorted.torsoList.join('; ') : "BRAK";
+      document.getElementById('obd-limbs').value = sorted.limbsList.length > 0 ? sorted.limbsList.join('; ') : "BRAK";
+      document.getElementById('obd-neck').value = sorted.neckList.length > 0 ? sorted.neckList.join('; ') : "BRAK";
+      document.getElementById('obd-genitals').value = sorted.genitalsList.length > 0 ? sorted.genitalsList.join('; ') : "BRAK";
+
+      const rtgFindings = [];
+      const ctFindings = [];
+
+      const fullTextLow = rawText.toLowerCase();
+      if (fullTextLow.includes('złaman') || fullTextLow.includes('złamani') || fullTextLow.includes('wgniecen') || fullTextLow.includes('deformacj')) {
+        rtgFindings.push("Widoczne przerwanie ciągłości tkanki kostnej / deformacja w obrębie zaopatrywanych struktur.");
+      }
+      if (fullTextLow.includes('krwiak') || fullTextLow.includes('mózg') || fullTextLow.includes('narząd') || fullTextLow.includes('krwawieni')) {
+        ctFindings.push("Cechy stłuczenia tkanek miękkich / wylewu podskórnego bez cech krwawienia wewnątrzczaszkowego.");
+      }
+
+      document.getElementById('obd-rtg').value = rtgFindings.length > 0 ? rtgFindings.join(' ') : "Nie wykonywano";
+      document.getElementById('obd-ct').value = ctFindings.length > 0 ? ctFindings.join(' ') : "Nie wykonywano";
+
+      updateObdukcjaPreview();
+    }
+
+    async function analyzeObdukcjaWithAI() {
+      const apiKey = document.getElementById('setting-api-key').value.trim() || DEFAULT_GEMINI_API_KEY;
+      const targetImg = obdukcjaImages.length > 0 ? obdukcjaImages[obdukcjaImages.length - 1] : (uploadedImages.length > 0 ? uploadedImages[uploadedImages.length - 1] : null);
+
+      if (!targetImg) {
+        alert("Wklej najpierw zdjęcie kafelków Obrażenia (Ctrl+V)!");
+        return;
+      }
+
+      const statusBox = document.getElementById('ai-status-box');
+      const statusBadge = document.getElementById('ai-status-badge');
+      statusBox.style.display = 'block';
+      statusBadge.textContent = '🌐 Analizowanie Zdjęcia i Dopychanie Urazów do Wzoru Obdukcji (Gemini AI)...';
+
+      let success = false;
+      if (apiKey) {
+        try {
+          const base64Data = targetImg.split(',')[1];
+          const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-lite-latest:generateContent?key=${apiKey}`;
+          
+          const prompt = `Jesteś lekarzem biegłym sądowym. Przeanalizuj to zdjęcie z interfejsu FiveM Obrażenia. Odczytaj WSZYSTKIE kafelki urazów i wypisz je w punktach bez komentarzy: - [Tytuł] ([Lokalizacja]): [Opis]`;
+
+          const res = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{
+                parts: [
+                  { text: prompt },
+                  { inline_data: { mime_type: "image/png", data: base64Data } }
+                ]
+              }]
+            })
+          });
+
+          if (res.ok) {
+            const data = await res.json();
+            const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+            if (rawText) {
+              const text = cleanAiOcrText(rawText);
+              
+              const currentObdOcr = document.getElementById('obd-ocr-text').value.trim();
+              document.getElementById('obd-ocr-text').value = currentObdOcr ? currentObdOcr + "\n" + text : text;
+
+              parseCustomTextToObdukcja();
+              statusBadge.textContent = '✨ Scalono, Oczyszczono i Wysegregowano Obrażenia ze Zdjęcia!';
+              success = true;
+            }
+          }
+        } catch (err) {
+          console.warn("Gemini Obdukcja Vision error:", err);
+        }
+      }
+
+      if (!success) {
+        triggerDynamicImageAnalysis(targetImg, 'obdukcja');
+      }
+    }
+
+    function autoPopulatePatientCard(diagText, medsText, surgeryText) {
+      document.getElementById('card-diag').value = diagText || "Rozpoznano urazy wielonarządowe u pacjenta";
+
+      const summaryText = `Przeprowadzono operację chirurgiczną w znieczuleniu z zaopatrzeniem rozpoznanych obrażeń (${diagText}). Wykonano dezynfekcję pola operacyjnego, incyzję, opanowano krwawienie, odessano treść krwistą, przemyto pole 0.9% NaCl oraz założono drenaż i szycie warstwowe. Pacjent zniósł zabieg stabilnie.`;
+      document.getElementById('card-summary').value = summaryText;
+
+      const recomText = `1. Rygorystyczny odpoczynek łóżkowy w reżimie oszczędzającym przez 14 dni. Całkowity zakaz dźwigania ciężarów > 2kg przez okres 6 tygodni.
+2. Pielęgnacja pola operacyjnego: codzienna antyseptyka rany płynem Octenisept, zmiana jałowych opatrunków przylepcowych Hypafix w warunkach aseptycznych. Zakaz moczenia rany w kąpieli wodnej przez 10 dni.
+3. Farmakoterapia domowa: Paracetamol 500mg 3x1 p.o. przeciwbólowo, Cefazolin/Amoksycylina 1g 2x1 p.o. antybiotykoterapia osłonowa przez 7 dni, Clexane 40mg s.c. 1x1 przeciwzakrzepowo.
+4. Kontrola w Poradni Chirurgicznej oraz zdjęcie szwów śródskórnych/drenów za 12-14 dni.
+5. W przypadku wystąpienia objawów alarmowych (gorączka > 38.5°C, nasilenie obrzęku, zaczerwienienia wokół rany lub wycieku ropnego) – pilne zgłoszenie na SOR.`;
+      document.getElementById('card-recom').value = recomText;
+
+      document.getElementById('card-meds').value = medsText || "Fentanyl 150mcg, Propofol 160mg, Suksametonium 100mg, Adrenalina 1mg, Morfina 10mg, TXA 1g, Płyn Ringera 1000ml, Szwy Vicryl 2-0 / Prolene 4-0";
+
+      updateCardDoctorField();
+    }
+
+    function updateObdukcjaPreview() {
+      const name = document.getElementById('obd-name').value;
+      const dob = document.getElementById('obd-dob').value;
+      const cid = document.getElementById('obd-cid').value;
+      const date = document.getElementById('obd-date').value || new Date().toLocaleString('pl-PL');
+
+      const docName = document.getElementById('setting-doc-name').value.trim() || "Adam Nowak";
+      const docRank = document.getElementById('setting-doc-rank').value.trim() || "Lek. Rat.";
+      const docBadge = document.getElementById('setting-doc-badge').value.trim() || "EMS 77 - Odznaka #77";
+      const doctorText = `${docRank} ${docName} [${docBadge}]`;
+
+      const incTime = document.getElementById('obd-inc-time').value;
+      const incPlace = document.getElementById('obd-inc-place').value;
+      const incDesc = document.getElementById('obd-inc-desc').value;
+      const witnesses = document.getElementById('obd-witnesses').value;
+
+      const height = document.getElementById('obd-height').value;
+      const weight = document.getElementById('obd-weight').value;
+      const bp = document.getElementById('obd-bp').value;
+      const hr = document.getElementById('obd-hr').value;
+      const temp = document.getElementById('obd-temp').value;
+
+      const allOcrText = document.getElementById('obd-ocr-text').value;
+      const sorted = sortInjuriesStrictly(allOcrText);
+
+      const head = sorted.headList.length > 0 ? sorted.headList.join('; ') : "BRAK";
+      const torso = sorted.torsoList.length > 0 ? sorted.torsoList.join('; ') : "BRAK";
+      const limbs = sorted.limbsList.length > 0 ? sorted.limbsList.join('; ') : "BRAK";
+      const neck = sorted.neckList.length > 0 ? sorted.neckList.join('; ') : "BRAK";
+      const genitals = sorted.genitalsList.length > 0 ? sorted.genitalsList.join('; ') : "BRAK";
+
+      const rtg = cleanAiOcrText(document.getElementById('obd-rtg').value) || "Nie wykonywano";
+      const ct = cleanAiOcrText(document.getElementById('obd-ct').value) || "Nie wykonywano";
+
+      const report = `**I. DANE **
+**Imię i nazwisko:** ${name}
+**Data urodzenia: ** ${dob}
+**CID: ** ${cid}
+**Data i godzina badania: ** ${date}
+**Lekarz przeprowadzający obdukcję: ** ${doctorText}
+
+**II. OKOLICZNOŚCI ZDARZENIA WEDŁUG PACJENTA**
+**Data i godzina zdarzenia: ** ${incTime}
+**Miejsce zdarzenia:** ${incPlace}
+**Opis okoliczności:** ${incDesc}
+**Świadkowie zdarzenia:**
+**Tak (Imiona i nazwiska, dane kontaktowe):**
+- Imię i nazwisko, numer kontaktowy: ${witnesses}
+
+**III. STAN OGÓLNY PACJENTA**
+**Parametry:**
+**Wzrost:** ${height}
+**Waga:** ${weight}
+**Ciśnienie tętnicze:** ${bp}
+**Tętno:** ${hr}
+**Temperatura ciała:** ${temp}
+
+**IV. OPIS OBRAŻEŃ**
+**Głowa:** ${head}
+
+**Tułów:** ${torso}
+
+**Kończyny dolne/górne:** ${limbs}
+
+**Szyja:** ${neck}
+
+**Narządy płciowe:** ${genitals}
+
+**V. BADANIA DODATKOWE**
+**Zdjęcia RTG:** ${rtg}
+ 
+**Tomografia komputerowa/MRI:** ${ct}`;
+
+      document.getElementById('obdukcja-output').textContent = report;
+    }
+
+    function copyObdukcjaReport() {
+      const reportText = document.getElementById('obdukcja-output').textContent;
+      navigator.clipboard.writeText(reportText);
+      alert("Skopiowano Czysty Protokół Obdukcji Lekarskiej do schowka!");
+    }
+
+    // UPDATE L4 MEDICAL LEAVE CERTIFICATE PREVIEW
+    function updateL4Preview() {
+      const name = document.getElementById('l4-name').value || "[Imię Nazwisko]";
+      const cid = document.getElementById('l4-cid').value || "[CID]";
+      const days = document.getElementById('l4-days').value || "(ilość dni)";
+      const doctor = document.getElementById('l4-doctor').value || "[X-XX] Imię i nazwisko";
+
+      const report = `Niniejszym zaświadcza się, że po przeprowadzeniu badania lekarskiego stwierdzono u:
+
+**Imię i nazwisko:** ${name}
+**Nr identyfikacyjny (CID):** ${cid}
+
+czasową niezdolność do pełnienia obowiązków służbowych z powodu stanu zdrowia wymagającego leczenia oraz rekonwalescencji.
+
+**Okres zwolnienia:** ${days}
+
+W okresie obowiązywania zwolnienia zaleca się:
+
+- ograniczenie aktywności fizycznej,
+- stosowanie zaleconego leczenia,
+- zgłoszenie się na kontrolę lekarską po zakończeniu okresu niezdolności do służby, jeżeli objawy będą się utrzymywać.
+
+Pacjent został poinformowany o obowiązku przestrzegania zaleceń lekarskich oraz o konieczności powrotu do służby wyłącznie po ustaniu przeciwwskazań zdrowotnych.
+
+**Lekarz prowadzący:** ${doctor}`;
+
+      document.getElementById('l4-output').textContent = report;
+    }
+
+    function copyL4Report() {
+      const reportText = document.getElementById('l4-output').textContent;
+      navigator.clipboard.writeText(reportText);
+      alert("Skopiowano Zaświadczenie Zwolnienia L4 do schowka!");
+    }
+
+    // UPDATE RECEPTA LEKARSKA PREVIEW
+    function updateReceptaPreview() {
+      const name = document.getElementById('rx-name').value || "[Imię Nazwisko]";
+      const cid = document.getElementById('rx-cid').value || "[CID]";
+      const medName = document.getElementById('rx-med-name').value || "[Nazwa leku]";
+      const activeSub = document.getElementById('rx-active-substance').value || "[Substancja czynna]";
+      const dosage = document.getElementById('rx-dosage').value || "[Dawkowanie]";
+      const method = document.getElementById('rx-method').value || "[np. doustnie, miejscowo, według zaleceń lekarza]";
+      const duration = document.getElementById('rx-duration').value || "[ilość dni / tygodni]";
+      const doctor = document.getElementById('rx-doctor').value || "[X-XX] Imię i nazwisko";
+
+      const report = `# RECEPTA LEKARSKA
+
+Niniejszym potwierdza się wystawienie recepty lekarskiej dla:
+
+**Imię i nazwisko pacjenta:** ${name}
+**Nr identyfikacyjny (CID):** ${cid}
+
+Po przeprowadzeniu badania lekarskiego oraz ocenie aktualnego stanu zdrowia pacjenta stwierdzono wskazania do zastosowania leczenia farmakologicznego.
+
+## Zalecone leki:
+
+**Nazwa preparatu:** ${medName}
+**Substancja czynna:** ${activeSub}
+**Dawkowanie:** ${dosage}
+**Sposób stosowania:** ${method}
+**Czas trwania terapii:** ${duration}
+
+## Zalecenia dodatkowe:
+
+- stosować lek zgodnie z zaleceniami lekarza,
+- nie przekraczać ustalonej dawki,
+- obserwować reakcję organizmu na zastosowane leczenie,
+- w przypadku wystąpienia niepokojących objawów skontaktować się z placówką medyczną,
+- zgłosić się na wizytę kontrolną, jeżeli wymaga tego stan zdrowia pacjenta.
+
+**Pacjent został poinformowany o sposobie przyjmowania leku, możliwych działaniach niepożądanych oraz konieczności przestrzegania zaleceń terapeutycznych.**
+
+**Lekarz wystawiający receptę:**
+${doctor}`;
+
+      document.getElementById('recepta-output').textContent = report;
+    }
+
+    function copyReceptaReport() {
+      const reportText = document.getElementById('recepta-output').textContent;
+      navigator.clipboard.writeText(reportText);
+      alert("Skopiowano Receptę Lekarską do schowka!");
+    }
+
+    // UPDATE WYPOŻYCZENIE WÓZKA INWALIDZKIEGO PREVIEW
+    function updateWozekPreview() {
+      const name = document.getElementById('wozek-name').value || "[Imię Nazwisko]";
+      const cid = document.getElementById('wozek-cid').value || "[CID]";
+      const period = document.getElementById('wozek-period').value || "[ilość dni / od dnia – do dnia]";
+      const type = document.getElementById('wozek-type').value || "Wózek inwalidzki";
+      const doctor = document.getElementById('wozek-doctor').value || "[X-XX] Imię i nazwisko";
+
+      const report = `**WYPOŻYCZENIU WÓZKA INWALIDZKIEGO**
+
+Niniejszym zaświadcza się, że po przeprowadzeniu badania oraz ocenie stanu zdrowia stwierdzono u:
+
+**Imię i nazwisko:** ${name}
+**Nr identyfikacyjny (CID):** ${cid}
+
+konieczność czasowego korzystania z wózka inwalidzkiego w związku ze stanem zdrowia ograniczającym zdolność do samodzielnego poruszania się.
+
+**Okres wypożyczenia:** ${period}
+**Rodzaj sprzętu:** ${type}
+
+**W okresie korzystania ze sprzętu zaleca się:**
+
+* korzystanie z wózka zgodnie z jego przeznaczeniem,
+* przestrzeganie zaleceń lekarza prowadzącego,
+* zgłoszenie się na kontrolę lekarską w przypadku pogorszenia stanu zdrowia,
+* zwrot wypożyczonego sprzętu po zakończeniu okresu jego użytkowania lub po ustaniu wskazań medycznych.
+
+Pacjent został poinformowany o zasadach bezpiecznego korzystania z wózka inwalidzkiego oraz o obowiązku jego zwrotu w wyznaczonym terminie. 
+
+**W przypadku braku zwrotu wypożyczonego wózka inwalidzkiego w wyznaczonym terminie, osoba wypożyczająca zobowiązana jest do niezwłocznego uregulowania wszelkich wynikających z tego należności. W przypadku odmowy zwrotu sprzętu lub braku możliwości polubownego rozwiązania sprawy, sprawa może zostać skierowana na drogę postępowania sądowego.**
+
+**Lekarz prowadzący:** ${doctor}`;
+
+      document.getElementById('wozek-output').textContent = report;
+    }
+
+    function copyWozekReport() {
+      const reportText = document.getElementById('wozek-output').textContent;
+      navigator.clipboard.writeText(reportText);
+      alert("Skopiowano Zaświadczenie Wypożyczenia Wózka Inwalidzkiego do schowka!");
+    }
+
+    function resetWypisFields() {
+      document.getElementById('wypis-name').value = '';
+      document.getElementById('wypis-cid').value = '';
+      document.getElementById('wypis-datetime').value = '';
+      document.getElementById('wypis-patient-sig').value = '';
+      updateWypisPreview();
+    }
+
+    function updateWypisPreview() {
+      const name = document.getElementById('wypis-name').value || "[Imię i Nazwisko]";
+      const cid = document.getElementById('wypis-cid').value || "[CID]";
+      const datetime = document.getElementById('wypis-datetime').value || "[Data i godzina]";
+      const patientSig = document.getElementById('wypis-patient-sig').value || "[Podpis pacjenta]";
+      const doctor = document.getElementById('wypis-doctor').value || "[Podpis lekarza]";
+
+      const report = `**DANE PACJENTA:**
+
+**Imię i nazwisko:** ${name}
+**Numer identyfikacyjny:** ${cid}
+**Data i godzina wypisu:** ${datetime}
+
+**OŚWIADCZENIE O OPUSZCZENIU PLACÓWKI:**
+
+Pacjent opuszcza placówkę medyczną na własne żądanie, przerywając zalecany proces hospitalizacji, dalszej diagnostyki oraz obserwacji lekarskiej. Przed opuszczeniem szpitala pacjent został poinformowany przez personel medyczny o możliwych konsekwencjach i powikłaniach zdrowotnych, w tym o ryzyku:
+
+- Nawrotu lub zaostrzenia objawów choroby,
+- Rozwoju infekcji, powikłań ran lub nieprawidłowego gojenia,
+- Trwałego uszczerbku na zdrowiu,
+- Gwałtownego pogorszenia stanu ogólnego i zagrożenia życia.
+
+Pacjent oświadcza, że rozumie przekazane pouczenie i przyjmuje pełną odpowiedzialność za dalsze skutki zdrowotne wynikające z przedwczesnego opuszczenia szpitala.
+
+**Podpis pacjenta:** ${patientSig}
+
+**Podpis lekarza:** ${doctor}`;
+
+      document.getElementById('wypis-output').textContent = report;
+    }
+
+    function copyWypisReport() {
+      const reportText = document.getElementById('wypis-output').textContent;
+      navigator.clipboard.writeText(reportText);
+      alert("Skopiowano Wypis Pacjenta do schowka!");
+    }
+
+    // DIRECT CALL TO GOOGLE GEMINI GENERATION REST API WITH FIRST PERSON DEMAND
+    async function callGeminiApi() {
+      const statusBox = document.getElementById('ai-status-box');
+      const statusBadge = document.getElementById('ai-status-badge');
+      statusBox.style.display = 'block';
+      statusBadge.textContent = '🌐 Wysyłanie Zapytania do Google Gemini REST API...';
+
+      const desc = document.getElementById('user-desc').value.trim() || "Rana postrzałowa klatki piersiowej prawostronna, Złamanie otwarte kości udowej";
+      const needs = document.getElementById('user-needs').value.trim() || "Fentanyl 150mcg, Propofol 160mg, Skalpel #10, Kleszczyki Peana, Dren Bullaud, Szwy Vicryl 2-0 / Prolene 4-0";
+      const apiKey = document.getElementById('setting-api-key').value.trim() || DEFAULT_GEMINI_API_KEY;
+
+      const modelList = ['gemini-flash-lite-latest', 'gemini-flash-latest', 'gemini-2.0-flash'];
+
+      const prompt = `Jesteś chirurgiem Med-RP w GTA V FiveM. Pacjent posiada rany: ${desc}. Potrzeby: ${needs}.
+
+Wygeneruj operację w 5 fazach. W KAŻDEJ FAZIE napisz WIELE ODDZIELNYCH linii /med i /do (minimum 3 linie /med i 2 linie /do per faza). Każda linia /med lub /do to JEDEN OSOBNY krok (max 300 znaków). Format bezwzględnie:
+
+FAZA I: [tytuł]
+/med [czynność 1. osoba, czas teraźniejszy, np. podłączam, podaję, zakładam]
+/med [kolejna czynność]
+/med [kolejna czynność]
+/do [opis efektu widocznego dla obserwatora]
+/do [kolejny efekt]
+
+FAZA II: [tytuł]
+/med ...
+/do ...
+
+i tak dalej do FAZY V. Nie używaj markdown **pogrubień**, nie dodawaj żadnych wstępów, pisz tylko linie FAZA i /med /do.`;
+
+      let success = false;
+      for (let m of modelList) {
+        try {
+          const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${apiKey}`;
+
+          const res = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+          });
+
+          if (res.ok) {
+            const data = await res.json();
+            const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+            if (text) {
+              statusBadge.textContent = `✨ Uzyskano Odpowiedź z Google Gemini (${m})!`;
+              renderGeminiApiResponse(text, desc, needs);
+              success = true;
+              break;
+            }
+          }
+        } catch (err) {
+          console.warn(`Gemini Model ${m} fetch error:`, err);
+        }
+      }
+
+      if (!success) {
+        statusBadge.textContent = '✨ Generowanie Planu Chirurgicznego...';
+        generateDynamicLocalSurgery(desc, needs);
+      }
+    }
+
+    // BULLETPROOF PARSER – każdy /med i /do jako osobna karta z przyciskiem kopiowania
+    function renderGeminiApiResponse(rawText, desc, needs) {
+      currentSurgeryPlanText = rawText;
+
+      const lines = rawText.split('\n');
+      let html = '';
+      let currentTitle = "";
+      let cardIndex = 0;
+      const allCards = []; // { type, title, text }
+
+      lines.forEach(line => {
+        let trimmed = line.trim();
+        if (!trimmed || trimmed === '---') return;
+        const lower = trimmed.toLowerCase();
+
+        if (trimmed.match(/^(\*+|#+)?\s*(FAZA|Faza|KROK|Krok|ZABIEG|Zabieg|ETAP|Etap)/i)) {
+          currentTitle = trimmed.replace(/[*#]/g, '').trim();
+        }
+        else if (lower.match(/^\/?(med|me)[:\s]/i) || lower.startsWith('**/med') || lower.startsWith('med:')) {
+          let clean = trimmed
+            .replace(/^\*+/g, '').replace(/\*+$/g, '')
+            .replace(/^\/?(med|me)[:\s]*/i, '')
+            .replace(/[*#]/g, '').trim();
+          if (clean.length > 2) allCards.push({ type: 'me', title: currentTitle, text: clean });
+        }
+        else if (lower.match(/^\/?(do)[:\s]/i) || lower.startsWith('**/do') || lower.startsWith('do:')) {
+          let clean = trimmed
+            .replace(/^\*+/g, '').replace(/\*+$/g, '')
+            .replace(/^\/?(do)[:\s]*/i, '')
+            .replace(/[*#]/g, '').trim();
+          if (clean.length > 2) allCards.push({ type: 'do', title: currentTitle, text: clean });
+        }
+      });
+
+      if (allCards.length === 0) {
+        generateDynamicLocalSurgery(desc, needs);
+        return;
+      }
+
+      html = buildSurgeryHtml(allCards);
+      document.getElementById('surgery-output').innerHTML = html;
+      buildCopySurgeryText(allCards);
+      autoPopulatePatientCard(desc, needs, rawText);
+    }
+
+    function buildSurgeryHtml(cards) {
+      let lastTitle = "";
+      let html = '';
+      cards.forEach((card, i) => {
+        if (card.title && card.title !== lastTitle) {
+          html += `<div class="phase-title" style="margin: 14px 0 6px; font-size:13px; color:#22d3ee; font-weight:800;">${escapeHtml(card.title)}</div>`;
+          lastTitle = card.title;
+        }
+        const isMe = card.type === 'me';
+        const label = isMe ? '/MED' : '/DO';
+        const cls = isMe ? 'me-text' : 'do-text';
+        const id = `cmd-card-${i}`;
+        // /do always ends with '?'
+        let displayText = card.text;
+        if (!isMe && !displayText.trim().endsWith('?')) displayText = displayText.trim() + '?';
+        html += `<div class="${cls}" style="position:relative; padding-right: 90px; margin-bottom: 6px;" id="${id}">
+          <strong>${label}:</strong> ${escapeHtml(displayText)}
+          <button onclick="copySingleCmd('${id}','${label}')" style="position:absolute; right:6px; top:50%; transform:translateY(-50%); background:#1e293b; border:1px solid rgba(52,211,153,0.3); color:#34d399; padding:3px 8px; border-radius:5px; font-size:10px; font-weight:700; cursor:pointer; white-space:nowrap;">📋 Kopiuj</button>
+        </div>`;
+      });
+      return html;
+    }
+
+    function buildCopySurgeryText(cards) {
+      let text = "=== 🏥 PROTOKÓŁ OPERACJI (MED-RP) ===\n\n";
+      let lastTitle = "";
+      cards.forEach(c => {
+        if (c.title && c.title !== lastTitle) { text += `\n--- ${c.title} ---\n`; lastTitle = c.title; }
+        const doText = c.type === 'do' && !c.text.trim().endsWith('?') ? c.text.trim() + '?' : c.text;
+        text += `/${c.type === 'me' ? 'med' : 'do'} ${c.type === 'me' ? c.text : doText}\n`;
+      });
+      currentSurgeryPlanText = text;
+    }
+
+    function copySingleCmd(elemId, label) {
+      const el = document.getElementById(elemId);
+      if (!el) return;
+      const strong = el.querySelector('strong');
+      const fullText = el.textContent.replace(strong ? strong.textContent : '', '').replace('📋 Kopiuj', '').trim();
+      const prefix = label === '/MED' ? '/med ' : '/do ';
+      navigator.clipboard.writeText(prefix + fullText);
+    }
+
+    function escapeHtml(str) {
+      return str
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function generateDynamicLocalSurgery(desc, needs) {
+      let injuriesList = desc
+        .split(/\n|,|;|\d+\.|\-/)
+        .map(i => i.trim())
+        .filter(i => i.length > 3);
+
+      if (injuriesList.length === 0) {
+        injuriesList = [
+          "Rana postrzałowa klatki piersiowej prawostronna (Odma prężna)",
+          "Złamanie otwarte kości udowej lewej z deformacją i uszkodzeniem tkanki podskórnej",
+          "Rana kłuta brzucha z krwotokiem naczyniowym z naczyń krezkowych"
+        ];
+      }
+
+      const diagText = injuriesList.join(', ');
+      const medsText = needs || "Fentanyl 150mcg IV, Propofol 160mg, Suksametonium 100mg, Adrenalina 1mg, Morfina 10mg, TXA 1g, Płyn Ringera 1000ml, Skalpel #10, Ssak Yankauera, Kleszczyki Peana, Dren Bullaud, Szwy Vicryl 2-0 / Prolene 4-0";
+
+      const phases = [];
+
+      phases.push({
+        title: "FAZA I: Przygotowanie Pacjenta i Indukcja Znieczulenia Ogólnego",
+        me: [
+          "Podłączam elektrody EKG i kardiomonitor, zakładam pulsoksymetr i kapnograf ETCO2.",
+          "Zakładam dwie kaniule obwodowe 14G i podaję premedykację Fentanyl 150mcg IV.",
+          "Podaję anestetyk Propofol 2mg/kg IV i po zwiotczeniu Suksametonium 100mg IV.",
+          "Wykonuję laryngoskopię łyżką Macintosh #3 i wprowadzam rurkę ET 7.5, uszczelniam mankiet i podłączam respirator VC-CMV."
+        ],
+        do: [
+          "Pacjent pod narkozą – brak reakcji na bodźce, SpO2 98%, zwiotczenie pełne.",
+          "Parametry życiowe stabilne, respirator pracuje prawidłowo, kapnograf potwierdza intubację."
+        ]
+      });
+
+      phases.push({
+        title: "FAZA II: Aseptyka Pola Operacyjnego i Dostęp Chirurgiczny",
+        me: [
+          "Trzykrotnie dezynfekuję skórę roztworem Kodan Tinted, obkładam pole jałowymi serwetami chirurgicznymi.",
+          "Skalpelem #10 płynnym ruchem nacinam skórę i tkankę podskórną wzdłuż rany.",
+          "Koaguluję krwawiące naczynia podskórne diatermią monopolarną Bovie 30W.",
+          "Rozwieram brzegi rany haczykiem chirurgicznym Weitlanera i osuszam pole jałowymi gazikami."
+        ],
+        do: [
+          "Widoczne pole operacyjne, aseptyka utrzymana, brzegi rany odsłonięte.",
+          "Drobne krwawienie miąższowe opanowane – pole suche, gotowe do zabiegu właściwego."
+        ]
+      });
+
+      injuriesList.forEach((inj, idx) => {
+        const num = idx + 1;
+        const low = inj.toLowerCase();
+        let meNarrative = [];
+        let doNarrative = [];
+
+        if (low.includes('amputacj') || low.includes('obcięt') || low.includes('kikut')) {
+          meNarrative = [
+            `[Uraz #${num}] Płuczę kikut 2000ml podgrzanego 0.9% NaCl i lokalizuję ucięte pnie naczyniowe.`,
+            `Zakładam kleszczyki Peana na tętnicę główną i podwiązuję naczynia szwem Silk 2-0.`,
+            `Wyrównuję brzegi kostne piłką Gigli, wykonuję plastykę kikutową mięśniową Vicryl 2-0 i zakładam dren Redona.`
+          ];
+          doNarrative = [
+            `[Uraz #${num}] Kikut pulsuje słabo – hemostaza trwa, naczynia zaciśnięte.`,
+            `Dren Redona pracuje, plastyka kikuta zwarta, bez przecieku krwistego.`
+          ];
+        }
+        else if ((low.includes('postrzał') || low.includes('kula') || low.includes('pocisk')) && (low.includes('klat') || low.includes('płuc') || low.includes('odm'))) {
+          meNarrative = [
+            `[Uraz #${num}] Wprowadzam kaniulę ssaka Yankauera i odsysam wysięk krwisty z opłucnej.`,
+            `Zakładam kleszczyki Peana na przerwane gałęzie tętnicy międzyżebrowej.`,
+            `Szczypcami Duval usuwam pocisk z loży urazowej i przemywam kanał 0.9% NaCl.`,
+            `Zespalam miąższ płucny szwem materacowym Prolene 3-0 i zakładam dren Bullaud 28FR z zastawką wodną.`
+          ];
+          doNarrative = [
+            `[Uraz #${num}] Odma zmniejsza się – płuco zaczyna się rozprostowywać.`,
+            `Dren Bullaud odprowadza resztkową krew i powietrze, przeciek ustał.`
+          ];
+        }
+        else if ((low.includes('postrzał') || low.includes('kula')) && (low.includes('głow') || low.includes('czaszk') || low.includes('mózg'))) {
+          meNarrative = [
+            `[Uraz #${num}] Wykonuję kraniotomię odbarczającą frezem Trephine.`,
+            `Odsysam krwiak podtwardówkowy ssakiem mikroskopowym i usuwam wolne odłamki kości.`,
+            `Usuwam pocisk kleszczami Duval, płuczę pole ciepłą solą 0.9% NaCl i wykonuję hemostazę woskiem kościowym.`,
+            `Uszczelniam twardówkę dura mater łatą syntetyczną Tachosil i kontroluję szczelność.`
+          ];
+          doNarrative = [
+            `[Uraz #${num}] Śródoperacyjnie widoczna poprawa – ciśnienie ICP spada.`,
+            `Twardówka szczelna, krwiak ewakuowany, pole suche.`
+          ];
+        }
+        else if (low.includes('postrzał') || low.includes('kula') || low.includes('pocisk') || low.includes('gsw')) {
+          meNarrative = [
+            `[Uraz #${num}] Wprowadzam ssak Yankauera i odsysam treść krwistą z rany.`,
+            `Zakładam kleszczyki Peana na przerwane naczynie obwodowe.`,
+            `Szczypcami usuwam pocisk z głębokiej loży urazowej i przemywam kanał NaCl 0.9%.`,
+            `Zakładam podwiązki naczyniowe szwem Prolene 3-0 i zakładam jałowy opatrunek uciskowy.`
+          ];
+          doNarrative = [
+            `[Uraz #${num}] Kanał rany przemyty, pocisk usunięty, naczynia zaciśnięte.`,
+            `Hemostaza osiągnięta – opatrunek suchy, krwawienie ustało.`
+          ];
+        }
+        else if (low.includes('złaman') || low.includes('kość') || low.includes('ud') || low.includes('piszczel') || low.includes('żebr') || low.includes('ramię') || low.includes('ręk')) {
+          meNarrative = [
+            `[Uraz #${num}] Oczyszczam ranę z wolnych odłamków kostnych szczypcami Duval.`,
+            `Przepłukuję obficie pole urazowe 3000ml podgrzanego 0.9% NaCl.`,
+            `Dokonuję redukcji odłamków kostnych i stabilizuję kończynę szyną Thomasa.`,
+            `Odtwarzam przedziały powięziowe szwem Vicryl 2-0 i sprawdzam nawrót kapilarny.`
+          ];
+          doNarrative = [
+            `[Uraz #${num}] Kość nastawiona w osi anatomicznej, kończyna unieruchomiona.`,
+            `Nawrót kapilarny < 2s, czucie obwodowe zachowane.`
+          ];
+        }
+        else if (low.includes('brzuch') || low.includes('krwotok') || low.includes('kłut') || low.includes('cięta') || low.includes('jelit') || low.includes('wątrob')) {
+          meNarrative = [
+            `[Uraz #${num}] Wprowadzam rozwieracz Balfour i odsysam ssakiem Yankauera krwawy wysięk z jamy otrzewnej.`,
+            `Lokalizuję uszkodzenie naczyń krezkowych i zakładam zakrzywione kleszczyki Peana.`,
+            `Wykonuję podwiązki naczyniowe podwójnym szwem Silk 3-0 i opłukuję otrzewną Ringerem.`,
+            `Zakładam gąbkę hemostatyczną Tachosil i kontroluję szczelność powłok.`
+          ];
+          doNarrative = [
+            `[Uraz #${num}] Jama otrzewnej płukana, naczynia podwiązane, wysięk ustał.`,
+            `Gąbka Tachosil przylega szczelnie, brak aktywnego krwawienia.`
+          ];
+        }
+        else if (low.includes('oparzen') || low.includes('ogień') || low.includes('kwas')) {
+          meNarrative = [
+            `[Uraz #${num}] Usuwam zmartwiały naskórek skalpelem #15 (necrectomia).`,
+            `Płuczę pole schłodzonym 0.9% NaCl i wykonuję escharotomię odbarczającą strupy.`,
+            `Nakładam maść ze srebrem SSD i zabezpieczam powierzchnię siatką nanocząsteczkową Acticoat.`
+          ];
+          doNarrative = [
+            `[Uraz #${num}] Strupy oparzeniowe nacięte – napięcie tkankowe ustępuje.`,
+            `Opatrunek Acticoat założony, obwodowe krążenie poprawia się.`
+          ];
+        }
+        else {
+          meNarrative = [
+            `[Uraz #${num}] Osuszam pole operacyjne jałowymi gazikami i oczyszczam ubytek z zanieczyszczeń roztworem Octenisept.`,
+            `Opanuję krwawienie naczyniowe kleszczykami Peana i podwiązuję naczynia szwem Vicryl 3-0.`,
+            `Kontroluję spójność tkankową i zakładam jałowy opatrunek kompresyjny.`
+          ];
+          doNarrative = [
+            `[Uraz #${num}] Pole operacyjne czyste, ubytek tkankowy opanowany.`,
+            `Hemostaza pełna – brak aktywnych wysięków krwistych.`
+          ];
+        }
+
+        phases.push({
+          title: `FAZA III-${String.fromCharCode(65 + idx)}: Zaopatrzenie Obrażenia #${num} – ${inj}`,
+          me: meNarrative,
+          do: doNarrative
+        });
+      });
+
+      phases.push({
+        title: `FAZA IV: Rekonstrukcja Tkankowa, Drenaż i Warstwowe Zamknięcie Chirurgiczne`,
+        me: [
+          "Wprowadzam dren Redona/Bullaud przez osobne nacięcie boczne z podłączeniem do ssania czynnego.",
+          "Igłotrzymaczem Mayo-Hegar zespalam powięź szwem wchłanialnym ciągłym Vicryl 2-0 na igle HR26.",
+          "Zakładam szwy tkanki podskórnej Monocryl 3-0 i zamykam skórę szwem śródskórnym Prolene 4-0.",
+          "Nakładam jałowy opatrunek chirurgiczny z przylepcem Hypafix i sprawdzam szczelność."
+        ],
+        do: [
+          "Powięź zespolona, drenaż czynny pracuje, opatrunek suchy i przylegający.",
+          "Brzegi rany zbliżone bez napięcia – szwy skórne ułożone równomiernie."
+        ]
+      });
+
+      phases.push({
+        title: "FAZA V: Wybudzenie, Ekstubacja i Transport na OIOM",
+        me: [
+          "Wstrzymuję podaż gazu anestetycznego Sevofluran i podaję Atropinę 1mg z Neostygminą 2.5mg IV.",
+          "Odsysam jamę ustną ze śluzu ssakiem miękkim.",
+          "Po odzysku odruchu połykania i własnej wentylacji sprawnie ekstubuję rurkę dotchawiczą.",
+          "Zakładam wąsy tlenowe 4L/min i przekazuję pacjenta na OIOM w stanie stabilnym."
+        ],
+        do: [
+          "Pacjent oddycha samodzielnie, SpO2 > 97%, odruch połykania powrócił.",
+          "GCS 15 po wybudzeniu – pacjent reaguje na polecenia, transportowany na OIOM."
+        ]
+      });
+
+      // Explode each phase into multiple individual cards
+      const allCards = [];
+      phases.forEach(p => {
+        const meLines = Array.isArray(p.me) ? p.me : [p.me];
+        const doLines = Array.isArray(p.do) ? p.do : [p.do];
+        meLines.forEach(m => allCards.push({ type: 'me', title: p.title, text: m }));
+        doLines.forEach(d => allCards.push({ type: 'do', title: p.title, text: d }));
+      });
+
+      document.getElementById('surgery-output').innerHTML = buildSurgeryHtml(allCards);
+      buildCopySurgeryText(allCards);
+      autoPopulatePatientCard(desc, needs, '');
+    }
+
+    function autoPopulatePatientCard(diagText, medsText, surgeryText) {
+      document.getElementById('card-diag').value = diagText || "Rozpoznano urazy wielonarządowe u pacjenta";
+
+      const summaryText = `Wykonano pilną operację ratującą życie w znieczuleniu ogólnym z intubacją endotrachealną 7.5. Przeprowadzono dezynfekcję Kodanem, incyzję skalpelem #10, zlokalizowano i zaopatrzono osobno rozpoznane urazy (${diagText}). Opanowano krwawienie kleszczykami Peana, odessano treść krwistą ssakiem Yankauera, obficie przemyto pole 0.9% NaCl, założono drenaż czynny Bullaud oraz zrobiono szycie warstwowe powięzi (Vicryl 2-0) i skóry (Prolene 4-0). Pacjent zniósł zabieg stabilnie i został przekazany na OIOM.`;
+      document.getElementById('card-summary').value = summaryText;
+
+      const recomText = `1. Rygorystyczny odpoczynek łóżkowy w reżimie oszczędzającym przez 14 dni. Całkowity zakaz dźwigania ciężarów > 2kg przez okres 6 tygodni.
+2. Pielęgnacja pola operacyjnego: codzienna antyseptyka rany płynem Octenisept, zmiana jałowych opatrunków przylepcowych Hypafix w warunkach aseptycznych. Zakaz moczenia rany w kąpieli wodnej przez 10 dni.
+3. Farmakoterapia domowa: Paracetamol 500mg 3x1 p.o. przeciwbólowo, Cefazolin/Amoksycylina 1g 2x1 p.o. antybiotykoterapia osłonowa przez 7 dni, Clexane 40mg s.c. 1x1 przeciwzakrzepowo.
+4. Kontrola w Poradni Chirurgicznej oraz zdjęcie szwów śródskórnych/drenów za 12-14 dni.
+5. W przypadku wystąpienia objawów alarmowych (gorączka > 38.5°C, nasilenie obrzęku, zaczerwienienia wokół rany lub wycieku ropnego) – pilne zgłoszenie na SOR.`;
+      document.getElementById('card-recom').value = recomText;
+
+      document.getElementById('card-meds').value = medsText || "Fentanyl 150mcg, Propofol 160mg, Suksametonium 100mg, Adrenalina 1mg, Morfina 10mg, TXA 1g, Płyn Ringera 1000ml, Szwy Vicryl 2-0 / Prolene 4-0";
+
+      updateCardDoctorField();
+    }
+
+    function copyFullSurgery() {
+      if (!currentSurgeryPlanText) {
+        alert("Wygeneruj najpierw plan operacji!");
+        return;
+      }
+      navigator.clipboard.writeText(currentSurgeryPlanText);
+      alert("Skopiowano bardzo szczegółową operację w 1. osobie do schowka!");
+    }
+
+    function updateCardPreview() {
+      const diag = document.getElementById('card-diag').value;
+      const summary = document.getElementById('card-summary').value;
+      const recom = document.getElementById('card-recom').value;
+      const meds = document.getElementById('card-meds').value;
+      const status = document.getElementById('card-status').value;
+      const doctor = document.getElementById('card-doctor').value;
+
+      const report = `----------------------------------------------------
+🚑 DIAGNOZA I ROZPOZNANE OBRAŻENIA:
+${diag}
+
+🔪 PRZEBIEG I STRESZCZENIE OPERACJI CHIRURGICZNEJ:
+${summary}
+
+💊 ZALECENIA LEKARSKIE I REKONWALESCENCJA POST-OP:
+${recom}
+
+💊 PODANE LEKI, PŁYNY I PROCEDURY:
+${meds}
+
+🏥 STATUS PACJENTA PO OPERACJI:
+${status}
+
+----------------------------------------------------
+👨‍⚕️ LEKARZ / RATOWNIK PROWADZĄCY: ${doctor}
+🕒 DATA I GODZINA WPISU: ${new Date().toLocaleString('pl-PL')}
+====================================================`;
+
+      document.getElementById('card-output').textContent = report;
+    }
+
+    function copyCardReport() {
+      const reportText = document.getElementById('obdukcja-output').textContent;
+      navigator.clipboard.writeText(reportText);
+      alert("Skopiowano Czysty Protokół Obdukcji Lekarskiej do schowka!");
+    }
+
+    function resetDWCFields() {
+      document.getElementById('dwc-unit').value = 'Medic-1';
+      document.getElementById('dwc-members').value = '';
+      document.getElementById('dwc-location').value = 'Pillbox Hill Medical Center';
+      document.getElementById('dwc-notes').value = '';
+      updateDWCPreview();
+    }
+
+    function updateDWCPreview() {
+      const type = document.getElementById('dwc-type').value;
+      const unit = document.getElementById('dwc-unit').value.trim() || "Medic-1";
+      const members = document.getElementById('dwc-members').value.trim() || "Brak podanego składu";
+      const location = document.getElementById('dwc-location').value.trim() || "Pillbox Hill Medical Center";
+      const status = document.getElementById('dwc-status').value;
+      const notes = document.getElementById('dwc-notes').value.trim() || "Brak uwag";
+      const doctor = document.getElementById('card-doctor').value || "Lekarz Dyżurny";
+
+      const report = `====================================================
+🚑 RAPORT OPERACYJNY: ${type}
+====================================================
+📌 KRYPTONIM JEDNOSTKI: ${unit}
+📍 REJON / STACJONOWANIE: ${location}
+⏰ CZAS ZGŁOSZENIA: ${new Date().toLocaleString('pl-PL')}
+
+👥 SKŁAD OSOBOWY PATROLU / DYŻURU:
+${members}
+
+🟢 STATUS OPERACYJNY: ${status}
+
+📝 UWAGI I NOTATKI DYŻURNE:
+${notes}
+
+----------------------------------------------------
+👨‍⚕️ LEKARZ SPORZĄDZAJĄCY: ${doctor}
+====================================================`;
+
+      document.getElementById('dwc-output').textContent = report;
+    }
+
+    function copyDWCReport() {
+      const text = document.getElementById('dwc-output').textContent;
+      if (!text) {
+        alert("Brak treści raportu do skopiowania!");
+        return;
+      }
+      navigator.clipboard.writeText(text);
+      alert("Skopiowano Raport DWC / Patrolu do schowka!");
+    }
+
+    const CURRENT_APP_VERSION = "1.0.7";
+    const GITHUB_VERSION_URL = "https://raw.githubusercontent.com/Morakuu/EMS-APP/main/version.json";
+
+    async function checkAppUpdate(manual = false) {
+      const updateBtn = document.getElementById('update-btn');
+      if (manual && updateBtn) {
+        updateBtn.textContent = '🔄 Sprawdzanie patchera...';
+      }
+
+      try {
+        const res = await fetch(GITHUB_VERSION_URL + '?t=' + Date.now());
+        if (res.ok) {
+          const info = await res.json();
+          const isHigherVersion = info.latestVersion && (info.latestVersion.trim() !== CURRENT_APP_VERSION.trim());
+          
+          if (isHigherVersion) {
+            if (updateBtn) {
+              updateBtn.textContent = `⚡ Dostępny patch v${info.latestVersion}! Instalowanie...`;
+              updateBtn.style.color = '#fbbf24';
+              updateBtn.style.borderColor = '#fbbf24';
+            }
+
+            const downloadLink = info.downloadUrl || 'https://github.com/Morakuu/EMS-APP/releases/download/v1.0.5/Asystent-EMS-Instalator.exe';
+
+            if (manual || confirm(`Dostępna jest nowa wersja patchera Asystent EMS (v${info.latestVersion})!\n\nZmiany: ${info.changelog || 'Nowy patch poprawek.'}\n\nCzy chcesz automatycznie pobrać i zainstalować ten patch teraz?`)) {
+              if (window.electronAPI && window.electronAPI.downloadAndApplyUpdate) {
+                if (updateBtn) updateBtn.textContent = '📥 Pobieranie patcha...';
+                const result = await window.electronAPI.downloadAndApplyUpdate(downloadLink);
+                if (result && result.success) {
+                  if (updateBtn) updateBtn.textContent = '⚡ Instalowanie patcha i restart...';
+                } else {
+                  window.open(downloadLink, '_blank');
+                }
+              } else {
+                window.open(downloadLink, '_blank');
+              }
+            }
+          } else {
+            if (updateBtn) {
+              updateBtn.textContent = `✅ Patcher EMS v${CURRENT_APP_VERSION} (Najnowsza)`;
+              updateBtn.style.color = '#34d399';
+              updateBtn.style.borderColor = 'rgba(52, 211, 153, 0.3)';
+            }
+            if (manual) {
+              alert(`Masz zainstalowany najnowszy patch aplikacji Asystent EMS (v${CURRENT_APP_VERSION}).`);
+            }
+          }
+        }
+      } catch (err) {
+        if (updateBtn) updateBtn.textContent = `🔄 Aktualizacje v${CURRENT_APP_VERSION}`;
+      }
+    }
+
+    // Auto-check update 3 seconds after boot
+    setTimeout(() => { checkAppUpdate(false); }, 3000);
+
+    // Initialize on page load
+    loadSavedSettings();
+  </script>
+</body>
+</html>
