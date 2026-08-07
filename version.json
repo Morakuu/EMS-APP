@@ -1,6 +1,6 @@
 {
-    "latestVersion":  "1.1.12",
-    "changelog":  "Wersja 1.1.12: Nowy w pelni customowy interfejs patchera (pasek postepu).",
+    "latestVersion":  "1.1.13",
+    "changelog":  "1. Nowy, piękny i nowoczesny interfejs graficzny pobierania.\\n2. Zoptymalizowano proces wypakowywania plików.\\n3. Dodano panel nowości po prawej stronie patchera.\\n4. Przygotowano podłoże pod kolejne aktualizacje Asystenta EMS.",
     "hasUpdate":  true,
-    "downloadUrl":  "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.12/Asystent-EMS.zip"
+    "downloadUrl":  "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.13/Asystent-EMS.zip"
 }
