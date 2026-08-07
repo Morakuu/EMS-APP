@@ -1,6 +1,6 @@
 {
-    "latestVersion":  "1.1.16",
-    "changelog":  "1. Nowy i nowoczesny interfejs graficzny pobierania.|2. Zoptymalizowano proces wypakowywania plikow.|3. Dodano panel nowosci po prawej stronie patchera.|4. Usunieto przycisk GRAJ i poprawiono polozenie logo.",
+    "latestVersion":  "1.1.17",
+    "changelog":  "1. Zmiana nazwy aplikacji widocznej w pasku.|2. Inne poprawki kosmetyczne.",
     "hasUpdate":  true,
-    "downloadUrl":  "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.16/Asystent-EMS.zip"
+    "downloadUrl":  "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.17/Asystent-EMS.zip"
 }
