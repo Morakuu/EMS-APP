@@ -1,6 +1,6 @@
 {
-  "latestVersion": "1.0.5",
+  "latestVersion": "1.0.6",
   "hasUpdate": true,
-  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.0.5/Asystent-EMS-Instalator.exe",
-  "changelog": "Wersja 1.0.5: Dodano nową zakładkę DWC & Patrole (DWC-A, DWC-B, PU1, PU2, PU3, Stacjonowanie Szpital)."
+  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.0.6/Asystent-EMS-Instalator.exe",
+  "changelog": "Wersja 1.0.6: Automatyczny patcher tła bez otwierania przeglądarki."
 }
