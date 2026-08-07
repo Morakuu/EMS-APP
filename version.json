@@ -1,6 +1,6 @@
 {
-    "latestVersion":  "1.1.15",
-    "changelog":  "1. Zoptymalizowano kolorystykę Patchera, aby w 100% używał oryginalnych HEXów z aplikacji (#0d0d0f i #08080a).",
+    "latestVersion":  "1.1.16",
+    "changelog":  "1. Nowy i nowoczesny interfejs graficzny pobierania.|2. Zoptymalizowano proces wypakowywania plikow.|3. Dodano panel nowosci po prawej stronie patchera.|4. Usunieto przycisk GRAJ i poprawiono polozenie logo.",
     "hasUpdate":  true,
-    "downloadUrl":  "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.15/Asystent-EMS.zip"
+    "downloadUrl":  "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.16/Asystent-EMS.zip"
 }
