@@ -1,6 +1,6 @@
 ﻿{
-  "latestVersion": "1.1.30",
+  "latestVersion": "1.1.31",
   "hasUpdate": true,
-  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.30/Asystent-EMS.zip",
-  "changelog": "Dodano VI punkt w Obdukcji: OPINIA LEKARSKA (kwalifikacja prawno-medyczna, kwalifikacja uszczerbku Art. 157 KK)."
+  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.31/Asystent-EMS.zip",
+  "changelog": "Opinia Lekarska w Obdukcji jest domyślnie pusta i generuje się automatycznie po zeskanowaniu zdjęcia obrażeń."
 }
