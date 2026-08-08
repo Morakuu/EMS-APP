@@ -2889,7 +2889,7 @@ i tak dalej do FAZY V. Nie używaj markdown **pogrubień**, nie dodawaj żadnych
       const badge = document.getElementById('ai-card-status-badge');
       if(badge) badge.classList.remove('hidden');
       
-      const model = localStorage.getItem('ai_model_preference') || 'gemini-2.5-flash';
+      const model = localStorage.getItem('ai_model_preference') || 'gemini-2.0-flash';
       
       const prompt = `Jesteś lekarzem klinicznym w szpitalu. Poniżej znajduje się przebieg operacji chirurgicznej (komendy).
 Twoim zadaniem jest wypełnić szczegółową Kartę Pacjenta na podstawie tego przebiegu. 
@@ -3081,7 +3081,7 @@ ${notes}
       alert("Skopiowano Raport DWC / Patrolu do schowka!");
     }
 
-    const CURRENT_APP_VERSION = "1.1.23";
+    const CURRENT_APP_VERSION = "1.1.24";
     const GITHUB_VERSION_URL = "https://raw.githubusercontent.com/Morakuu/EMS-APP/main/version.json";
 
     async function checkAppUpdate(manual = false) {
