@@ -582,6 +582,16 @@
           </div>
         </div>
 
+        <div style="border-top: 1px solid #1e293b; padding-top: 12px;">
+          <strong style="font-size: 11px; color: #22d3ee;" class="font-mono">VI. OPINIA LEKARSKA</strong>
+          <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 6px;">
+            <div>
+              <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Kwalifikacja prawno-medyczna i ocena uszczerbku / skutków:</label>
+              <textarea id="obd-opinion" rows="3" class="w-full bg-[#08080A] border border-white/10 rounded-xl p-3 text-slate-200 text-[11px] outline-none focus:border-[#46BEFF]/50 transition-all resize-y" oninput="updateObdukcjaPreview()">Stwierdzone obrażenia ciała naruszyły czynności narządów ciała na okres powyżej 7 dni w rozumieniu Art. 157 § 1 KK. Urazy powstały w wyniku działania narzędzia tępego / twardokrawędziastego lub urazu mechanicznego ze znaczną siłą.</textarea>
+            </div>
+          </div>
+        </div>
+
       </div>
 
       <!-- Right Output for Obdukcja -->
@@ -1789,6 +1799,7 @@
 
       document.getElementById('obd-rtg').value = 'Nie wykonywano';
       document.getElementById('obd-ct').value = 'Nie wykonywano';
+      document.getElementById('obd-opinion').value = 'Stwierdzone obrażenia ciała naruszyły czynności narządów ciała na okres powyżej 7 dni w rozumieniu Art. 157 § 1 KK. Urazy powstały w wyniku działania narzędzia tępego / twardokrawędziastego lub urazu mechanicznego ze znaczną siłą.';
       document.getElementById('obd-ocr-text').value = '';
 
       updateObdukcjaPreview();
@@ -2181,6 +2192,12 @@
       document.getElementById('obd-rtg').value = rtgFindings.length > 0 ? rtgFindings.join(' ') : "Nie wykonywano";
       document.getElementById('obd-ct').value = ctFindings.length > 0 ? ctFindings.join(' ') : "Nie wykonywano";
 
+      if (fullTextLow.includes('złaman') || fullTextLow.includes('postrzał') || fullTextLow.includes('krwawieni') || fullTextLow.includes('rozcięci') || fullTextLow.includes('rany')) {
+        document.getElementById('obd-opinion').value = "Stwierdzone obrażenia ciała (złamania / rany / urazy narządowe) spowodowały ciężki uszczerbek na zdrowiu oraz naruszyły czynności narządów ciała na okres powyżej 7 dni w rozumieniu Art. 157 § 1 KK. Powstały w wyniku działania narzędzia tępego/ostrego lub urazu mechanicznego ze znaczną siłą.";
+      } else {
+        document.getElementById('obd-opinion').value = "Stwierdzone obrażenia (stłuczenia / otarcia / rany powierzchowne) spowodowały naruszenie czynności narządów ciała na okres poniżej 7 dni w rozumieniu Art. 157 § 2 KK. Urazy powstały w wyniku urazu tępego o umiarkowanej sile.";
+      }
+
       updateObdukcjaPreview();
     }
 
@@ -2294,6 +2311,7 @@
 
       const rtg = cleanAiOcrText(document.getElementById('obd-rtg').value) || "Nie wykonywano";
       const ct = cleanAiOcrText(document.getElementById('obd-ct').value) || "Nie wykonywano";
+      const opinion = cleanAiOcrText(document.getElementById('obd-opinion').value) || "Brak uwag.";
 
       const report = `**I. DANE **
 **Imię i nazwisko:** ${name}
@@ -2332,7 +2350,10 @@
 **V. BADANIA DODATKOWE**
 **Zdjęcia RTG:** ${rtg}
  
-**Tomografia komputerowa/MRI:** ${ct}`;
+**Tomografia komputerowa/MRI:** ${ct}
+
+**VI. OPINIA LEKARSKA**
+${opinion}`;
 
       document.getElementById('obdukcja-output').textContent = report;
     }
@@ -3102,7 +3123,7 @@ ${notes}
       alert("Skopiowano Raport DWC / Patrolu do schowka!");
     }
 
-    const CURRENT_APP_VERSION = "1.1.29";
+    const CURRENT_APP_VERSION = "1.1.30";
     const GITHUB_VERSION_URL = "https://raw.githubusercontent.com/Morakuu/EMS-APP/main/version.json";
 
     async function checkAppUpdate(manual = false) {
