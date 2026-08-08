@@ -1,6 +1,6 @@
 ﻿{
-  "latestVersion": "1.1.29",
+  "latestVersion": "1.1.30",
   "hasUpdate": true,
-  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.29/Asystent-EMS.zip",
-  "changelog": "Przeprowadzono pełną symulację testową – 100% skuteczności przydzielania urazów w Obdukcji (Szyja, Głowa, Kończyny, Tułów)."
+  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.30/Asystent-EMS.zip",
+  "changelog": "Dodano VI punkt w Obdukcji: OPINIA LEKARSKA (kwalifikacja prawno-medyczna, kwalifikacja uszczerbku Art. 157 KK)."
 }
