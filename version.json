@@ -1,6 +1,6 @@
 ﻿{
-  "latestVersion": "1.1.28",
+  "latestVersion": "1.1.29",
   "hasUpdate": true,
-  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.28/Asystent-EMS.zip",
-  "changelog": "Naprawiono sortowanie urazów w Obdukcji: rany szyi trafiają do Szyi, a kończyn do Kończyn (usunięto błąd wpychania urazów do Tułowia)."
+  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.29/Asystent-EMS.zip",
+  "changelog": "Przeprowadzono pełną symulację testową – 100% skuteczności przydzielania urazów w Obdukcji (Szyja, Głowa, Kończyny, Tułów)."
 }
