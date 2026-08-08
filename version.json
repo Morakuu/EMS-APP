@@ -1,6 +1,6 @@
 {
-  "latestVersion": "1.1.21",
+  "latestVersion": "1.1.22",
   "hasUpdate": true,
-  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.21/Asystent-EMS.zip",
-  "changelog": "1. Calkowicie nowy, generowany automatycznie system Karty Pacjenta przez sztuczna inteligencje."
+  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.22/Asystent-EMS.zip",
+  "changelog": "1. Optymalizacja instalatora - nie pobiera w kolko tej samej aktualizacji."
 }
