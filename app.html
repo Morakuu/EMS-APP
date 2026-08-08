@@ -1949,7 +1949,7 @@
       container.innerHTML = html;
     }
 
-    // SANITIZER: STRIPS TAGS LIKE (Szyja), [Brackets], AND REPETITIVE METATEXT
+    // SANITIZER: FORMATS OCR LINES WITHOUT STRIPPING ESSENTIAL ANATOMICAL LOCATION TAGS
     function cleanAiOcrText(rawText) {
       if (!rawText) return "";
       
@@ -1963,7 +1963,6 @@
         let clean = trimmed
           .replace(/^[-\*\d\.]+\s*/, '')
           .replace(/\[.*?\]/g, '')
-          .replace(/\((Szyja|Kark|Głowa|Tułów|Mostek|Klatka piersiowa|Lewe udo|Prawe udo|Udo|Łydka|Noga|Ręka|Dłoń|Oczodół|Czoło|Twarz|Narządy płciowe|Krocze)\)\s*:?\s*/gi, '')
           .replace(/\*\*/g, '')
           .replace(/\s*:\s*/g, ' - ')
           .trim();
@@ -1980,14 +1979,13 @@
       if (!cleanText) return "";
       let clean = cleanText
         .replace(/\[.*?\]/g, '')
-        .replace(/\((Szyja|Kark|Głowa|Tułów|Mostek|Klatka piersiowa|Lewe udo|Prawe udo|Udo|Łydka|Noga|Ręka|Dłoń|Oczodół|Czoło|Twarz|Narządy płciowe|Krocze)\)\s*:?\s*/gi, '')
         .replace(/\*\*/g, '')
         .replace(/\s*:\s*/g, ' - ')
         .trim();
       return clean;
     }
 
-    // STRICT ZERO-MISTAKE ANATOMICAL SORTING AND DEDUPLICATION ENGINE
+    // STRICT ANATOMICAL SORTING AND DEDUPLICATION ENGINE
     function sortInjuriesStrictly(rawText) {
       let headSet = new Set();
       let torsoSet = new Set();
@@ -2002,32 +2000,38 @@
       const lines = rawText.split(/\n|;|\.\s+/);
 
       lines.forEach(line => {
-        let clean = cleanAiOcrText(line).trim();
-        if (!clean || clean.length < 3) return;
+        let rawClean = line.trim();
+        if (!rawClean || rawClean.length < 2) return;
 
-        const low = clean.toLowerCase();
-        const prose = formatSingleInjuryProse(clean);
+        const low = rawClean.toLowerCase();
+        const prose = formatSingleInjuryProse(rawClean);
         if (!prose) return;
 
-        if (low.includes('udo') || low.includes('uda') || low.includes('łydk') || low.includes('kolan') || low.includes('stop') || low.includes('kostk') || low.includes('ramię') || low.includes('ramiona') || low.includes('przedramię') || low.includes('dłoń') || low.includes('dłonie') || low.includes('palec') || low.includes('palce') || low.includes('łokieć') || low.includes('noga') || low.includes('nogi') || low.includes('ręka') || low.includes('ręce')) {
-          limbsSet.add(prose);
-        }
-        else if (low.includes('szyj') || low.includes('kark') || low.includes('kręgi szyj') || low.includes('tchawic') || low.includes('krtań')) {
+        // 1. SZYJA (NECK / THROAT / CAROTID) - CHECK FIRST BEFORE TORSO
+        if (low.includes('szyj') || low.includes('kark') || low.includes('tchawic') || low.includes('krtań') || low.includes('gardł') || low.includes('grdyk') || low.includes('przełyk') || low.includes('szyjn') || low.includes('kręgi szyj')) {
           neckSet.add(prose);
         }
-        else if (low.includes('oczodół') || low.includes('oczodoł') || low.includes('oczy') || low.includes('oko') || low.includes('głow') || low.includes('czaszk') || low.includes('czoło') || low.includes('twarz') || low.includes('nos') || low.includes('szczęk') || low.includes('żuchw') || low.includes('uszy') || low.includes('ucho') || low.includes('ciemieniow') || low.includes('potyliczn') || low.includes('skroniow') || low.includes('mózg')) {
+        // 2. GŁOWA / TWARZ (HEAD / FACE / BRAIN)
+        else if (low.includes('głow') || low.includes('czaszk') || low.includes('czoło') || low.includes('czół') || low.includes('twarz') || low.includes('nos') || low.includes('szczęk') || low.includes('żuchw') || low.includes('uszy') || low.includes('ucho') || low.includes('oczodół') || low.includes('oczodoł') || low.includes('oczy') || low.includes('oko') || low.includes('ciemieniow') || low.includes('potyliczn') || low.includes('skroniow') || low.includes('mózg') || low.includes('warga') || low.includes('wargi') || low.includes('zęb') || low.includes('broda') || low.includes('policzek') || low.includes('policzki') || low.includes('brwi') || low.includes('łuk brwi')) {
           headSet.add(prose);
         }
-        else if (low.includes('płciow') || low.includes('krocz') || low.includes('jądr') || low.includes('pęcherz')) {
+        // 3. KOŃCZYNY GÓRNE I DOLNE (LIMBS - ARMS, LEGS, HANDS, FEET, SHOULDERS, HIPS)
+        else if (low.includes('udo') || low.includes('uda') || low.includes('łydk') || low.includes('łydki') || low.includes('kolan') || low.includes('stop') || low.includes('kostk') || low.includes('ramię') || low.includes('ramiona') || low.includes('przedramię') || low.includes('przedramiona') || low.includes('dłoń') || low.includes('dłonie') || low.includes('palec') || low.includes('palce') || low.includes('łokieć') || low.includes('łokcie') || low.includes('noga') || low.includes('nogi') || low.includes('ręka') || low.includes('ręce') || low.includes('biceps') || low.includes('triceps') || low.includes('nadgarstek') || low.includes('nadgarstki') || low.includes('bark') || low.includes('barki') || low.includes('ramion') || low.includes('goleń') || low.includes('goleni') || low.includes('pięta') || low.includes('pięty') || low.includes('biodro') || low.includes('biodra') || low.includes('poślad')) {
+          limbsSet.add(prose);
+        }
+        // 4. NARZĄDY PŁCIOWE / KROCZE (GENITALS)
+        else if (low.includes('płciow') || low.includes('krocz') || low.includes('jądr') || low.includes('pęcherz') || low.includes('prącie') || low.includes('penis') || low.includes('srom')) {
           genitalsSet.add(prose);
         }
-        else if (low.includes('klatk') || low.includes('mostek') || low.includes('żebro') || low.includes('żebra') || low.includes('brzuch') || low.includes('plecy') || low.includes('łopatk') || low.includes('lędźwi') || low.includes('obojczyk') || low.includes('biodro') || low.includes('miednic') || low.includes('płuco') || low.includes('serce') || low.includes('wątrob') || low.includes('śledzion') || low.includes('tułów')) {
+        // 5. TUŁÓW / KLATKA / BRZUCH / PLECY (TORSO / CHEST / ABDOMEN / BACK)
+        else if (low.includes('klatk') || low.includes('mostek') || low.includes('żebro') || low.includes('żebra') || low.includes('brzuch') || low.includes('plecy') || low.includes('łopatk') || low.includes('lędźwi') || low.includes('obojczyk') || low.includes('miednic') || low.includes('płuco') || low.includes('płuca') || low.includes('serce') || low.includes('wątrob') || low.includes('śledzion') || low.includes('tułów') || low.includes('brzusz') || low.includes('jelit') || low.includes('otrzewn') || low.includes('kręgosłup')) {
           torsoSet.add(prose);
         }
+        // 6. SMART FALLBACK WITH ANATOMICAL HINTS
         else {
-          if (low.includes('udo') || low.includes('noga') || low.includes('ręka')) limbsSet.add(prose);
-          else if (low.includes('szyja')) neckSet.add(prose);
-          else if (low.includes('głowa')) headSet.add(prose);
+          if (low.includes('szyj') || low.includes('kark')) neckSet.add(prose);
+          else if (low.includes('głow') || low.includes('twarz')) headSet.add(prose);
+          else if (low.includes('ręk') || low.includes('nog') || low.includes('prawo') || low.includes('prawa') || low.includes('prawy') || low.includes('lewo') || low.includes('lewa') || low.includes('lewy')) limbsSet.add(prose);
           else torsoSet.add(prose);
         }
       });
@@ -3098,7 +3102,7 @@ ${notes}
       alert("Skopiowano Raport DWC / Patrolu do schowka!");
     }
 
-    const CURRENT_APP_VERSION = "1.1.27";
+    const CURRENT_APP_VERSION = "1.1.28";
     const GITHUB_VERSION_URL = "https://raw.githubusercontent.com/Morakuu/EMS-APP/main/version.json";
 
     async function checkAppUpdate(manual = false) {
