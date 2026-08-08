@@ -2011,12 +2011,12 @@
         if (low.includes('szyj') || low.includes('kark') || low.includes('tchawic') || low.includes('krtań') || low.includes('gardł') || low.includes('grdyk') || low.includes('przełyk') || low.includes('szyjn') || low.includes('kręgi szyj')) {
           neckSet.add(prose);
         }
-        // 2. GŁOWA / TWARZ (HEAD / FACE / BRAIN)
-        else if (low.includes('głow') || low.includes('czaszk') || low.includes('czoło') || low.includes('czół') || low.includes('twarz') || low.includes('nos') || low.includes('szczęk') || low.includes('żuchw') || low.includes('uszy') || low.includes('ucho') || low.includes('oczodół') || low.includes('oczodoł') || low.includes('oczy') || low.includes('oko') || low.includes('ciemieniow') || low.includes('potyliczn') || low.includes('skroniow') || low.includes('mózg') || low.includes('warga') || low.includes('wargi') || low.includes('zęb') || low.includes('broda') || low.includes('policzek') || low.includes('policzki') || low.includes('brwi') || low.includes('łuk brwi')) {
+        // 2. GŁOWA / TWARZ (HEAD / FACE / BRAIN) - STRICT BOUNDARIES ON SHORT WORDS LIKE "OKO" TO PREVENT MATCHING "SKOKOWEGO"
+        else if (low.includes('głow') || low.includes('czaszk') || low.includes('czoło') || low.includes('czół') || low.includes('twarz') || /\bnos\b|\bnosu\b/.test(low) || low.includes('szczęk') || low.includes('żuchw') || low.includes('uszy') || /\bucho\b|\buchu\b/.test(low) || low.includes('oczodół') || low.includes('oczodoł') || low.includes('oczy') || /\boko\b|\boka\b/.test(low) || low.includes('ciemieniow') || low.includes('potyliczn') || low.includes('skroniow') || low.includes('mózg') || low.includes('warga') || low.includes('wargi') || low.includes('zęb') || low.includes('broda') || low.includes('policzek') || low.includes('policzki') || low.includes('brwi') || low.includes('łuk brwi')) {
           headSet.add(prose);
         }
         // 3. KOŃCZYNY GÓRNE I DOLNE (LIMBS - ARMS, LEGS, HANDS, FEET, SHOULDERS, HIPS)
-        else if (low.includes('udo') || low.includes('uda') || low.includes('łydk') || low.includes('łydki') || low.includes('kolan') || low.includes('stop') || low.includes('kostk') || low.includes('ramię') || low.includes('ramiona') || low.includes('przedramię') || low.includes('przedramiona') || low.includes('dłoń') || low.includes('dłonie') || low.includes('palec') || low.includes('palce') || low.includes('łokieć') || low.includes('łokcie') || low.includes('noga') || low.includes('nogi') || low.includes('ręka') || low.includes('ręce') || low.includes('biceps') || low.includes('triceps') || low.includes('nadgarstek') || low.includes('nadgarstki') || low.includes('bark') || low.includes('barki') || low.includes('ramion') || low.includes('goleń') || low.includes('goleni') || low.includes('pięta') || low.includes('pięty') || low.includes('biodro') || low.includes('biodra') || low.includes('poślad')) {
+        else if (low.includes('udo') || low.includes('uda') || low.includes('łydk') || low.includes('łydki') || low.includes('kolan') || low.includes('stop') || low.includes('kostk') || low.includes('ramię') || low.includes('ramiona') || low.includes('przedramię') || low.includes('przedramiona') || low.includes('dłoń') || low.includes('dłonie') || low.includes('palec') || low.includes('palce') || low.includes('łokieć') || low.includes('łokcie') || low.includes('noga') || low.includes('nogi') || low.includes('ręka') || low.includes('ręce') || low.includes('biceps') || low.includes('triceps') || low.includes('nadgarstek') || low.includes('nadgarstki') || low.includes('bark') || low.includes('barki') || low.includes('ramion') || low.includes('goleń') || low.includes('goleni') || low.includes('pięta') || low.includes('pięty') || low.includes('biodro') || low.includes('biodra') || low.includes('poślad') || low.includes('skokow')) {
           limbsSet.add(prose);
         }
         // 4. NARZĄDY PŁCIOWE / KROCZE (GENITALS)
@@ -3102,7 +3102,7 @@ ${notes}
       alert("Skopiowano Raport DWC / Patrolu do schowka!");
     }
 
-    const CURRENT_APP_VERSION = "1.1.28";
+    const CURRENT_APP_VERSION = "1.1.29";
     const GITHUB_VERSION_URL = "https://raw.githubusercontent.com/Morakuu/EMS-APP/main/version.json";
 
     async function checkAppUpdate(manual = false) {
