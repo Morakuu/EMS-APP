@@ -1,6 +1,6 @@
-{
-  "latestVersion": "1.1.22",
+﻿{
+  "latestVersion": "1.1.23",
   "hasUpdate": true,
-  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.22/Asystent-EMS.zip",
-  "changelog": "1. Optymalizacja instalatora - nie pobiera w kolko tej samej aktualizacji."
+  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.23/Asystent-EMS.zip",
+  "changelog": "1. Szybki hotfix przywracający polskie znaki oraz naprawiający niewidzialne zakładki (Awaria JS)."
 }
