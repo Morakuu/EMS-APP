@@ -2992,9 +2992,9 @@ ${status}
     }
 
     function copyCardReport() {
-      const reportText = document.getElementById('obdukcja-output').textContent;
+      const reportText = document.getElementById('card-output').textContent;
       navigator.clipboard.writeText(reportText);
-      alert("Skopiowano Czysty Protokół Obdukcji Lekarskiej do schowka!");
+      alert("Skopiowano wygenerowaną Kartę Pacjenta do schowka!");
     }
 
     function resetDWCFields() {
@@ -3090,7 +3090,7 @@ ${notes}
       alert("Skopiowano Raport DWC / Patrolu do schowka!");
     }
 
-    const CURRENT_APP_VERSION = "1.1.25";
+    const CURRENT_APP_VERSION = "1.1.26";
     const GITHUB_VERSION_URL = "https://raw.githubusercontent.com/Morakuu/EMS-APP/main/version.json";
 
     async function checkAppUpdate(manual = false) {
