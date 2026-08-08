@@ -1,6 +1,6 @@
 ﻿{
-  "latestVersion": "1.1.26",
+  "latestVersion": "1.1.27",
   "hasUpdate": true,
-  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.26/Asystent-EMS.zip",
-  "changelog": "1. Naprawiono błędny komunikat podczas kopiowania Karty Pacjenta AI na Discord."
+  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.27/Asystent-EMS.zip",
+  "changelog": "Udoskonalono prompty AI: drobne urazy (siniaki, otarcia) wywołują realistyczny zabieg ambulatoryjny (Altacet, maści, zimne kompresy) zamiast ciężkiej operacji."
 }
