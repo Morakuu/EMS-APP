@@ -402,23 +402,14 @@
         </div>
 
         <div>
-          <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Diagnoza i Rozpoznane Obrażenia:</label>
-          <textarea id="card-diag" rows="2" oninput="updateCardPreview()"></textarea>
-        </div>
-
-        <div>
-          <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Streszczenie Przeprowadzonej Operacji Chirurgicznej (Zaczytane Z Planu):</label>
-          <textarea id="card-summary" rows="3" oninput="updateCardPreview()"></textarea>
-        </div>
-
-        <div>
-          <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Zalecenia Lekarskie i Rekonwalescencja Post-Op (Zaczytane Z Planu):</label>
-          <textarea id="card-recom" rows="3" oninput="updateCardPreview()"></textarea>
-        </div>
-
-        <div>
-          <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 block">Podane Leki, Płyny i Procedury:</label>
-          <textarea id="card-meds" rows="2" oninput="updateCardPreview()"></textarea>
+          <label class="font-heading font-semibold uppercase text-[11px] text-slate-400 tracking-wider mb-2 flex justify-between items-center">
+            <span>Treść Karty Pacjenta (Generowana przez AI)</span>
+            <div class="flex items-center gap-2">
+              <span id="ai-card-status-badge" class="hidden text-[10px] bg-yellow-500/20 text-yellow-400 px-2 py-1 rounded border border-yellow-500/30 uppercase tracking-widest animate-pulse flex items-center gap-1"><span class="icon icon-sm">sync</span> Trwa generowanie...</span>
+              <button onclick="regeneratePatientCard()" class="text-[#46BEFF] hover:text-white transition-colors cursor-pointer" title="Wygeneruj ponownie Kartę Pacjenta"><span class="icon icon-sm">refresh</span></button>
+            </div>
+          </label>
+          <textarea id="card-ai-output" rows="18" oninput="updateCardPreview()" placeholder="Tutaj pojawi się automatycznie wygenerowana Karta Pacjenta w nowym formacie po zakończeniu operacji..."></textarea>
         </div>
 
         <div>
@@ -1763,10 +1754,9 @@
           Wklej jedno lub kilka zdjęć (Ctrl+V), uzupełnij opis i kliknij przycisk generowania.
         </div>`;
       currentSurgeryPlanText = "";
-      document.getElementById('card-diag').value = '';
-      document.getElementById('card-summary').value = '';
-      document.getElementById('card-recom').value = '';
-      document.getElementById('card-meds').value = '';
+      document.getElementById('card-ai-output').value = '';
+      const badge = document.getElementById('ai-card-status-badge');
+      if(badge) badge.classList.add('hidden');
       document.getElementById('card-status').value = 'Stan stabilny po przeprowadzonym zabiegu medycznym';
       document.getElementById('ai-status-box').style.display = 'none';
       updateCardPreview();
@@ -2249,18 +2239,7 @@
     }
 
     function autoPopulatePatientCard(diagText, medsText, surgeryText) {
-      document.getElementById('card-diag').value = diagText || "Rozpoznano urazy wielonarządowe u pacjenta";
-
-      const summaryText = `Przeprowadzono operację chirurgiczną w znieczuleniu z zaopatrzeniem rozpoznanych obrażeń (${diagText}). Wykonano dezynfekcję pola operacyjnego, incyzję, opanowano krwawienie, odessano treść krwistą, przemyto pole 0.9% NaCl oraz założono drenaż i szycie warstwowe. Pacjent zniósł zabieg stabilnie.`;
-      document.getElementById('card-summary').value = summaryText;
-
-      const recomText = `1. Rygorystyczny odpoczynek łóżkowy w reżimie oszczędzającym przez 14 dni. Całkowity zakaz dźwigania ciężarów > 2kg przez okres 6 tygodni.
-2. Pielęgnacja pola operacyjnego: codzienna antyseptyka rany płynem Octenisept, zmiana jałowych opatrunków przylepcowych Hypafix w warunkach aseptycznych. Zakaz moczenia rany w kąpieli wodnej przez 10 dni.
-3. Farmakoterapia domowa: Paracetamol 500mg 3x1 p.o. przeciwbólowo, Cefazolin/Amoksycylina 1g 2x1 p.o. antybiotykoterapia osłonowa przez 7 dni, Clexane 40mg s.c. 1x1 przeciwzakrzepowo.
-4. Kontrola w Poradni Chirurgicznej oraz zdjęcie szwów śródskórnych/drenów za 12-14 dni.
-5. W przypadku wystąpienia objawów alarmowych (gorączka > 38.5°C, nasilenie obrzęku, zaczerwienienia wokół rany lub wycieku ropnego) – pilne zgłoszenie na SOR.`;
-      document.getElementById('card-recom').value = recomText;
-
+      generatePatientCardAI(currentSurgeryPlanText);
       document.getElementById('card-meds').value = medsText || "Fentanyl 150mcg, Propofol 160mg, Suksametonium 100mg, Adrenalina 1mg, Morfina 10mg, TXA 1g, Płyn Ringera 1000ml, Szwy Vicryl 2-0 / Prolene 4-0";
 
       updateCardDoctorField();
@@ -2585,6 +2564,7 @@ i tak dalej do FAZY V. Nie używaj markdown **pogrubień**, nie dodawaj żadnych
     // BULLETPROOF PARSER – każdy /med i /do jako osobna karta z przyciskiem kopiowania
     function renderGeminiApiResponse(rawText, desc, needs) {
       currentSurgeryPlanText = rawText;
+      generatePatientCardAI(rawText);
 
       const lines = rawText.split('\n');
       let html = '';
@@ -2876,18 +2856,7 @@ i tak dalej do FAZY V. Nie używaj markdown **pogrubień**, nie dodawaj żadnych
     }
 
     function autoPopulatePatientCard(diagText, medsText, surgeryText) {
-      document.getElementById('card-diag').value = diagText || "Rozpoznano urazy wielonarządowe u pacjenta";
-
-      const summaryText = `Wykonano pilną operację ratującą życie w znieczuleniu ogólnym z intubacją endotrachealną 7.5. Przeprowadzono dezynfekcję Kodanem, incyzję skalpelem #10, zlokalizowano i zaopatrzono osobno rozpoznane urazy (${diagText}). Opanowano krwawienie kleszczykami Peana, odessano treść krwistą ssakiem Yankauera, obficie przemyto pole 0.9% NaCl, założono drenaż czynny Bullaud oraz zrobiono szycie warstwowe powięzi (Vicryl 2-0) i skóry (Prolene 4-0). Pacjent zniósł zabieg stabilnie i został przekazany na OIOM.`;
-      document.getElementById('card-summary').value = summaryText;
-
-      const recomText = `1. Rygorystyczny odpoczynek łóżkowy w reżimie oszczędzającym przez 14 dni. Całkowity zakaz dźwigania ciężarów > 2kg przez okres 6 tygodni.
-2. Pielęgnacja pola operacyjnego: codzienna antyseptyka rany płynem Octenisept, zmiana jałowych opatrunków przylepcowych Hypafix w warunkach aseptycznych. Zakaz moczenia rany w kąpieli wodnej przez 10 dni.
-3. Farmakoterapia domowa: Paracetamol 500mg 3x1 p.o. przeciwbólowo, Cefazolin/Amoksycylina 1g 2x1 p.o. antybiotykoterapia osłonowa przez 7 dni, Clexane 40mg s.c. 1x1 przeciwzakrzepowo.
-4. Kontrola w Poradni Chirurgicznej oraz zdjęcie szwów śródskórnych/drenów za 12-14 dni.
-5. W przypadku wystąpienia objawów alarmowych (gorączka > 38.5°C, nasilenie obrzęku, zaczerwienienia wokół rany lub wycieku ropnego) – pilne zgłoszenie na SOR.`;
-      document.getElementById('card-recom').value = recomText;
-
+      generatePatientCardAI(currentSurgeryPlanText);
       document.getElementById('card-meds').value = medsText || "Fentanyl 150mcg, Propofol 160mg, Suksametonium 100mg, Adrenalina 1mg, Morfina 10mg, TXA 1g, Płyn Ringera 1000ml, Szwy Vicryl 2-0 / Prolene 4-0";
 
       updateCardDoctorField();
@@ -2902,34 +2871,102 @@ i tak dalej do FAZY V. Nie używaj markdown **pogrubień**, nie dodawaj żadnych
       alert("Skopiowano bardzo szczegółową operację w 1. osobie do schowka!");
     }
 
+        async function regeneratePatientCard() {
+      if (!currentSurgeryPlanText) {
+        alert("Brak wygenerowanego planu operacji. Najpierw wygeneruj operację w pierwszej zakładce!");
+        return;
+      }
+      await generatePatientCardAI(currentSurgeryPlanText);
+    }
+
+    async function generatePatientCardAI(surgeryText) {
+      const apiKey = localStorage.getItem('gemini_api_key');
+      if (!apiKey) return;
+      
+      const badge = document.getElementById('ai-card-status-badge');
+      if(badge) badge.classList.remove('hidden');
+      
+      const model = localStorage.getItem('ai_model_preference') || 'gemini-flash-lite-latest';
+      
+      const prompt = Jesteś lekarzem klinicznym w szpitalu. Poniżej znajduje się przebieg operacji chirurgicznej (komendy).
+Twoim zadaniem jest wypełnić szczegółową Kartę Pacjenta na podstawie tego przebiegu. 
+ZACHOWAJ DOKŁADNIE PONIŻSZY FORMAT (NIE ZMIENIAJ NAGŁÓWKÓW, WYPEŁNIJ DANE W NAWIASACH []):
+
+PRZEBIEG ZABIEGU OPERACYJNEGO
+Typ znieczulenia: [Wypełnij na podstawie operacji: np. Ogólne / Miejscowe]
+Przygotowanie pola i hemostaza:
+[Opis oczyszczenia rany, płukania, odkażenia wywnioskowany z operacji]
+Zaopatrzenie tkanek i naczyń:
+[Opis szycia naczyń, tkanek, mięśni z operacji]
+Procedura ortopedyczna / chirurgiczna:
+[Opis głównej procedury, szycia rany, stabilizacji]
+Zamknięcie pola operacyjnego:
+[Rodzaj użytych szwów, drenażu, opatrunków]
+
+ PROTOKÓŁ FARMAKOLOGICZNY (LEKI I DAWKI)
+Płynoterapia i wlewy: [Wymień płyny użyte w operacji, np. Płyn Ringera / NaCl 0.9%]
+Analgezja i Sedacja:
+[Wymień leki przeciwbólowe / nasenne użyte w operacji i dawkę]
+Zwiotczenie i Osłona Antybiotykowa:
+[Wymień leki zwiotczające i antybiotyki użyte w operacji]
+Leki Przeciwkrwotoczne i Pozostałe:
+[Wymień leki przeciwkrwotoczne np. Exacyl użyte w operacji]
+
+ZALECENIA POOPERACYJNE I WYPISOWE
+Hospitalizacja i obserwacja:
+[Zaproponuj czas hospitalizacji na podstawie ciężkości zabiegu]
+Pielęgnacja ran:
+[Zaproponuj sposób pielęgnacji rany po tej konkretnej operacji]
+Leki do domu / na oddział:
+[Zaproponuj antybiotyk, leki przeciwbólowe, przeciwzakrzepowe po tej operacji]
+Unieruchomienie i aktywność:
+[Zaproponuj unieruchomienie np. brak obciążania, kołnierz, orteza]
+Kontrola:
+[Kiedy pacjent ma zgłosić się na kontrolę / zdjęcie szwów]
+
+PRZEBIEG OPERACJI DO ANALIZY:
+ + surgeryText + 
+
+Nie używaj znaczników markdown (np. **), nie pisz żadnych wstępów, zwróć tylko i wyłącznie wypełnioną kartę w wymaganym formacie, bez żadnych zbędnych komentarzy.;
+
+      try {
+        const endpoint = "https://generativelanguage.googleapis.com/v1beta/models/" + model + ":generateContent?key=" + apiKey;
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+        });
+        
+        if (res.ok) {
+          const data = await res.json();
+          const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (text) {
+            document.getElementById('card-ai-output').value = text.trim();
+            updateCardPreview();
+          }
+        }
+      } catch (err) {
+        console.error("Błąd podczas generowania karty pacjenta AI:", err);
+      } finally {
+        if(badge) badge.classList.add('hidden');
+      }
+    }
+
     function updateCardPreview() {
-      const diag = document.getElementById('card-diag').value;
-      const summary = document.getElementById('card-summary').value;
-      const recom = document.getElementById('card-recom').value;
-      const meds = document.getElementById('card-meds').value;
+      const aiContent = document.getElementById('card-ai-output')?.value || "";
       const status = document.getElementById('card-status').value;
       const doctor = document.getElementById('card-doctor').value;
 
-      const report = `----------------------------------------------------
-🚑 DIAGNOZA I ROZPOZNANE OBRAŻENIA:
-${diag}
+      const report = ----------------------------------------------------
+ + aiContent + 
 
-🔪 PRZEBIEG I STRESZCZENIE OPERACJI CHIRURGICZNEJ:
-${summary}
-
-💊 ZALECENIA LEKARSKIE I REKONWALESCENCJA POST-OP:
-${recom}
-
-💊 PODANE LEKI, PŁYNY I PROCEDURY:
-${meds}
-
-🏥 STATUS PACJENTA PO OPERACJI:
-${status}
+📌 STATUS PACJENTA PO OPERACJI:
+ + status + 
 
 ----------------------------------------------------
-👨‍⚕️ LEKARZ / RATOWNIK PROWADZĄCY: ${doctor}
-🕒 DATA I GODZINA WPISU: ${new Date().toLocaleString('pl-PL')}
-====================================================`;
+👨‍⚕️ LEKARZ / RATOWNIK PROWADZĄCY:  + doctor + 
+📅 DATA I GODZINA WPISU:  + new Date().toLocaleString('pl-PL') + 
+====================================================\;
 
       document.getElementById('card-output').textContent = report;
     }
@@ -3033,7 +3070,7 @@ ${notes}
       alert("Skopiowano Raport DWC / Patrolu do schowka!");
     }
 
-    const CURRENT_APP_VERSION = "1.1.20";
+    const CURRENT_APP_VERSION = "1.1.21";
     const GITHUB_VERSION_URL = "https://raw.githubusercontent.com/Morakuu/EMS-APP/main/version.json";
 
     async function checkAppUpdate(manual = false) {
