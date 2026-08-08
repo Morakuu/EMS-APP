@@ -2524,12 +2524,19 @@ Pacjent oświadcza, że rozumie przekazane pouczenie i przyjmuje pełną odpowie
 
       const modelList = ['gemini-flash-lite-latest', 'gemini-flash-latest', 'gemini-2.0-flash'];
 
-      const prompt = `Jesteś chirurgiem Med-RP w GTA V FiveM. Pacjent posiada rany: ${desc}. Potrzeby: ${needs}.
+      const prompt = `Jesteś doświadczonym lekarzem/chirurgiem Med-RP w GTA V FiveM.
+Pacjent posiada rany/urazy: ${desc}.
+Potrzeby/Środki: ${needs}.
 
-Wygeneruj operację w 5 fazach. W KAŻDEJ FAZIE napisz WIELE ODDZIELNYCH linii /med i /do (minimum 3 linie /med i 2 linie /do per faza). Każda linia /med lub /do to JEDEN OSOBNY krok (max 300 znaków). Format bezwzględnie:
+KLUCZOWE ZASADY REALIZMU MEDYCZNEGO I LOGIKI (BARDZO WAŻNE):
+1. Dostosuj powagę procedury medycznej do SEVERITY (ciężkości) urazów!
+2. Jeżeli uraz jest lekki lub ambulatoryjny (np. stłuczenie, siniak, drobne rozcięcie, otarcie, skręcenie I stopnia, mały ból): NIE WYKONUJ operacji chirurgicznej, otwierania powłok ani narkozy ogólnej! Zamiast tego przeprowadź realizowaną w 5 krokach/fazach procedurę ambulatoryjną/pierwszej pomocy (np. badanie palpacyjne, odkażenie, nałożenie maści/Altacetu/Liotonu, przyłożenie zimnego kompresu, założenie opatrunku lub opaski elastycznej, podanie lekkich leków przeciwbólowych doustnie, zalecenia).
+3. Jeżeli uraz jest poważny (np. postrzał, złamanie otwarte/zamknięte, krwotok, głębokie rozcięcie, uraz narządów wewnętrznych): przeprowadź pełną operację chirurgiczną (narkoza/znieczulenie, hemostaza, kleszczykowanie, szycie tkanek, zespolenie kości/drenaż itp.).
 
-FAZA I: [tytuł]
-/med [czynność 1. osoba, czas teraźniejszy, np. podłączam, podaję, zakładam]
+Wygeneruj pełny przebieg zabiegu/operacji w 5 fazach. W KAŻDEJ FAZIE napisz WIELE ODDZIELNYCH linii /med i /do (minimum 3 linie /med i 2 linie /do per faza). Każda linia /med lub /do to JEDEN OSOBNY krok (max 300 znaków). Format bezwzględnie:
+
+FAZA I: [tytuł dostosowany do procedury]
+/med [czynność 1. osoba, czas teraźniejszy, np. podłączam, podaję, nakładam, przemywam]
 /med [kolejna czynność]
 /med [kolejna czynność]
 /do [opis efektu widocznego dla obserwatora]
@@ -2891,41 +2898,42 @@ i tak dalej do FAZY V. Nie używaj markdown **pogrubień**, nie dodawaj żadnych
       
       const modelList = ['gemini-flash-latest', 'gemini-flash-lite-latest', 'gemini-2.0-flash'];
       
-      const prompt = `Jesteś lekarzem klinicznym w szpitalu. Poniżej znajduje się przebieg operacji chirurgicznej (komendy).
+      const prompt = `Jesteś lekarzem klinicznym w szpitalu. Poniżej znajduje się przebieg zabiegu/operacji medycznej (komendy).
 Twoim zadaniem jest wypełnić szczegółową Kartę Pacjenta na podstawie tego przebiegu. 
 ZACHOWAJ DOKŁADNIE PONIŻSZY FORMAT (NIE ZMIENIAJ NAGŁÓWKÓW, WYPEŁNIJ DANE W NAWIASACH []):
+Dostosuj opis do powagi procedury (jeśli to był lekki zabieg ambulatoryjny/pierwsza pomoc, odnotuj to odpowiednio w opisie zamiast udawać ciężką operację).
 
 PRZEBIEG ZABIEGU OPERACYJNEGO
-Typ znieczulenia: [Wypełnij na podstawie operacji: np. Ogólne / Miejscowe]
+Typ znieczulenia: [Wypełnij na podstawie zabiegu: np. Brak / Miejscowe / Ogólne]
 Przygotowanie pola i hemostaza:
-[Opis oczyszczenia rany, płukania, odkażenia wywnioskowany z operacji]
+[Opis oczyszczenia rany, płukania, odkażenia wywnioskowany z procedury]
 Zaopatrzenie tkanek i naczyń:
-[Opis szycia naczyń, tkanek, mięśni z operacji]
+[Opis szycia naczyń/tkanek LUB informacja o braku konieczności szycia przy lekkich urazach]
 Procedura ortopedyczna / chirurgiczna:
-[Opis głównej procedury, szycia rany, stabilizacji]
+[Opis głównej procedury / aplikacji leku/maści / nastawienia / opatrunku]
 Zamknięcie pola operacyjnego:
-[Rodzaj użytych szwów, drenażu, opatrunków]
+[Rodzaj użytych szwów, opaski, kompresu lub opatrunku]
 
  💊 PROTOKÓŁ FARMAKOLOGICZNY (LEKI I DAWKI)
-Płynoterapia i wlewy: [Wymień płyny użyte w operacji, np. Płyn Ringera / NaCl 0.9%]
+Płynoterapia i wlewy: [Wymień płyny użyte w zabiegu lub Brak przy procedurach ambulatoryjnych]
 Analgezja i Sedacja:
-[Wymień leki przeciwbólowe / nasenne użyte w operacji i dawkę]
+[Wymień leki przeciwbólowe / nasenne / maści użyte w zabiegu]
 Zwiotczenie i Osłona Antybiotykowa:
-[Wymień leki zwiotczające i antybiotyki użyte w operacji]
+[Wymień antybiotyki / maści / leki osłonowe lub Brak]
 Leki Przeciwkrwotoczne i Pozostałe:
-[Wymień leki przeciwkrwotoczne np. Exacyl użyte w operacji]
+[Wymień leki przeciwkrwotoczne / Altacet / kompresy użyte w zabiegu]
 
 📋 ZALECENIA POOPERACYJNE I WYPISOWE
 Hospitalizacja i obserwacja:
-[Zaproponuj czas hospitalizacji na podstawie ciężkości zabiegu]
+[Zaproponuj czas obserwacji lub wypis do domu]
 Pielęgnacja ran:
-[Zaproponuj sposób pielęgnacji rany po tej konkretnej operacji]
+[Zaproponuj sposób pielęgnacji / smarowania maścią]
 Leki do domu / na oddział:
-[Zaproponuj antybiotyk, leki przeciwbólowe, przeciwzakrzepowe po tej operacji]
+[Zaproponuj leki bez recepty / leki przeciwbólowe]
 Unieruchomienie i aktywność:
-[Zaproponuj unieruchomienie np. brak obciążania, kołnierz, orteza]
+[Zaproponuj odpoczynek / oszczędzanie kończyny]
 Kontrola:
-[Kiedy pacjent ma zgłosić się na kontrolę / zdjęcie szwów]
+[Zaproponuj termin kontroli w razie nasilenia objawów]
 
 PRZEBIEG OPERACJI DO ANALIZY:
 ${surgeryText}
@@ -3090,7 +3098,7 @@ ${notes}
       alert("Skopiowano Raport DWC / Patrolu do schowka!");
     }
 
-    const CURRENT_APP_VERSION = "1.1.26";
+    const CURRENT_APP_VERSION = "1.1.27";
     const GITHUB_VERSION_URL = "https://raw.githubusercontent.com/Morakuu/EMS-APP/main/version.json";
 
     async function checkAppUpdate(manual = false) {
