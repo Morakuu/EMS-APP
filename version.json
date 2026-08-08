@@ -1,6 +1,6 @@
 ﻿{
-  "latestVersion": "1.1.23",
+  "latestVersion": "1.1.24",
   "hasUpdate": true,
-  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.23/Asystent-EMS.zip",
-  "changelog": "1. Szybki hotfix przywracający polskie znaki oraz naprawiający niewidzialne zakładki (Awaria JS)."
+  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.24/Asystent-EMS.zip",
+  "changelog": "1. Naprawiono błąd związany z AI Kartą Pacjenta (błędna nazwa modelu)."
 }
