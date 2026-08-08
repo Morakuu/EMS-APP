@@ -1,6 +1,6 @@
 ﻿{
-  "latestVersion": "1.1.25",
+  "latestVersion": "1.1.26",
   "hasUpdate": true,
-  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.25/Asystent-EMS.zip",
-  "changelog": "Wdrożono zaawansowany system sprawdzania dostępności modeli AI. W razie braku uprawnień na darmowym kluczu, aplikacja bezpiecznie przełącza się na inny wspierany model."
+  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.26/Asystent-EMS.zip",
+  "changelog": "1. Naprawiono błędny komunikat podczas kopiowania Karty Pacjenta AI na Discord."
 }
