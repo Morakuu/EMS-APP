@@ -1973,6 +1973,18 @@
         let trimmed = line.trim();
         if (!trimmed) return;
 
+        let low = trimmed.toLowerCase();
+
+        // KATEGORYCZNY FILTR METALINGWISTYCZNY I CHATU
+        if (
+          low.includes('na załączonym') || low.includes('na zalaczonym') || low.includes('na zdjeciu') || low.includes('na zdjęciu') || low.includes('na obrazku') ||
+          low.includes('interfejs') || low.includes('kafelk') || low.includes('roleplay') || low.includes('komend') ||
+          low.includes('brak widocznych obrażeń') || low.includes('brak kafelków') || low.includes('brak urazów na') ||
+          low.includes('widoczna jest jedynie') || low.includes('fabularną')
+        ) {
+          return; // Odrzucamy wypowiedzi meta-AI
+        }
+
         let clean = trimmed
           .replace(/^[-\*\d\.]+\s*/, '')
           .replace(/\[.*?\]/g, '')
@@ -2017,6 +2029,15 @@
         if (!rawClean || rawClean.length < 2) return;
 
         const low = rawClean.toLowerCase();
+
+        // BEZWZGLĘDNY FILTR META-WIPOWIEDZI
+        if (
+          low.includes('na załączonym') || low.includes('obrazk') || low.includes('interfejs') || 
+          low.includes('kafelk') || low.includes('roleplay') || low.includes('komend') || low.includes('brak widocznych')
+        ) {
+          return;
+        }
+
         const prose = formatSingleInjuryProse(rawClean);
         if (!prose) return;
 
@@ -2068,8 +2089,14 @@
       const base64Data = base64Image.split(',')[1];
       const modelList = ['gemini-flash-lite-latest', 'gemini-flash-latest', 'gemini-2.0-flash'];
 
-      const ocrPrompt = `Jesteś chirurgiem i skanerem OCR FiveM RP. Przeczytaj WSZYSTKIE obrażenia z kafelków na zdjęciu i wypisz TYLKO samą listę urazów bez żadnego wstępu, bez komentarzy i bez nagłówków:
-- [Nazwa urazu] ([Lokalizacja]): [Opis]`;
+      const ocrPrompt = `Jesteś lekarzem biegłym sądowym. Przeanalizuj to zdjęcie i wypisz WYŁĄCZNIE listę klinicznych urazów medycznych w punktach:
+- [Nazwa urazu] ([Lokalizacja]): [Opis]
+
+ZASADY LEKARSKIE:
+1. Pisz WYŁĄCZNIE profesjonalnym językiem medycznym lekarskim.
+2. KATEGORYCZNY ZAKAZ używania słów: 'obrazek', 'zdjęcie', 'kafelki', 'interfejs', 'RolePlay', 'FiveM', 'komenda', 'brak kafelków', 'na załączonym'.
+3. Jeśli na zdjęciu widoczne są czynności medyczne (np. podłączenie kardiomonitora, opatrunek), opisuj to jako stan kliniczny pacjenta (np. 'Pacjent podłączony do kardiomonitora, stan stabilny').
+4. Jeśli brak uchwytnych urazów na zdjęciu, napisz: '- Brak świeżych obrażeń zewnętrznych (Tułów)'`;
 
       let success = false;
       for (let m of modelList) {
@@ -2174,11 +2201,11 @@
 
       const sorted = sortInjuriesStrictly(rawText);
 
-      document.getElementById('obd-head').value = sorted.headList.length > 0 ? sorted.headList.join('; ') : "BRAK";
-      document.getElementById('obd-torso').value = sorted.torsoList.length > 0 ? sorted.torsoList.join('; ') : "BRAK";
-      document.getElementById('obd-limbs').value = sorted.limbsList.length > 0 ? sorted.limbsList.join('; ') : "BRAK";
-      document.getElementById('obd-neck').value = sorted.neckList.length > 0 ? sorted.neckList.join('; ') : "BRAK";
-      document.getElementById('obd-genitals').value = sorted.genitalsList.length > 0 ? sorted.genitalsList.join('; ') : "BRAK";
+      document.getElementById('obd-head').value = sorted.headList.length > 0 ? sorted.headList.join('; ') : "Nie stwierdzono świeżych obrażeń";
+      document.getElementById('obd-torso').value = sorted.torsoList.length > 0 ? sorted.torsoList.join('; ') : "Nie stwierdzono świeżych obrażeń";
+      document.getElementById('obd-limbs').value = sorted.limbsList.length > 0 ? sorted.limbsList.join('; ') : "Nie stwierdzono świeżych obrażeń";
+      document.getElementById('obd-neck').value = sorted.neckList.length > 0 ? sorted.neckList.join('; ') : "Nie stwierdzono świeżych obrażeń";
+      document.getElementById('obd-genitals').value = sorted.genitalsList.length > 0 ? sorted.genitalsList.join('; ') : "Nie stwierdzono świeżych obrażeń";
 
       const rtgFindings = [];
       const ctFindings = [];
@@ -2225,7 +2252,14 @@
           const base64Data = targetImg.split(',')[1];
           const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-lite-latest:generateContent?key=${apiKey}`;
           
-          const prompt = `Jesteś lekarzem biegłym sądowym. Przeanalizuj to zdjęcie z interfejsu FiveM Obrażenia. Odczytaj WSZYSTKIE kafelki urazów i wypisz je w punktach bez komentarzy: - [Tytuł] ([Lokalizacja]): [Opis]`;
+          const prompt = `Jesteś lekarzem biegłym sądowym. Przeanalizuj to zdjęcie i wypisz WYŁĄCZNIE listę klinicznych urazów medycznych w punktach:
+- [Nazwa urazu] ([Lokalizacja]): [Opis]
+
+ZASADY LEKARSKIE:
+1. Pisz WYŁĄCZNIE profesjonalnym językiem medycznym lekarskim.
+2. KATEGORYCZNY ZAKAZ używania słów: 'obrazek', 'zdjęcie', 'kafelki', 'interfejs', 'RolePlay', 'FiveM', 'komenda', 'brak kafelków', 'na załączonym'.
+3. Jeśli na zdjęciu widoczne są czynności medyczne (np. podłączenie kardiomonitora, opatrunek), opisuj to jako stan kliniczny pacjenta (np. 'Pacjent podłączony do kardiomonitora, stan stabilny').
+4. Jeśli brak uchwytnych urazów na zdjęciu, napisz: '- Brak świeżych obrażeń zewnętrznych (Tułów)'`;
 
           const res = await fetch(endpoint, {
             method: 'POST',
@@ -3154,7 +3188,7 @@ ${notes}
       alert("Skopiowano Raport DWC / Patrolu do schowka!");
     }
 
-    const CURRENT_APP_VERSION = "1.1.33";
+    const CURRENT_APP_VERSION = "1.1.34";
     const GITHUB_VERSION_URL = "https://raw.githubusercontent.com/Morakuu/EMS-APP/main/version.json";
 
     async function checkAppUpdate(manual = false) {
