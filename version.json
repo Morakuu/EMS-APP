@@ -1,6 +1,6 @@
 ﻿{
-  "latestVersion": "1.1.31",
+  "latestVersion": "1.1.32",
   "hasUpdate": true,
-  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.31/Asystent-EMS.zip",
-  "changelog": "Opinia Lekarska w Obdukcji jest domyślnie pusta i generuje się automatycznie po zeskanowaniu zdjęcia obrażeń."
+  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.32/Asystent-EMS.zip",
+  "changelog": "Dodano funkcję tworzenia Obdukcji z Karty Pacjenta 1 kliknięciem (przycisk w zakładce Karta Pacjenta i Obdukcja)."
 }
