@@ -404,6 +404,7 @@
               Gemini Generuje Kartę...
             </div>
             <button class="bg-[#46BEFF]/10 text-[#46BEFF] border border-[#46BEFF]/30 px-4 py-2 rounded-lg font-heading font-bold text-[11px] uppercase cursor-pointer flex items-center gap-1.5 hover:bg-[#46BEFF]/20 hover:border-[#46BEFF] transition-all duration-200" onclick="regeneratePatientCard()">🔄 Odśwież Karcie AI</button>
+            <button class="bg-[#46BEFF]/10 text-[#46BEFF] border border-[#46BEFF]/30 px-4 py-2 rounded-lg font-heading font-bold text-[11px] uppercase cursor-pointer flex items-center gap-1.5 hover:bg-[#46BEFF]/20 hover:border-[#46BEFF] transition-all duration-200" onclick="generateObdukcjaFromPatientCard()">🩺 Utwórz Obdukcję z tej Karty</button>
             <button class="bg-transparent text-[#FF5252] border border-[#FF5252]/30 px-4 py-2 rounded-lg font-heading font-bold text-[11px] uppercase cursor-pointer flex items-center gap-1.5 hover:bg-[#FF5252]/15 hover:border-[#FF5252] transition-all duration-200" onclick="resetNewOperation()">🧹 Wyczyść</button>
           </div>
         </div>
@@ -445,6 +446,7 @@
           <div class="font-heading text-[11px] font-bold text-[#46BEFF] uppercase tracking-[0.08em] flex items-center gap-2">🩺 Wypełnij Wzór Obdukcji Sądowo-Lekarskiej</div>
           
           <div style="display: flex; gap: 8px;">
+            <button class="bg-[#46BEFF]/10 text-[#46BEFF] border border-[#46BEFF]/30 px-3 py-1 rounded-lg font-heading font-bold text-[10px] uppercase cursor-pointer flex items-center gap-1 hover:bg-[#46BEFF]/20 transition-all duration-200" onclick="generateObdukcjaFromPatientCard()">📋 Generuj z Karty Pacjenta</button>
             <button class="bg-transparent text-[#FF5252] border border-[#FF5252]/30 px-4 py-2 rounded-lg font-heading font-bold text-[11px] uppercase cursor-pointer flex items-center gap-1.5 hover:bg-[#FF5252]/15 hover:border-[#FF5252] transition-all duration-200" style="padding: 4px 8px; font-size: 10px; background-color: #0891b2;" onclick="resetAllObdukcjaFields()">🧹 Wyczyść Pola Obdukcji</button>
             <button class="bg-transparent text-[#FF5252] border border-[#FF5252]/30 px-4 py-2 rounded-lg font-heading font-bold text-[11px] uppercase cursor-pointer flex items-center gap-1.5 hover:bg-[#FF5252]/15 hover:border-[#FF5252] transition-all duration-200" style="padding: 4px 8px; font-size: 10px;" onclick="clearObdukcjaImages()">🗑️ Usuń Zdjęcia</button>
           </div>
@@ -2916,6 +2918,32 @@ i tak dalej do FAZY V. Nie używaj markdown **pogrubień**, nie dodawaj żadnych
       await generatePatientCardAI(currentSurgeryPlanText);
     }
 
+    function generateObdukcjaFromPatientCard() {
+      const userDesc = document.getElementById('user-desc').value.trim();
+      const cardAiText = document.getElementById('card-ai-output').value.trim();
+      
+      let sourceText = userDesc;
+      if (!sourceText && cardAiText) {
+        sourceText = cardAiText;
+      }
+      
+      if (!sourceText) {
+        alert("Brak danych o urazach! Wpisz najpierw rany w zakładce Operacja lub wygeneruj Kartę Pacjenta.");
+        return;
+      }
+
+      document.getElementById('obd-ocr-text').value = sourceText;
+      parseCustomTextToObdukcja();
+      switchTab('obdukcja');
+
+      const statusBox = document.getElementById('ai-status-box');
+      const statusBadge = document.getElementById('ai-status-badge');
+      if (statusBox && statusBadge) {
+        statusBox.style.display = 'block';
+        statusBadge.textContent = '✨ Utworzono i Wypełniono Protokół Obdukcji na Podstawie Karty Pacjenta!';
+      }
+    }
+
     async function generatePatientCardAI(surgeryText) {
       const apiKey = document.getElementById('setting-api-key').value.trim() || localStorage.getItem('gemini_api_key');
       if (!apiKey) return;
@@ -3125,7 +3153,7 @@ ${notes}
       alert("Skopiowano Raport DWC / Patrolu do schowka!");
     }
 
-    const CURRENT_APP_VERSION = "1.1.31";
+    const CURRENT_APP_VERSION = "1.1.32";
     const GITHUB_VERSION_URL = "https://raw.githubusercontent.com/Morakuu/EMS-APP/main/version.json";
 
     async function checkAppUpdate(manual = false) {
