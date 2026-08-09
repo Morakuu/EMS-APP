@@ -1,6 +1,6 @@
 ﻿{
-  "latestVersion": "1.1.33",
+  "latestVersion": "1.1.34",
   "hasUpdate": true,
-  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.33/Asystent-EMS.zip",
-  "changelog": "Zmieniono komendy /med na 3. osobę liczby pojedynczej (np. /med podłącza, przemywa, zakłada)."
+  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.34/Asystent-EMS.zip",
+  "changelog": "Calkowicie wyeliminowano zwroty meta-AI (na zalaczonym obrazku, kafelki, RolePlay) z protokolu Obdukcji."
 }
