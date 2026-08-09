@@ -1,6 +1,6 @@
 ﻿{
-  "latestVersion": "1.1.32",
+  "latestVersion": "1.1.33",
   "hasUpdate": true,
-  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.32/Asystent-EMS.zip",
-  "changelog": "Dodano funkcję tworzenia Obdukcji z Karty Pacjenta 1 kliknięciem (przycisk w zakładce Karta Pacjenta i Obdukcja)."
+  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.33/Asystent-EMS.zip",
+  "changelog": "Zmieniono komendy /med na 3. osobę liczby pojedynczej (np. /med podłącza, przemywa, zakłada)."
 }
