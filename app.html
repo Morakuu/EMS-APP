@@ -2561,13 +2561,14 @@ KLUCZOWE ZASADY REALIZMU MEDYCZNEGO I LOGIKI (BARDZO WAŻNE):
 1. Dostosuj powagę procedury medycznej do SEVERITY (ciężkości) urazów!
 2. Jeżeli uraz jest lekki lub ambulatoryjny (np. stłuczenie, siniak, drobne rozcięcie, otarcie, skręcenie I stopnia, mały ból): NIE WYKONUJ operacji chirurgicznej, otwierania powłok ani narkozy ogólnej! Zamiast tego przeprowadź realizowaną w 5 krokach/fazach procedurę ambulatoryjną/pierwszej pomocy (np. badanie palpacyjne, odkażenie, nałożenie maści/Altacetu/Liotonu, przyłożenie zimnego kompresu, założenie opatrunku lub opaski elastycznej, podanie lekkich leków przeciwbólowych doustnie, zalecenia).
 3. Jeżeli uraz jest poważny (np. postrzał, złamanie otwarte/zamknięte, krwotok, głębokie rozcięcie, uraz narządów wewnętrznych): przeprowadź pełną operację chirurgiczną (narkoza/znieczulenie, hemostaza, kleszczykowanie, szycie tkanek, zespolenie kości/drenaż itp.).
+4. GRAMATYKA KOMEND /MED: PISZ WSZYSTKIE LINIE /med BEZWZGLĘDNIE W 3. OSOBIE LICZBY POJEDYNCZEJ W CZASIE TERAŹNIEJSZYM (np. podłącza, podaje, nakłada, przemywa, nacina, chwyta, zakłada)! ZAKAZ uzywania 1. osoby (nie pisz "podłączam", "podaję").
 
 Wygeneruj pełny przebieg zabiegu/operacji w 5 fazach. W KAŻDEJ FAZIE napisz WIELE ODDZIELNYCH linii /med i /do (minimum 3 linie /med i 2 linie /do per faza). Każda linia /med lub /do to JEDEN OSOBNY krok (max 300 znaków). Format bezwzględnie:
 
 FAZA I: [tytuł dostosowany do procedury]
-/med [czynność 1. osoba, czas teraźniejszy, np. podłączam, podaję, nakładam, przemywam]
-/med [kolejna czynność]
-/med [kolejna czynność]
+/med [czynność w 3. osobie, czas teraźniejszy, np. podłącza, podaje, nakłada, przemywa]
+/med [kolejna czynność w 3. osobie]
+/med [kolejna czynność w 3. osobie]
 /do [opis efektu widocznego dla obserwatora]
 /do [kolejny efekt]
 
@@ -3153,7 +3154,7 @@ ${notes}
       alert("Skopiowano Raport DWC / Patrolu do schowka!");
     }
 
-    const CURRENT_APP_VERSION = "1.1.32";
+    const CURRENT_APP_VERSION = "1.1.33";
     const GITHUB_VERSION_URL = "https://raw.githubusercontent.com/Morakuu/EMS-APP/main/version.json";
 
     async function checkAppUpdate(manual = false) {
