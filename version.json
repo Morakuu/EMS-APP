@@ -1,6 +1,6 @@
 {
-  "latestVersion": "1.1.35",
+  "latestVersion": "1.1.36",
   "hasUpdate": true,
-  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.35/Asystent-EMS.zip",
-  "changelog": "Wdrożono nową bezpieczną architekturę aplikacji z użyciem serwera Proxy. Wszystkie klucze zostały bezpiecznie ukryte. Przy pierwszym uruchomieniu wymagane jest podanie własnego klucza Gemini."
+  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.36/Asystent-EMS.zip",
+  "changelog": "Potężna łatka medyczna: Zoptymalizowano system sortowania obrażeń, dodając do rozpoznawania ponad 150 nowych ujęć i terminów anatomicznych (w tym drobne kości i narządy)."
 }
