@@ -1,6 +1,6 @@
 {
-  "latestVersion": "1.1.38",
+  "latestVersion": "1.1.39",
   "hasUpdate": true,
-  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.38/Asystent-EMS.zip",
-  "changelog": "Aktualizacja administracyjna: Zmiana głównego kanału nasłuchowego dla logów aktywności medyków."
+  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.39/Asystent-EMS.zip",
+  "changelog": "Hotfix: Naprawiono błąd uniemożliwiający ręczną edycję urazów w sekcji Obdukcji (teraz można ręcznie dopisywać i poprawiać pola, a zmiany na bieżąco odświeżają się we wzorze)."
 }
