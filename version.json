@@ -1,6 +1,6 @@
 {
-  "latestVersion": "1.1.37",
+  "latestVersion": "1.1.38",
   "hasUpdate": true,
-  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.37/Asystent-EMS.zip",
-  "changelog": "Ogromna aktualizacja formatowania: Całkowicie przebudowano wygląd generowanej Obdukcji Lekarskiej. Usunięto błędy sklejania tekstu oraz ukryto szpetne tagi AI, wprowadzając profesjonalne i czytelne listy wypunktowane. Ponadto zintegrowano globalny system logowania aktywności (każde wygenerowanie dokumentu zostawia ślad na bezpiecznym kanale Discord)."
+  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.38/Asystent-EMS.zip",
+  "changelog": "Aktualizacja administracyjna: Zmiana głównego kanału nasłuchowego dla logów aktywności medyków."
 }
