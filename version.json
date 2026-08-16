@@ -1,6 +1,6 @@
 {
-  "latestVersion": "1.1.41",
+  "latestVersion": "1.1.42",
   "hasUpdate": true,
-  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.41/Asystent-EMS.zip",
-  "changelog": "Hotfix: Naprawiono brakujący przycisk kopiowania Karty Pacjenta na liście zadań oraz dodano logowanie do Webhooka informacji o wygenerowanych przez sztuczną inteligencję Kartach Pacjenta, Obdukcjach i Raportach Operacyjnych."
+  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.42/Asystent-EMS.zip",
+  "changelog": "Aktualizacja UI: Wymuszono każdorazowe logowanie Discord ze względów bezpieczeństwa. Ukryto okno changeloga na ekranie startowym."
 }
