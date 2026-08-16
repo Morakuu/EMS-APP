@@ -1,6 +1,6 @@
 {
-  "latestVersion": "1.1.40",
+  "latestVersion": "1.1.41",
   "hasUpdate": true,
-  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.40/Asystent-EMS.zip",
-  "changelog": "Nowość: Dodano w pełni funkcjonalną zakładkę Akt Zgonu z automatycznym generowaniem patofizjologii (epikryzy) i kodów ICD-10 przez Gemini AI!"
+  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.41/Asystent-EMS.zip",
+  "changelog": "Hotfix: Naprawiono brakujący przycisk kopiowania Karty Pacjenta na liście zadań oraz dodano logowanie do Webhooka informacji o wygenerowanych przez sztuczną inteligencję Kartach Pacjenta, Obdukcjach i Raportach Operacyjnych."
 }
