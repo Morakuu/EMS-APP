@@ -1,6 +1,6 @@
 {
-  "latestVersion": "1.1.39",
+  "latestVersion": "1.1.40",
   "hasUpdate": true,
-  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.39/Asystent-EMS.zip",
-  "changelog": "Hotfix: Naprawiono błąd uniemożliwiający ręczną edycję urazów w sekcji Obdukcji (teraz można ręcznie dopisywać i poprawiać pola, a zmiany na bieżąco odświeżają się we wzorze)."
+  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.40/Asystent-EMS.zip",
+  "changelog": "Nowość: Dodano w pełni funkcjonalną zakładkę Akt Zgonu z automatycznym generowaniem patofizjologii (epikryzy) i kodów ICD-10 przez Gemini AI!"
 }
