@@ -2,5 +2,6 @@
   "latestVersion": "1.1.44",
   "hasUpdate": true,
   "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.44/Asystent-EMS.zip",
-  "changelog": "Hotfix: Zabezpieczono ruch sieciowy, załatano krytyczny błąd w panelu Aktywnych Użytkowników z poziomu Admina oraz podniesiono rygor polityk bezpieczeństwa (XSS/CORS)."
+  "changelog": "Hotfix: Zabezpieczono ruch sieciowy, załatano krytyczny błąd w panelu Aktywnych Użytkowników z poziomu Admina oraz podniesiono rygor polityk bezpieczeństwa (XSS/CORS).",
+  "version": "1.1.45"
 }
