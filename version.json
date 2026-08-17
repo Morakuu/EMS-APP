@@ -1,6 +1,6 @@
 {
-  "latestVersion": "1.1.42",
+  "latestVersion": "1.1.43",
   "hasUpdate": true,
-  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.42/Asystent-EMS.zip",
-  "changelog": "Aktualizacja UI: Wymuszono każdorazowe logowanie Discord ze względów bezpieczeństwa. Ukryto okno changeloga na ekranie startowym."
+  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.1.43/Asystent-EMS.zip",
+  "changelog": "Nowość: Zakładka Akty Zgonu obsługuje teraz wrzucanie screenshotów obrażeń (tak jak w obdukcji) do analizy przez AI!"
 }
