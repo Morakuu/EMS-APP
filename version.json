@@ -1,7 +1,7 @@
 {
-  "latestVersion": "1.2.3",
+  "latestVersion": "1.2.4",
   "hasUpdate": true,
-  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.2.3/Asystent-EMS-Instalator.exe",
-  "changelog": "Hotfix v1.2.3: Zmiana literówki wizualnej w poradniku (CTRL+SHIFT+E).",
-  "version": "1.2.3"
+  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.2.4/Asystent-EMS-Instalator.exe",
+  "changelog": "Asystent EMS 1.2.4 (Logi Dokumentacji)! Kopiowanie Recept, Wypisów, Aktów Zgonu, L4, Wózków i Obdukcji natychmiast wrzuca dany log na przypisany mu, specjalny kanał na Discordzie (Webhook).",
+  "version": "1.2.4"
 }
