@@ -1,7 +1,7 @@
 {
-  "latestVersion": "1.4.2",
+  "latestVersion": "1.4.3",
   "hasUpdate": true,
-  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.4.2/Asystent-EMS-Instalator.exe",
-  "changelog": "Gruntowna przebudowa Patchera - Zaktualizowano okienko powitalne instalatora na najnowsze logo wykadrowane z pustych przestrzeni oraz usunięto zepsute okno Changeloga. Zamiast tego zaimplementowano najnowszy system odczytu profilu zalogowanego użytkownika oraz aktualnej wersji gry!",
-  "version": "1.4.2"
+  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.4.3/Asystent-EMS-Instalator.exe",
+  "changelog": "Naprawiono system sprawdzania aktualizacji, który mógł sprawiać wrażenie zamrożonego w przypadku posiadania najnowszej wersji. Wymuszono również zmianę nazwy skrótu na pulpicie (Asystent EMS AI), by wyeliminować błąd z cachowaniem starej uciętej ikony przez system operacyjny Windows.",
+  "version": "1.4.3"
 }
