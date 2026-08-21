@@ -1,7 +1,7 @@
 {
-  "latestVersion": "1.4.3",
+  "latestVersion": "1.4.5",
   "hasUpdate": true,
-  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.4.3/Asystent-EMS-Instalator.exe",
-  "changelog": "Naprawiono system sprawdzania aktualizacji, który mógł sprawiać wrażenie zamrożonego w przypadku posiadania najnowszej wersji. Wymuszono również zmianę nazwy skrótu na pulpicie (Asystent EMS AI), by wyeliminować błąd z cachowaniem starej uciętej ikony przez system operacyjny Windows.",
-  "version": "1.4.3"
+  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.4.5/Asystent-EMS-Instalator.exe",
+  "changelog": "Zaktualizowano sztuczną inteligencję odpowiedzialną za generowanie logów operacyjnych (Błąd postrzału). Od teraz AI skupia się bezwzględnie na opisie wpisanym przez gracza i poprawnie wykonuje operacje na złamania!",
+  "version": "1.4.5"
 }
