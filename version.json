@@ -1,7 +1,7 @@
 {
-  "latestVersion": "1.4.7",
+  "latestVersion": "1.4.8",
   "hasUpdate": true,
-  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.4.7/Asystent-EMS-Instalator.exe",
-  "changelog": "Krytyczny Hotfix (Generowanie Operacji): Zaostrzono restrykcje dla AI w module kreatora operacji. Sztuczna inteligencja otrzymała kategoryczny zakaz zmyślania obrażeń (np. postrzałów, ran kłutych) i skupia się teraz wyłącznie na obrażeniach podanych przez ratownika w opisie rany.",
-  "version": "1.4.7"
+  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.4.8/Asystent-EMS-Instalator.exe",
+  "changelog": "Naprawa Modułu Operacji: Usunięto błędy formatowania offline (prefiks [Uraz #1] całkowicie zniknął). Naprawiono również skaner obrazu AI (OCR), który od teraz rygorystycznie odczytuje i przenosi urazy wyłącznie z wgranych zdjęć bez wymyślania ich z losowej puli zapasowej.",
+  "version": "1.4.8"
 }
