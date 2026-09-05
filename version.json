@@ -1,7 +1,7 @@
 {
-  "latestVersion": "1.4.11",
+  "latestVersion": "1.4.12",
   "hasUpdate": true,
-  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.4.11/Asystent-EMS-Instalator.exe",
-  "changelog": "Krytyczny Hotfix (Błąd Skutkujący Odrzucaniem Zdjęć w OCR): Skaner AI od teraz dokładnie analizuje i przesyła rozszerzenie zrzuconego ekranu (MIME type). Czasami ratownicy wklejali obraz z systemów kompresujących go do WebP lub innego typu z ukrytym nagłówkiem, co powodowało wybuch interfejsu (Google odrzucało go, myśląc, że jest to zepsuty plik PNG). Co więcej, zaimplementowano pełne wyświetlanie błędów serwera w okienku wyskakującym - nie musisz już zgadywać, dlaczego odczyt nie zadziałał!",
-  "version": "1.4.11"
+  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.4.12/Asystent-EMS-Instalator.exe",
+  "changelog": "Krytyczny Hotfix (Gemini 2.0 404): Serwery Google oficjalnie usunęły przedpremierowy dostęp do modelu Gemini 2.0 Flash dla zewnętrznych aplikacji, przez co skaner zdjęć w Asystencie wywalał 'HTTP 404'. W tej wersji moduł wizyjny został przepięty na najnowszy, stabilny model 'Gemini 1.5 Pro' oraz 'Gemini 1.5 Flash', dzięki czemu odczytywanie rannych ze zdjęć ponownie wraca do życia!",
+  "version": "1.4.12"
 }
