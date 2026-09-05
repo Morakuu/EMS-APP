@@ -1,7 +1,7 @@
 {
-  "latestVersion": "1.4.12",
+  "latestVersion": "1.4.13",
   "hasUpdate": true,
-  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.4.12/Asystent-EMS-Instalator.exe",
-  "changelog": "Krytyczny Hotfix (Gemini 2.0 404): Serwery Google oficjalnie usunęły przedpremierowy dostęp do modelu Gemini 2.0 Flash dla zewnętrznych aplikacji, przez co skaner zdjęć w Asystencie wywalał 'HTTP 404'. W tej wersji moduł wizyjny został przepięty na najnowszy, stabilny model 'Gemini 1.5 Pro' oraz 'Gemini 1.5 Flash', dzięki czemu odczytywanie rannych ze zdjęć ponownie wraca do życia!",
-  "version": "1.4.12"
+  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.4.13/Asystent-EMS-Instalator.exe",
+  "changelog": "Krytyczny Hotfix (Przestarzałe modele Gemini 1.5/2.0): Błąd 404 w najnowszym powiadomieniu pokazał nam prawdę - żyjemy już pod koniec 2026 roku, a Google wyłączyło z publicznego API modele Gemini 1.5 i 2.0! Cały asystent (zarówno generowanie opisów jak i wizja) został dogłębnie zaktualizowany, aby pracować na absolutnie najnowszej serii modeli Gemini 3.0 Flash oraz Gemini 2.5 Flash, wspieranych stabilnie przez Google. Koniec z błędem 404!",
+  "version": "1.4.13"
 }
