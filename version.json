@@ -1,7 +1,7 @@
 {
-  "latestVersion": "1.4.9",
+  "latestVersion": "1.4.10",
   "hasUpdate": true,
-  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.4.9/Asystent-EMS-Instalator.exe",
-  "changelog": "Krytyczny Hotfix (Zmyślone Operacje ze Zdjęć): Usunięto awaryjny tryb Offline z modułu OCR. Wcześniej, w przypadku błędu API Google Gemini przy skanowaniu zdjęcia (np. wyczerpany limit), aplikacja zamiast poinformować o błędzie, wpisywała 'Masywny krwiak...', co powodowało kompletnie bezsensowne plany operacji. Od teraz, przy błędzie pobierania danych obrazu przez klucz AI, aplikacja wywoła prawidłowy błąd i poprosi ratownika o ręczne przepisanie rany bez jakiegokolwiek zmyślania.",
-  "version": "1.4.9"
+  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.4.10/Asystent-EMS-Instalator.exe",
+  "changelog": "Krytyczny Hotfix (Skaner OCR): Naprawiono krytyczny błąd, w którym skaner zdjęć Google Gemini zawieszał się i odrzucał zdjęcia ratowników przez błędny format pakowania danych (snake_case zamiast camelCase w paczkach API). Od teraz odczytywanie urazów z kafelków 'Obrażenia' działa natychmiastowo, błyskawicznie i bez żadnych zmyślonych rannych.",
+  "version": "1.4.10"
 }
