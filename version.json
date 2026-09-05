@@ -1,7 +1,7 @@
 {
-  "latestVersion": "1.4.13",
+  "latestVersion": "1.4.14",
   "hasUpdate": true,
-  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.4.13/Asystent-EMS-Instalator.exe",
-  "changelog": "Krytyczny Hotfix (Przestarzałe modele Gemini 1.5/2.0): Błąd 404 w najnowszym powiadomieniu pokazał nam prawdę - żyjemy już pod koniec 2026 roku, a Google wyłączyło z publicznego API modele Gemini 1.5 i 2.0! Cały asystent (zarówno generowanie opisów jak i wizja) został dogłębnie zaktualizowany, aby pracować na absolutnie najnowszej serii modeli Gemini 3.0 Flash oraz Gemini 2.5 Flash, wspieranych stabilnie przez Google. Koniec z błędem 404!",
-  "version": "1.4.13"
+  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.4.14/Asystent-EMS-Instalator.exe",
+  "changelog": "Krytyczny Hotfix (Wyczerpany limit Google Gemini / Błąd 429): Asystent od teraz używa super-stabilnego modelu Gemini 3.5 Flash, dla którego Google ma prawidłowe serwery. Co więcej, w przypadku przekroczenia darmowych limitów zapytań u Google nałożonych na Twoje konto (HTTP 429), asystent poinformuje o tym ratowników bez zapętlania się i wywalania dziwnych awarii.",
+  "version": "1.4.14"
 }
