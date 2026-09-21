@@ -1,7 +1,7 @@
 {
-  "latestVersion": "1.4.14",
+  "latestVersion": "1.4.15",
   "hasUpdate": true,
-  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.4.14/Asystent-EMS-Instalator.exe",
-  "changelog": "Krytyczny Hotfix (Wyczerpany limit Google Gemini / Błąd 429): Asystent od teraz używa super-stabilnego modelu Gemini 3.5 Flash, dla którego Google ma prawidłowe serwery. Co więcej, w przypadku przekroczenia darmowych limitów zapytań u Google nałożonych na Twoje konto (HTTP 429), asystent poinformuje o tym ratowników bez zapętlania się i wywalania dziwnych awarii.",
-  "version": "1.4.14"
+  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.4.15/Asystent-EMS-Instalator.exe",
+  "changelog": "Krytyczny Hotfix (Przeciążone Serwery Google 503): System Asystenta został rozszerzony o pełną gamę najnowszych, potężnych modeli z rodziny Gemini 3.8 oraz 3.7. W przypadku gdy jeden z serwerów zgłosi potężne przeciążenie (High Demand 503), asystent automatycznie przerzuci i wyśle Twoje operacje na drugi najnowocześniejszy dostępny serwer bez wywalania błędu.",
+  "version": "1.4.15"
 }
