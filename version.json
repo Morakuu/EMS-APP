@@ -1,7 +1,7 @@
 {
-  "latestVersion": "1.5.7",
+  "latestVersion": "1.5.8",
   "hasUpdate": true,
-  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.5.7/Asystent-EMS-Instalator.exe",
-  "changelog": "Pełna Synchronizacja Konta (Awatary): Po zmianie logowania na hasła, aplikacja przestała zaczytywać Wasze zdjęcia profilowe. Zostało to naprawione! Aplikacja teraz w locie weryfikuje profil Discord za pomocą przydzielonego loginu i ładuje poprawny awatar do rogu ekranu i na listę online!",
-  "version": "1.5.7"
+  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.5.8/Asystent-EMS-Instalator.exe",
+  "changelog": "Wymuszone Zapisywanie Haseł: Ponieważ przycisk 'Zapamiętaj mnie' był domyślnie zaznaczony, klikanie go przed logowaniem przypadkowo WYŁĄCZAŁO tę funkcję, przez co aplikacja zapominała hasło. Teraz system działa kuloodpornie - loginy i hasła ratowników będą autouzupełniać się za każdym razem!",
+  "version": "1.5.8"
 }
