@@ -1,7 +1,7 @@
 {
-  "latestVersion": "1.5.3",
+  "latestVersion": "1.5.4",
   "hasUpdate": true,
-  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.5.3/Asystent-EMS-Instalator.exe",
-  "changelog": "Krytyczny Hotfix (Brak reakcji przy logowaniu): Znaleziono i załatano literówkę (niezamknięty znacznik kodu), przez co aplikacja blokowała wciśnięcie przycisku 'Zaloguj'. Teraz wszystko na 100% działa bez mignięcia!",
-  "version": "1.5.3"
+  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.5.4/Asystent-EMS-Instalator.exe",
+  "changelog": "Optymalizacja Bazy Danych (Kompresja Kont): Naprawiono krytyczny błąd, w którym baza danych odrzucała aktualizację po wygenerowaniu zbyt dużej ilości kont ratowników (przekroczenie limitu znaków Discorda 2000). Aplikacja teraz kompresuje dane w locie, co pozwala na płynne zarządzanie całą frakcją.",
+  "version": "1.5.4"
 }
