@@ -1,7 +1,7 @@
 {
-  "latestVersion": "1.5.6",
+  "latestVersion": "1.5.7",
   "hasUpdate": true,
-  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.5.6/Asystent-EMS-Instalator.exe",
-  "changelog": "Powrót Listy Aktywnych Użytkowników: Podczas przesiadki na hasła usunęliśmy stary system Discorda, przez co aplikacja przestała wysyłać sygnały 'Heartbeat' o Twojej aktywności na serwer. System został zintegrowany z nowym logowaniem - teraz każdy ratownik zalogowany na nowym koncie znów pojawia się jako dostępny dla reszty frakcji!",
-  "version": "1.5.6"
+  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.5.7/Asystent-EMS-Instalator.exe",
+  "changelog": "Pełna Synchronizacja Konta (Awatary): Po zmianie logowania na hasła, aplikacja przestała zaczytywać Wasze zdjęcia profilowe. Zostało to naprawione! Aplikacja teraz w locie weryfikuje profil Discord za pomocą przydzielonego loginu i ładuje poprawny awatar do rogu ekranu i na listę online!",
+  "version": "1.5.7"
 }
