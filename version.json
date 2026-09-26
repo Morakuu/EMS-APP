@@ -1,7 +1,7 @@
 {
-  "latestVersion": "1.5.1",
+  "latestVersion": "1.5.2",
   "hasUpdate": true,
-  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.5.1/Asystent-EMS-Instalator.exe",
-  "changelog": "Krytyczny Hotfix (Zepsuty Interfejs UI): Wersja 1.5.0 uszkodziła kod HTML paska nawigacji podczas wdrażania ekranu logowania (brakujące zamknięcia znaczników). Zostało to dogłębnie przetestowane i naprawione. Logowanie hasłem oraz nowa funkcja dodawania pracowników ratownictwa do bazy działa teraz idealnie.",
-  "version": "1.5.1"
+  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.5.2/Asystent-EMS-Instalator.exe",
+  "changelog": "Krytyczny Hotfix (Zapis Kont Do Bazy): Ze względów bezpieczeństwa aplikacja blokowała (CORS) wysyłanie nowych haseł bezpośrednio do bazy na Discordzie, przez co przycisk 'Dodaj Konto' nie dawał żadnej reakcji. System bazodanowy został zintegrowany z wewnętrznym proxy, dzięki czemu loginy i hasła ratowników od teraz natychmiastowo zapisują się w Bazie.",
+  "version": "1.5.2"
 }
