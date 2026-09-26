@@ -1,7 +1,7 @@
 {
-  "latestVersion": "1.5.0",
+  "latestVersion": "1.5.1",
   "hasUpdate": true,
-  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.5.0/Asystent-EMS-Instalator.exe",
-  "changelog": "Wielka Aktualizacja Bezpieczeństwa (Login i Hasło 🔒): Wprowadzono wbudowany system logowania. Ratownicy do wejścia potrzebują teraz indywidualnego loginu i hasła. Autorska i super sprytna baza kont wykorzystuje Discord Szefa EMS (w ukrytym kanale), dzięki czemu Ordynator może prosto i za darmo dodawać/usuwać konta prosto z zakładki 'Panel Administratora' w aplikacji!",
-  "version": "1.5.0"
+  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.5.1/Asystent-EMS-Instalator.exe",
+  "changelog": "Krytyczny Hotfix (Zepsuty Interfejs UI): Wersja 1.5.0 uszkodziła kod HTML paska nawigacji podczas wdrażania ekranu logowania (brakujące zamknięcia znaczników). Zostało to dogłębnie przetestowane i naprawione. Logowanie hasłem oraz nowa funkcja dodawania pracowników ratownictwa do bazy działa teraz idealnie.",
+  "version": "1.5.1"
 }
