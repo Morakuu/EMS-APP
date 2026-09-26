@@ -1,7 +1,7 @@
 {
-  "latestVersion": "1.5.4",
+  "latestVersion": "1.5.5",
   "hasUpdate": true,
-  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.5.4/Asystent-EMS-Instalator.exe",
-  "changelog": "Optymalizacja Bazy Danych (Kompresja Kont): Naprawiono krytyczny błąd, w którym baza danych odrzucała aktualizację po wygenerowaniu zbyt dużej ilości kont ratowników (przekroczenie limitu znaków Discorda 2000). Aplikacja teraz kompresuje dane w locie, co pozwala na płynne zarządzanie całą frakcją.",
-  "version": "1.5.4"
+  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.5.5/Asystent-EMS-Instalator.exe",
+  "changelog": "Funkcja 'Zapamiętaj mnie': Dodano pole wyboru przy logowaniu. Jeśli je zaznaczysz, aplikacja nie tylko automatycznie Cię zaloguje po restarcie, ale też bezpiecznie zapamięta Twój login i hasło, wypełniając za Ciebie okienka!",
+  "version": "1.5.5"
 }
