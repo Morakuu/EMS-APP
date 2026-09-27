@@ -1,7 +1,7 @@
 {
-  "latestVersion": "1.5.8",
-  "hasUpdate": true,
-  "downloadUrl": "https://github.com/Morakuu/EMS-APP/releases/download/v1.5.8/Asystent-EMS-Instalator.exe",
-  "changelog": "Wymuszone Zapisywanie Haseł: Ponieważ przycisk 'Zapamiętaj mnie' był domyślnie zaznaczony, klikanie go przed logowaniem przypadkowo WYŁĄCZAŁO tę funkcję, przez co aplikacja zapominała hasło. Teraz system działa kuloodpornie - loginy i hasła ratowników będą autouzupełniać się za każdym razem!",
-  "version": "1.5.8"
+    "latestVersion":  "1.6.4",
+    "version":  "1.6.4",
+    "hasUpdate":  true,
+    "downloadUrl":  "https://github.com/Morakuu/EMS-APP/releases/download/v1.6.4/Asystent-EMS-Instalator.exe",
+    "changelog":  "Poprawki i ulepszenia."
 }
